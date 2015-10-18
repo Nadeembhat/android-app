@@ -41,7 +41,7 @@ public class HiringActivity extends AppCompatActivity implements View.OnClickLis
     private Drawer result;
     private Switch mySwitch;
     private RelativeLayout profileExperience;
-    String[] experienceList = new String[]{"Not Required", "Yes 1-3 months", "Ye > 6 months", "Red Seal"};
+    String[] experienceList = new String[]{"Not Required", "Yes 1-3 months", "Yes > 6 months", "Red Seal"};
 
     private RadioGroup carpentryRadioGroup;
     private RadioGroup concreteRadioGroup;
@@ -144,8 +144,8 @@ public class HiringActivity extends AppCompatActivity implements View.OnClickLis
                     public void onResponse(String response) {
                         Toast.makeText(getApplicationContext(), "Worker requested. We will get back to you soon.",
                                 Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(HiringActivity.this, ContractorProfileActivity.class));
-                        finish();
+                        //startActivity(new Intent(HiringActivity.this, ContractorProfileActivity.class));
+                        //finish();
                     }
                 },
                 new Response.ErrorListener() {

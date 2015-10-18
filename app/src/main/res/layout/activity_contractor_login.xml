@@ -67,6 +67,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Here"
             android:id="@+id/textView4"
+            android:clickable="true"
             android:onClick="contractorRegister"
             android:layout_alignBottom="@+id/textView3"
             android:layout_toRightOf="@+id/textView3"

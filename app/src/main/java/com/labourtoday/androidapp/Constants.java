@@ -4,8 +4,8 @@ public class Constants {
 
     public enum URLS {
         // Names of server endpoints
-        //ROOT("https://labour-today.herokuapp.com/"),
-        ROOT("http://10.0.1.51:8000/"),
+        ROOT("https://labour-today.herokuapp.com/"),
+        //ROOT("http://10.0.1.51:8000/"),
         PAYMENT(ROOT.string + "payment/"),
         LABOURER_LIST(ROOT.string + "labourer-list/" ),
         LABOURER_DETAIL(ROOT.string + "labourer-detail/"),

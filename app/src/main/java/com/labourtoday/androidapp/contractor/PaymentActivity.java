@@ -1,13 +1,10 @@
 package com.labourtoday.androidapp.contractor;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,6 +12,7 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,6 +32,7 @@ public class PaymentActivity extends AppCompatActivity {
     PopupWindow popUp;
     private EditText cardNumber;
     private EditText cvc;
+    private EditText hoursWorked;
     private Spinner monthSpinner;
     private Spinner yearSpinner;
     private ImageButton up, down;
@@ -53,6 +52,7 @@ public class PaymentActivity extends AppCompatActivity {
         cardNumber = (EditText) findViewById(R.id.number);
         up = (ImageButton) findViewById(R.id.thumbup);
         down = (ImageButton) findViewById(R.id.thumbdown);
+        hoursWorked = (EditText) findViewById(R.id.edit_hours_worked);
 
         ArrayAdapter<String> monthsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, months);
         ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
@@ -65,10 +65,12 @@ public class PaymentActivity extends AppCompatActivity {
 
         Card card = new Card(
                 cardNumber.getText().toString(),
-                Integer.parseInt(monthSpinner.getSelectedItem().toString()),
+                monthToInt(monthSpinner.getSelectedItem().toString()),
                 Integer.parseInt(yearSpinner.getSelectedItem().toString()),
                 cvc.getText().toString()
         );
+
+
 
         boolean validation = card.validateCard();
         if (validation) {
@@ -85,7 +87,7 @@ public class PaymentActivity extends AppCompatActivity {
                                 public void onResponse(String response) {
                                     Toast.makeText(getApplicationContext(), "Payment Successful",
                                             Toast.LENGTH_LONG).show();
-                                    displayPopUp();
+                                    //displayPopUp();
                                 }
                             },
                                     new Response.ErrorListener() {
@@ -101,10 +103,16 @@ public class PaymentActivity extends AppCompatActivity {
                                 protected Map<String, String> getParams() {
                                     Map<String, String> paramsMap = new HashMap<String, String>();
                                     paramsMap.put(Constants.STRIPE_TOKEN, token_id);
-                                    paramsMap.put(Constants.PHONE_NUMBER, getIntent().getStringExtra("phoneNumber"));
-                                    paramsMap.put(Constants.REGISTRATION_ID,
-                                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.REGISTRATION_ID, ""));
+                                    paramsMap.put("charge_amount", hoursWorked.getText().toString());
                                     return paramsMap;
+                                }
+
+                                @Override
+                                public Map<String, String> getHeaders() throws AuthFailureError {
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("Authorization", "Token " +
+                                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.AUTH_TOKEN, "noTokenFound"));
+                                    return params;
                                 }
                             };
                             Volley.newRequestQueue(getApplicationContext()).add(postRequest);
@@ -124,7 +132,7 @@ public class PaymentActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Invalid card. Please try with another", Toast.LENGTH_LONG).show();
         }
     }
-
+    /*
     public void displayPopUp() {
         // Get the instance of the LayoutInflater, use the context of this activity
         // Inflate the view from a predefined XML layout
@@ -135,10 +143,41 @@ public class PaymentActivity extends AppCompatActivity {
 
         // display the popup in the center
         popUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
-    }
+    }*/
 
     public void rating(View v) {
         Toast.makeText(getApplicationContext(), "Rating recorded. Thank you.", Toast.LENGTH_LONG).show();
+    }
+
+    public int monthToInt(String month) {
+
+        if (month.equals("January"))
+            return 1;
+        else if (month.equals("February"))
+            return 2;
+        else if (month.equals("March"))
+            return 3;
+        else if (month.equals("April"))
+            return 4;
+        else if (month.equals("May"))
+            return 5;
+        else if (month.equals("June"))
+            return 6;
+        else if (month.equals("July"))
+            return 7;
+        else if (month.equals("August"))
+            return 8;
+        else if (month.equals("September"))
+            return 9;
+        else if (month.equals("October"))
+            return 10;
+        else if (month.equals("November"))
+            return 11;
+        else if (month.equals("December"))
+            return 12;
+        else
+            return 0;
+
     }
 
 

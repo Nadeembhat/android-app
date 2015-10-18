@@ -5,11 +5,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.labourtoday.androidapp.MainActivity;
 import com.labourtoday.androidapp.R;
 
 public class MessageListenerService extends GcmListenerService {
@@ -28,7 +28,8 @@ public class MessageListenerService extends GcmListenerService {
     private void sendNotification(String message) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(this, MainActivity.class);
+        Intent notificationIntent = new Intent(Intent.ACTION_VIEW);
+        notificationIntent.setData(Uri.parse("sms:"));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -37,7 +38,7 @@ public class MessageListenerService extends GcmListenerService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.notification)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setContentTitle("New Job Confirmation")
+                .setContentTitle("New Notification")
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))

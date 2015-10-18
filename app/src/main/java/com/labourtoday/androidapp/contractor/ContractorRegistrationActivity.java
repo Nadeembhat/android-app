@@ -86,7 +86,6 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString(Constants.REGISTRATION_ID, registrationId);;
                 editor.apply();
-                Log.d("aawef", registrationId);
                 /* Create the user-list POST request*/
                 String url = Constants.URLS.CONTRACTOR_LIST.string;
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -94,7 +93,7 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
                                 // Automatic login after registration using registered username and password
-                                Intent loginIntent = new Intent(ContractorRegistrationActivity.this, DatePickerActivity.class);
+                                Intent loginIntent = new Intent(ContractorRegistrationActivity.this, ContractorLoginActivity.class);
                                 loginIntent.setAction(Constants.ACTION_LOGIN);
                                 loginIntent.putExtra("username", username_input);
                                 loginIntent.putExtra(Constants.PASSWORD, password_input);

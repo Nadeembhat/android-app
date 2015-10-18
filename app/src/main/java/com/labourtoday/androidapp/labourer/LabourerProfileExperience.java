@@ -49,7 +49,7 @@ public class LabourerProfileExperience extends AppCompatActivity implements View
     private RadioGroup concreteRadioGroup;
 
 
-    String[] experienceList = new String[]{"No", "Yes 1-3 months", "Ye > 6 months", "Red Seal"};
+    String[] experienceList = new String[]{"No", "Yes 1-3 months", "Yes > 6 months", "Red Seal"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +115,6 @@ public class LabourerProfileExperience extends AppCompatActivity implements View
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(getApplicationContext(), "Successfully update profile", Toast.LENGTH_LONG).show();
-                        finish();
                     }
                 },
                 new Response.ErrorListener() {

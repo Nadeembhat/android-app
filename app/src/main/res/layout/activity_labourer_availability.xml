@@ -23,9 +23,10 @@
         android:textSize="20dp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"/>
 
     <Switch
         android:id="@+id/mon"
@@ -35,10 +36,10 @@
         android:textSize="20dp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="50dp" />
+        android:layout_below="@+id/avail_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"/>
 
     <Switch
         android:id="@+id/tues"
@@ -48,10 +49,10 @@
         android:textSize="20dp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="100dp" />
+        android:layout_below="@+id/mon"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"/>
 
     <Switch
         android:id="@+id/wed"
@@ -61,10 +62,10 @@
         android:textSize="20dp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="170dp" />
+        android:layout_below="@+id/tues"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"/>
 
     <Switch
         android:id="@+id/thurs"
@@ -74,10 +75,10 @@
         android:textSize="20dp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="230dp" />
+        android:layout_below="@+id/wed"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"/>
 
     <Switch
         android:id="@+id/fri"
@@ -87,10 +88,10 @@
         android:textSize="20dp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="300dp" />
+        android:layout_below="@+id/thurs"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"/>
 
     <Switch
         android:id="@+id/sat"
@@ -100,10 +101,10 @@
         android:textSize="20dp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="360dp" />
+        android:layout_below="@+id/fri"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"/>
 
     <Switch
         android:id="@+id/sun"
@@ -113,10 +114,9 @@
         android:textSize="20dp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="420dp" />
+        android:layout_below="@+id/sat"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -125,8 +125,11 @@
         android:clickable="true"
         app:backgroundTint="@color/yellow"
         android:background="@drawable/checkmark"
-        android:layout_alignTop="@+id/sun"
-        android:layout_alignRight="@+id/sun"
-        android:layout_alignEnd="@+id/sun" />
+        android:layout_below="@+id/sun"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="27dp"
+        android:onClick="updateAvailability"
+        />
 
 </RelativeLayout>

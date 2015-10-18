@@ -52,7 +52,7 @@ public class ContractorLoginActivity extends AppCompatActivity {
         Intent intent = getIntent();
         // If LoginActivity was started from RegistrationActivity, retrieve passed username/password to login automatically
         if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_LOGIN)) {
-            String username_input = intent.getExtras().getString(Constants.EMAIL);
+            String username_input = intent.getExtras().getString("username");
             String password_input = intent.getExtras().getString(Constants.PASSWORD);
             registrationId =  PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.REGISTRATION_ID, Constants.NO_DEVICE); //Assign old ID to pass the check for different device, since this code occurs right after RegistrationActivity
             authenticate(username_input, password_input, false);

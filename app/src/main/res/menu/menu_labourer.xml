@@ -6,7 +6,7 @@
         android:id="@+id/action_availability"
         android:orderInCategory="300"
         android:title="Set Availability"
-        android:icon="@drawable/pay"
+        android:icon="@drawable/setting"
         app:showAsAction="ifRoom">
     </item>
 

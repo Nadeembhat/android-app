@@ -120,8 +120,8 @@
         android:layout_marginTop="114dp"
         android:textSize="30sp"
         android:onClick="pay"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText"
+        android:layout_alignRight="@+id/edit_hours_worked"
+        android:layout_alignEnd="@+id/edit_hours_worked"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -130,7 +130,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/edit_hours_worked"
         android:background="#ffffff"
         android:hint="Hours worked"
         android:textSize="30sp"
