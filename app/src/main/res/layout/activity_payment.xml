@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/teal"
+    tools:context="com.labourtoday.androidapp.contractor.PaymentActivity">
+
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:id="@+id/linearLayout"
+        android:orientation="horizontal"/>
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating"
+        android:text="Worker Rating"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"/>
+
+    <ImageButton
+        android:id="@+id/thumbup"
+        android:layout_width="150dp"
+        android:layout_height="5dp"
+        android:src="@drawable/thumbup"
+        android:scaleType="fitCenter"
+        android:layout_above="@+id/number"
+        android:layout_below="@+id/rating"
+        android:background="@color/md_white_1000"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/editText2"
+        android:layout_toLeftOf="@+id/editText2"
+        android:onClick="rating"/>
+
+    <ImageButton
+        android:id="@+id/thumbdown"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:src="@drawable/thumbdown"
+        android:scaleType="fitCenter"
+        android:background="@color/md_white_1000"
+        android:layout_below="@+id/rating"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/editText2"
+        android:layout_toEndOf="@+id/editText2"
+        android:onClick="rating"/>
+
+    <EditText
+        android:id="@+id/number"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:nextFocusDown="@+id/expMonth"
+        android:nextFocusRight="@+id/expMonth"
+        android:nextFocusForward="@+id/expMonth"
+        android:layout_marginTop="40dp"
+        android:textSize="30sp"
+        android:inputType="number"
+        android:background="#ffffff"
+        android:hint="Credit Card Number"
+        android:layout_below="@id/thumbdown"
+        />
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:hint="CVC"
+        android:id="@+id/cvc"
+        android:layout_below="@+id/number"
+        android:background="#ffffff"
+        android:layout_alignRight="@+id/number"
+        android:layout_alignEnd="@+id/number"
+        android:layout_alignBottom="@+id/expYear"
+        android:layout_toRightOf="@+id/expYear"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:layout_width="89dp"
+        android:id="@+id/expYear"
+        android:nextFocusForward="@+id/cvc"
+        android:background="#ffffff"
+        android:layout_below="@+id/number"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:layout_width="91dp"
+        android:id="@+id/expMonth"
+        android:nextFocusForward="@+id/expYear"
+        android:background="#ffffff"
+        android:layout_below="@+id/number"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/expYear"
+        android:layout_toStartOf="@+id/expYear" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay"
+        android:id="@+id/button3"
+        android:textColor="@color/md_white_1000"
+        android:background="@drawable/outline_rectangle"
+        android:layout_below="@+id/cvc"
+        android:layout_marginTop="114dp"
+        android:textSize="30sp"
+        android:onClick="pay"
+        android:layout_alignRight="@+id/editText"
+        android:layout_alignEnd="@+id/editText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:background="#ffffff"
+        android:hint="Hours worked"
+        android:textSize="30sp"
+        android:layout_below="@+id/expMonth"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp"
+        android:layout_alignRight="@+id/cvc"
+        android:layout_alignEnd="@+id/cvc" />
+
+    <EditText
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText2"
+        android:background="#804DB6AC"
+        android:gravity="center"
+        android:layout_below="@+id/rating"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/thumbup" />
+
+
+</RelativeLayout>

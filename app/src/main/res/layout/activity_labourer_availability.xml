@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.labourtoday.androidapp.labourer.LabourerAvailability">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/teal"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        />
+
+    <Switch
+        android:id="@+id/avail_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Available to work"
+        android:textSize="20dp"
+        android:thumbTint="@color/teal"
+        android:trackTint="@color/teal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Switch
+        android:id="@+id/mon"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Monday"
+        android:textSize="20dp"
+        android:thumbTint="@color/teal"
+        android:trackTint="@color/teal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="50dp" />
+
+    <Switch
+        android:id="@+id/tues"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Tuesday"
+        android:textSize="20dp"
+        android:thumbTint="@color/teal"
+        android:trackTint="@color/teal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="100dp" />
+
+    <Switch
+        android:id="@+id/wed"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Wednesday"
+        android:textSize="20dp"
+        android:thumbTint="@color/teal"
+        android:trackTint="@color/teal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="170dp" />
+
+    <Switch
+        android:id="@+id/thurs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Thursday"
+        android:textSize="20dp"
+        android:thumbTint="@color/teal"
+        android:trackTint="@color/teal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="230dp" />
+
+    <Switch
+        android:id="@+id/fri"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Friday"
+        android:textSize="20dp"
+        android:thumbTint="@color/teal"
+        android:trackTint="@color/teal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="300dp" />
+
+    <Switch
+        android:id="@+id/sat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Saturday"
+        android:textSize="20dp"
+        android:thumbTint="@color/teal"
+        android:trackTint="@color/teal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="360dp" />
+
+    <Switch
+        android:id="@+id/sun"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Sunday"
+        android:textSize="20dp"
+        android:thumbTint="@color/teal"
+        android:trackTint="@color/teal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="420dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="@color/yellow"
+        android:background="@drawable/checkmark"
+        android:layout_alignTop="@+id/sun"
+        android:layout_alignRight="@+id/sun"
+        android:layout_alignEnd="@+id/sun" />
+
+</RelativeLayout>
