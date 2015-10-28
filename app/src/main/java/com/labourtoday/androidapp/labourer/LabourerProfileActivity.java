@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,8 +23,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
-import com.labourtoday.androidapp.contractor.ContractorLoginActivity;
-import com.labourtoday.androidapp.contractor.ContractorProfileActivity;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -36,7 +33,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LabourerProfileExperience extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {
+public class LabourerProfileActivity extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {
 
     private Switch mySwitch;
     private RelativeLayout profileExperience;
@@ -54,7 +51,7 @@ public class LabourerProfileExperience extends AppCompatActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_labourer_profile_experience);
+        setContentView(R.layout.activity_labourer_profile);
 
         carpentryRadioGroup = (RadioGroup) findViewById(R.id.carpentry_radio);
         concreteRadioGroup = (RadioGroup) findViewById(R.id.concrete_radio);
@@ -80,14 +77,14 @@ public class LabourerProfileExperience extends AppCompatActivity implements View
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position) {
                             case PROFILE:
-                                Intent hireIntent = new Intent(LabourerProfileExperience.this, ContractorProfileActivity.class);
+                                Intent hireIntent = new Intent(LabourerProfileActivity.this, LabourerEditActivity.class);
                                 startActivity(hireIntent);
                                 return true;
                             case LOG_OUT:
                                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                 settings.edit().remove(Constants.AUTH_TOKEN).apply();
-                                // Return to the welcome page
-                                Intent welcomeIntent = new Intent(LabourerProfileExperience.this, ContractorLoginActivity.class);
+                                settings.edit().remove(Constants.LAST_LOGIN).apply();
+                                Intent welcomeIntent = new Intent(LabourerProfileActivity.this, LabourerLoginActivity.class);
                                 startActivity(welcomeIntent);
                                 finish();
                                 return true;
@@ -120,7 +117,7 @@ public class LabourerProfileExperience extends AppCompatActivity implements View
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Error updating profile",
+                        Toast.makeText(getApplicationContext(), "Please Indicate All Experiences",
                                 Toast.LENGTH_LONG).show();
                     }
                 }
@@ -130,10 +127,6 @@ public class LabourerProfileExperience extends AppCompatActivity implements View
             //Create the body of the request
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-
-                Log.d("HiringActivityCarp", Integer.toString(Arrays.asList(experienceList).indexOf(selectedCarpentry.getText())));
-                Log.d("HiringActivityConc", Integer.toString(Arrays.asList(experienceList).indexOf(selectedConcrete.getText())));
-
                 params.put("carpentry", Integer.toString(Arrays.asList(experienceList).indexOf(selectedCarpentry.getText())));
                 params.put("concrete_forming", Integer.toString(Arrays.asList(experienceList).indexOf(selectedConcrete.getText())));
                 return params;
@@ -153,35 +146,10 @@ public class LabourerProfileExperience extends AppCompatActivity implements View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_availability) {
-            startActivity(new Intent(LabourerProfileExperience.this, LabourerAvailability.class));
+            startActivity(new Intent(LabourerProfileActivity.this, LabourerAvailability.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void selectCarpentry(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        Log.d("LabourerProfileExpCar",Boolean.toString(checked));
-        switch (view.getId()) {
-            case R.id.car_no:
-            case R.id.car_yesthree:
-            case R.id.car_yessix:
-            case R.id.car_redseal:
-                break;
-        }
-
-    }
-
-    public void selectConcrete(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        Log.d("LabourerProfileExpCon", Boolean.toString(checked));
-        switch (view.getId()) {
-            case R.id.con_no:
-            case R.id.con_yesthree:
-            case R.id.con_yessix:
-            case R.id.con_redseal:
-                break;
-        }
     }
 
     @Override
@@ -189,7 +157,6 @@ public class LabourerProfileExperience extends AppCompatActivity implements View
         if (isChecked) {
 
         }
-
     }
 
     @Override

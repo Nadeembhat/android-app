@@ -36,7 +36,8 @@ public class DatePickerActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Labour Today");
+        setTitle("Worker start date and time");
+        getSupportActionBar().setSubtitle("When do you need your worker?");
 
         result = new DrawerBuilder()
                 .withActivity(this)
@@ -57,6 +58,7 @@ public class DatePickerActivity extends AppCompatActivity {
                             case LOG_OUT:
                                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                 settings.edit().remove(Constants.AUTH_TOKEN).apply();
+                                settings.edit().remove(Constants.LAST_LOGIN).apply();
                                 // Return to the welcome page
                                 Intent welcomeIntent = new Intent(DatePickerActivity.this, ContractorLoginActivity.class);
                                 startActivity(welcomeIntent);

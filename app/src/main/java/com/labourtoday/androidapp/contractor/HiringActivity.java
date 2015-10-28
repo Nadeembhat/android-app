@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -34,14 +33,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HiringActivity extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {
+public class HiringActivity extends AppCompatActivity {
     private final int PROFILE = 0;
     private final int LOG_OUT = 1;
 
     private Drawer result;
-    private Switch mySwitch;
-    private RelativeLayout profileExperience;
-    String[] experienceList = new String[]{"Not Required", "Yes 1-3 months", "Yes > 6 months", "Red Seal"};
+    String[] experienceList = new String[]{"No", "Yes 1-3 months", "Yes > 6 months", "Red Seal"};
 
     private RadioGroup carpentryRadioGroup;
     private RadioGroup concreteRadioGroup;
@@ -61,8 +58,13 @@ public class HiringActivity extends AppCompatActivity implements View.OnClickLis
         setTitle("Labour Today");
 
         // setting switch
-        mySwitch = (Switch) findViewById(R.id.gen_labour_text);
-        mySwitch.setOnCheckedChangeListener(this);
+        Switch mySwitch = (Switch) findViewById(R.id.gen_labour_text);
+        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });
 
         result = new DrawerBuilder()
                 .withActivity(this)
@@ -83,6 +85,7 @@ public class HiringActivity extends AppCompatActivity implements View.OnClickLis
                             case LOG_OUT:
                                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                 settings.edit().remove(Constants.AUTH_TOKEN).apply();
+                                settings.edit().remove(Constants.LAST_LOGIN).apply();
                                 // Return to the welcome page
                                 Intent welcomeIntent = new Intent(HiringActivity.this, ContractorLoginActivity.class);
                                 startActivity(welcomeIntent);
@@ -125,7 +128,7 @@ public class HiringActivity extends AppCompatActivity implements View.OnClickLis
     public String generateJobCode() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Intent i = getIntent();
-        String jobCode = sharedPreferences.getString(Constants.CONTRACTOR, null).substring(0, 2);
+        String jobCode = sharedPreferences.getString(Constants.CONTRACTOR, null).substring(0, 4);
         jobCode += i.getStringExtra("start_date");
         jobCode += i.getStringExtra("start_time");
         jobCode = jobCode.replaceAll("\\s+","");
@@ -162,14 +165,7 @@ public class HiringActivity extends AppCompatActivity implements View.OnClickLis
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                Log.d("HiringActivityCarp", Integer.toString(Arrays.asList(experienceList).indexOf(selectedCarpentry.getText())));
-                Log.d("HiringActivityConc", Integer.toString(Arrays.asList(experienceList).indexOf(selectedConcrete.getText())));
-
                 Intent i = getIntent();
-
-                Log.d("HiringActivitySend", i.getStringExtra("start_date"));
-                Log.d("HiringActivitySend", i.getStringExtra("start_time"));
-                Log.d("HiringActivitySend", i.getStringExtra("job_address"));
 
                 params.put("carpentry", Integer.toString(Arrays.asList(experienceList).indexOf(selectedCarpentry.getText())));
                 params.put("concrete_forming", Integer.toString(Arrays.asList(experienceList).indexOf(selectedConcrete.getText())));
@@ -192,45 +188,6 @@ public class HiringActivity extends AppCompatActivity implements View.OnClickLis
         Volley.newRequestQueue(getApplicationContext()).add(updateDeviceRequest);
     }
 
-    /*
-    public void selectCarpentry(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        Log.d("LabourerProfileExpCar",Boolean.toString(checked));
-        switch (view.getId()) {
-            case R.id.car_no:
-            case R.id.car_yesthree:
-            case R.id.car_yessix:
-            case R.id.car_redseal:
-                break;
-        }
-
-    }
-    public void selectConcrete(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        Log.d("LabourerProfileExpCon", Boolean.toString(checked));
-        switch (view.getId()) {
-            case R.id.con_no:
-            case R.id.con_yesthree:
-            case R.id.con_yessix:
-            case R.id.con_redseal:
-                break;
-        }
-    }
-    */
-
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-
-        }
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
 }
 
 

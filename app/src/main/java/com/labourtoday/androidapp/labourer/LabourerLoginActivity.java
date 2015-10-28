@@ -55,7 +55,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
         Intent intent = getIntent();
         // If LoginActivity was started from RegistrationActivity, retrieve passed username/password to login automatically
         if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_LOGIN)) {
-            String username_input = intent.getExtras().getString("username");
+            String username_input = intent.getExtras().getString(Constants.USERNAME);
             String password_input = intent.getExtras().getString(Constants.PASSWORD);
             registrationId = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.REGISTRATION_ID, Constants.NO_DEVICE); //Assign old ID to pass the check for different device, since this code occurs right after RegistrationActivity
             authenticate(username_input, password_input, false);
@@ -66,9 +66,6 @@ public class LabourerLoginActivity extends AppCompatActivity {
             tokenBroadCastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    if (!intent.getAction().equals(Constants.REGISTRATION_COMPLETE)) {
-                        return;
-                    }
                     LocalBroadcastManager.getInstance(context).unregisterReceiver(this); // unregister this receiver once the deviceID has been obtained
                     registrationId = intent.getExtras().getString(Constants.REGISTRATION_ID); // Device id obtained from GCM
                 }
@@ -78,6 +75,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
             startIDRegistrationService(); //start service to obtain the device id from GCM
         }
     }
+
     /**
      * Login button handler method
      * @param view
@@ -111,9 +109,6 @@ public class LabourerLoginActivity extends AppCompatActivity {
         }
         else {
             String url = Constants.URLS.TOKEN_AUTH.string;
-            Log.d(TAG, username);
-            Log.d(TAG, password);
-            Log.d(TAG, url);
             StringRequest loginRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
@@ -129,7 +124,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
                                 editor.putString(Constants.LAST_LOGIN, Constants.LABOURER);
                                 editor.apply();
 
-                                Intent homeIntent = new Intent(getApplicationContext(), LabourerProfileExperience.class); //Prepare intent to go to Home Screen
+                                Intent homeIntent = new Intent(getApplicationContext(), LabourerProfileActivity.class); //Prepare intent to go to Home Screen
 
                                 /*On regular login (not from registration), need to update device ID on server*/
                                 if (update) {
@@ -150,7 +145,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "Failed to login");
+                            Toast.makeText(getApplicationContext(), "Unable to log in. Please check your credentials.", Toast.LENGTH_LONG).show();
                         }
                     }
             ) {
@@ -159,7 +154,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
                     // Get the registration info from input fields and add them to the body of the request
-                    params.put("username", username);
+                    params.put(Constants.USERNAME, username);
                     params.put(Constants.PASSWORD, password);
                     return params;
                 }

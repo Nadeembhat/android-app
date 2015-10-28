@@ -40,11 +40,6 @@
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".SmsReceiver" >
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
 
         <service
             android:name=".gcm.TokenRegistrationService"
@@ -93,7 +88,9 @@
         </activity>
         <activity android:name=".labourer.LabourerAvailability" >
         </activity>
-        <activity android:name=".labourer.LabourerProfileExperience" >
+        <activity android:name=".labourer.LabourerProfileActivity" >
+        </activity>
+        <activity android:name=".labourer.LabourerEditActivity" >
         </activity>
     </application>
 

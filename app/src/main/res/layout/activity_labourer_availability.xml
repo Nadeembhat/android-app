@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.labourtoday.androidapp.labourer.LabourerAvailability">
 
     <android.support.v7.widget.Toolbar
@@ -16,15 +16,14 @@
         />
 
     <Switch
-        android:id="@+id/avail_text"
+        android:id="@+id/now"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Available to work"
-        android:textSize="20dp"
+        android:text="Available Immediately"
+        android:textSize="20sp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
         android:layout_below="@+id/toolbar"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"/>
 
@@ -33,11 +32,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Monday"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_below="@+id/avail_text"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/now"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"/>
 
@@ -46,11 +44,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Tuesday"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_below="@+id/mon"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/mon"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"/>
 
@@ -59,11 +56,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Wednesday"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_below="@+id/tues"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/tues"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"/>
 
@@ -72,11 +68,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Thursday"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_below="@+id/wed"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/wed"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"/>
 
@@ -85,11 +80,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Friday"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_below="@+id/thurs"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/thurs"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"/>
 
@@ -98,11 +92,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Saturday"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_below="@+id/fri"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/fri"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"/>
 
@@ -111,11 +104,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Sunday"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:thumbTint="@color/teal"
         android:trackTint="@color/teal"
-        android:layout_below="@+id/sat"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/sat"
         android:layout_alignParentStart="true" />
 
     <android.support.design.widget.FloatingActionButton
@@ -125,8 +117,7 @@
         android:clickable="true"
         app:backgroundTint="@color/yellow"
         android:background="@drawable/checkmark"
-        android:layout_below="@+id/sun"
-        android:layout_alignParentRight="true"
+        android:layout_below="@id/sun"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="27dp"
         android:onClick="updateAvailability"

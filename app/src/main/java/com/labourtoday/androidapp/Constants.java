@@ -4,9 +4,10 @@ public class Constants {
 
     public enum URLS {
         // Names of server endpoints
-        ROOT("https://labour-today.herokuapp.com/"),
-        //ROOT("http://10.0.1.51:8000/"),
+        //ROOT("https://labour-today.herokuapp.com/"),
+        ROOT("http://192.168.1.68:8000/"),
         PAYMENT(ROOT.string + "payment/"),
+        USER_LIST(ROOT.string + "user-list/"),
         LABOURER_LIST(ROOT.string + "labourer-list/" ),
         LABOURER_DETAIL(ROOT.string + "labourer-detail/"),
         CONTRACTOR_LIST(ROOT.string + "contractor-list/" ),
@@ -23,8 +24,6 @@ public class Constants {
     public static String STRIPE_TOKEN = "stripe_token";
     public static String NO_DEVICE = "no_device";
     public static String REGISTRATION_ID = "registration_id";
-    public static String SERVER_API_KEY = "AIzaSyCdujUvUcucQ_iOnTS_aMCQ1__Zvz5RMcM";
-    public static String SENDER_ID = "212482481391";
     public static String TWILIO_NUMBER = "+16042569605";
     public static String AUTH_TOKEN = "token";
     // Intent actions
@@ -42,11 +41,25 @@ public class Constants {
     // Intent extra string keys
     public static String COMPANY_NAME = "company_name";
     public static String PASSWORD = "password";
-    public static String EMAIL = "email";
+    public static String USERNAME = "username";
     public static String FIRST_NAME = "first_name";
     public static String LAST_NAME = "last_name";
     public static String PHONE_NUMBER = "phone_number";
+    public static String ADDRESS = "address";
+    public static String SIN = "sin";
+    public static String RATING = "rating";
+    public static String AVAILABILITY = "availability";
 
     public static String CONTRACTOR = "contractor";
     public static String LABOURER = "labourer";
+
+    // Days of the week labourer is available
+    public static String MON = "mon";
+    public static String TUES = "tues";
+    public static String WED = "wed";
+    public static String THURS = "thurs";
+    public static String FRI = "fri";
+    public static String SAT = "sat";
+    public static String SUN = "sun";
+    public static String NOW = "now";
 }

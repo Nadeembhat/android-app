@@ -1,14 +1,17 @@
 package com.labourtoday.androidapp.contractor;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,22 +28,24 @@ import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PaymentActivity extends AppCompatActivity {
-    PopupWindow popUp;
+    private ProgressDialog progress;
     private EditText cardNumber;
     private EditText cvc;
     private EditText hoursWorked;
     private Spinner monthSpinner;
     private Spinner yearSpinner;
-    private ImageButton up, down;
+    private RatingBar ratingBar;
+    private Button payButton;
     public static final String PUBLISHABLE_KEY = "pk_test_gb8kyYk3nOHBWsCIsaq3fWwj";
 
     private String[] months = new String[]{"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
-    private String[] years = new String[]{"2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"};
+    private String[] years = new String[]{"2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +55,41 @@ public class PaymentActivity extends AppCompatActivity {
         yearSpinner = (Spinner) findViewById(R.id.expYear);
         cvc = (EditText) findViewById(R.id.cvc);
         cardNumber = (EditText) findViewById(R.id.number);
-        up = (ImageButton) findViewById(R.id.thumbup);
-        down = (ImageButton) findViewById(R.id.thumbdown);
         hoursWorked = (EditText) findViewById(R.id.edit_hours_worked);
+        ratingBar = (RatingBar) findViewById(R.id.rating_bar);
+        payButton = (Button) findViewById(R.id.pay_button);
+        progress = new ProgressDialog(PaymentActivity.this);
+        progress.setMessage("Payment Processing...");
 
         ArrayAdapter<String> monthsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, months);
         ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
 
         monthSpinner.setAdapter(monthsAdapter);
         yearSpinner.setAdapter(yearsAdapter);
+
+        hoursWorked.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().equals("")) {
+                    payButton.setText("Pay");
+                } else {
+                    double amount = Double.parseDouble(s.toString()) * 19;
+                    payButton.setText("Pay $" + new DecimalFormat("#.##").format(amount));
+                }
+            }
+        });
     }
 
     public void pay(View view) {
+        rateLabourer();
 
         Card card = new Card(
                 cardNumber.getText().toString(),
@@ -70,10 +98,7 @@ public class PaymentActivity extends AppCompatActivity {
                 cvc.getText().toString()
         );
 
-
-
-        boolean validation = card.validateCard();
-        if (validation) {
+        if (card.validateCard()) {
             new Stripe().createToken(
                     card,
                     PUBLISHABLE_KEY,
@@ -85,25 +110,21 @@ public class PaymentActivity extends AppCompatActivity {
                                     Constants.URLS.PAYMENT.string, new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Toast.makeText(getApplicationContext(), "Payment Successful",
-                                            Toast.LENGTH_LONG).show();
-                                    //displayPopUp();
+                                    Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_LONG).show();
                                 }
                             },
                                     new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
-                                            Log.d("SENDMESSAGE", "ERROR");
-                                            error.printStackTrace();
+                                            Log.d("PaymentActivity", "Error making payment");
                                         }
                                     }
-                            )
-                            {
+                            ) {
                                 @Override
                                 protected Map<String, String> getParams() {
                                     Map<String, String> paramsMap = new HashMap<String, String>();
                                     paramsMap.put(Constants.STRIPE_TOKEN, token_id);
-                                    paramsMap.put("charge_amount", hoursWorked.getText().toString());
+                                    paramsMap.put("hours_worked", hoursWorked.getText().toString());
                                     return paramsMap;
                                 }
 
@@ -118,6 +139,7 @@ public class PaymentActivity extends AppCompatActivity {
                             Volley.newRequestQueue(getApplicationContext()).add(postRequest);
 
                         }
+
                         public void onError(Exception error) {
                             Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -132,55 +154,69 @@ public class PaymentActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Invalid card. Please try with another", Toast.LENGTH_LONG).show();
         }
     }
-    /*
-    public void displayPopUp() {
-        // Get the instance of the LayoutInflater, use the context of this activity
-        // Inflate the view from a predefined XML layout
-        View layout = getLayoutInflater().inflate(R.layout.post_payment, (ViewGroup) findViewById(R.id.popup_container));
-        // create a 300px width and 470px height PopupWindow
-        popUp = new PopupWindow(layout, 300, 470, true);
-        popUp.setBackgroundDrawable(new ColorDrawable());
 
-        // display the popup in the center
-        popUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
-    }*/
+    private void rateLabourer() {
+        String url = Constants.URLS.LABOURER_DETAIL.string;
+        StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progress.dismiss();
+                    }
+                }
+        ) {
+            @Override
+            //Create the body of the request
+            protected Map<String, String> getParams() {
+                Map<String, String>  params = new HashMap<>();
+                params.put(Constants.RATING, new DecimalFormat("#.##").format(ratingBar.getRating()));
+                return params;
+            }
 
-    public void rating(View v) {
-        Toast.makeText(getApplicationContext(), "Rating recorded. Thank you.", Toast.LENGTH_LONG).show();
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Token " +
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.AUTH_TOKEN, "noTokenFound"));
+                return params;
+            }
+        };
+        Volley.newRequestQueue(getApplicationContext()).add(putRequest);
     }
 
-    public int monthToInt(String month) {
-
-        if (month.equals("January"))
-            return 1;
-        else if (month.equals("February"))
-            return 2;
-        else if (month.equals("March"))
-            return 3;
-        else if (month.equals("April"))
-            return 4;
-        else if (month.equals("May"))
-            return 5;
-        else if (month.equals("June"))
-            return 6;
-        else if (month.equals("July"))
-            return 7;
-        else if (month.equals("August"))
-            return 8;
-        else if (month.equals("September"))
-            return 9;
-        else if (month.equals("October"))
-            return 10;
-        else if (month.equals("November"))
-            return 11;
-        else if (month.equals("December"))
-            return 12;
-        else
-            return 0;
-
+    private int monthToInt(String month) {
+        switch (month) {
+            case "January":
+                return 1;
+            case "February":
+                return 2;
+            case "March":
+                return 3;
+            case "April":
+                return 4;
+            case "May":
+                return 5;
+            case "June":
+                return 6;
+            case "July":
+                return 7;
+            case "August":
+                return 8;
+            case "September":
+                return 9;
+            case "October":
+                return 10;
+            case "November":
+                return 11;
+            case "December":
+                return 12;
+            default:
+                return 0;
+        }
     }
-
-
-
-
 }

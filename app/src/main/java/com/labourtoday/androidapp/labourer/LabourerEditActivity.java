@@ -1,4 +1,4 @@
-package com.labourtoday.androidapp.contractor;
+package com.labourtoday.androidapp.labourer;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -24,43 +24,45 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ContractorProfileActivity extends AppCompatActivity {
+public class LabourerEditActivity extends AppCompatActivity {
     private ProgressDialog progress;
     //Input fields for creating new User
-    private EditText company, username, phoneNumber;
+    private EditText username, phoneNumber, sin, address;
     private EditText password, passwordConfirm;
     private EditText first_name, last_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contractor_profile);
-        progress = new ProgressDialog(ContractorProfileActivity.this);
+        setContentView(R.layout.activity_labourer_edit);
+        progress = new ProgressDialog(LabourerEditActivity.this);
         progress.setMessage("Updating your profile...");
 
         //Assign input fields to instance variables
-        company = (EditText) findViewById(R.id.edit_company_name);
         username = (EditText) findViewById(R.id.edit_email);
         password = (EditText) findViewById(R.id.edit_password);
         passwordConfirm = (EditText) findViewById(R.id.confirm_password);
         first_name = (EditText) findViewById(R.id.edit_first_name);
         last_name = (EditText) findViewById(R.id.edit_last_name);
         phoneNumber = (EditText) findViewById(R.id.edit_phone_number);
+        sin = (EditText) findViewById(R.id.edit_sin);
+        address = (EditText) findViewById(R.id.edit_address);
         get();
     }
 
     public void get() {
-        String url = Constants.URLS.CONTRACTOR_LIST.string;
+        String url = Constants.URLS.LABOURER_LIST.string;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            company.setText(response.getString("company_name"));
                             username.setText(response.getString("username"));
                             first_name.setText(response.getString("first_name"));
                             last_name.setText(response.getString("last_name"));
                             phoneNumber.setText(response.getString("phone_number").substring(2));
+                            sin.setText(response.getString("sin"));
+                            address.setText(response.getString("address"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -84,9 +86,8 @@ public class ContractorProfileActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(getRequest);
     }
 
-
     public void set(View view) {
-        String url = Constants.URLS.CONTRACTOR_DETAIL.string;
+        String url = Constants.URLS.LABOURER_DETAIL.string;
         final String password_input = password.getText().toString();
         final String password_confirm = passwordConfirm.getText().toString();
 
@@ -96,7 +97,7 @@ public class ContractorProfileActivity extends AppCompatActivity {
         }
 
         progress.show();
-        StringRequest postRequest = new StringRequest(Request.Method.PUT, url,
+        StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -119,13 +120,14 @@ public class ContractorProfileActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String>  params = new HashMap<>();
                 // Get the registration info from input fields and add them to the body of the request
-                params.put(Constants.COMPANY_NAME, company.getText().toString());
                 params.put(Constants.USERNAME, username.getText().toString());
                 if (!password_input.equals(""))
                     params.put(Constants.PASSWORD, password_input);
                 params.put(Constants.FIRST_NAME, first_name.getText().toString());
                 params.put(Constants.LAST_NAME, last_name.getText().toString());
                 params.put(Constants.PHONE_NUMBER, formatPhoneNumber(phoneNumber.getText().toString()));
+                params.put(Constants.SIN, sin.getText().toString());
+                params.put(Constants.ADDRESS, address.getText().toString());
                 return params;
             }
 
@@ -137,7 +139,7 @@ public class ContractorProfileActivity extends AppCompatActivity {
                 return params;
             }
         };
-        Volley.newRequestQueue(getApplicationContext()).add(postRequest);
+        Volley.newRequestQueue(getApplicationContext()).add(putRequest);
     }
 
     public String formatPhoneNumber(String phoneNumber) {
@@ -151,5 +153,3 @@ public class ContractorProfileActivity extends AppCompatActivity {
         return "+1" + formatted.replaceAll("\\s+", "");
     }
 }
-
-

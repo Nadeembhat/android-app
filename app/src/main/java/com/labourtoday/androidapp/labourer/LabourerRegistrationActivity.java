@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,7 +39,8 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
     //Input fields for creating new User
     private EditText username;
     private EditText password, passwordConfirm;
-    private EditText first_name, last_name, phoneNumber, address;
+    private EditText first_name, last_name, phoneNumber, address, sin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,7 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
         last_name = (EditText) findViewById(R.id.edit_last_name);
         phoneNumber = (EditText) findViewById(R.id.edit_phone_number);
         address = (EditText) findViewById(R.id.edit_address);
+        sin = (EditText) findViewById(R.id.edit_sin);
         //Assign input fields to instance variables
     }
     /*
@@ -67,9 +68,6 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
         final String password_input = password.getText().toString();
         final String password_confirm = passwordConfirm.getText().toString();
 
-        Log.d(TAG, username_input);
-        Log.d(TAG, password_confirm);
-
         if (!password_input.equals(password_confirm)) {
             Toast.makeText(this, "Passwords do not match. Please try again.", Toast.LENGTH_LONG).show();
             return;
@@ -78,9 +76,6 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
         tokenBroadcastReceiver = new BroadcastReceiver() { // Wait for TokenRegistrationService to send you the RegistrationId from GCM
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (!intent.getAction().equals(Constants.REGISTRATION_COMPLETE)) {
-                    return;
-                }
                 LocalBroadcastManager.getInstance(context).unregisterReceiver(this);
 
                 final String registrationId = intent.getExtras().getString(Constants.REGISTRATION_ID); // Device id obtained from GCM
@@ -92,7 +87,7 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
 
                 /* Create the user-list POST request*/
                 String url = Constants.URLS.LABOURER_LIST.string;
-                Log.d(TAG, url);
+
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
@@ -100,7 +95,7 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
                                 // Automatic login after registration using registered username and password
                                 Intent loginIntent = new Intent(LabourerRegistrationActivity.this, LabourerLoginActivity.class);
                                 loginIntent.setAction(Constants.ACTION_LOGIN);
-                                loginIntent.putExtra("username", username_input);
+                                loginIntent.putExtra(Constants.USERNAME, username_input);
                                 loginIntent.putExtra(Constants.PASSWORD, password_input);
                                 progress.dismiss();
                                 startActivity(loginIntent);
@@ -110,7 +105,9 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d(TAG, "failed register user");
+                                Toast.makeText(getApplicationContext(), error.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                                progress.dismiss();
                             }
                         }
                 )
@@ -122,13 +119,14 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
                         Map<String, String>  params = new HashMap<>();
 
                         // Get the registration info from input fields and add them to the body of the request
-                        params.put("username", username_input);
+                        params.put(Constants.USERNAME, username_input);
                         params.put(Constants.PASSWORD, password_input);
                         params.put(Constants.REGISTRATION_ID, registrationId);
                         params.put(Constants.FIRST_NAME, first_name.getText().toString());
                         params.put(Constants.LAST_NAME, last_name.getText().toString());
                         params.put(Constants.PHONE_NUMBER, formatPhoneNumber(phoneNumber.getText().toString()));
-                        params.put("address", address.getText().toString());
+                        params.put(Constants.ADDRESS, address.getText().toString());
+                        params.put(Constants.SIN, sin.getText().toString());
                         params.put("Content-Type","application/json");
                         return params;
                     }
@@ -180,6 +178,13 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Formats a Canada/US phone number in the proper format that the server can use
+     * @param phoneNumber
+     *          Unformatted phone number
+     * @return
+     *          Formatted phone number
+     */
     public String formatPhoneNumber(String phoneNumber) {
         char[] array = phoneNumber.toCharArray();
         for (int i = 0; i < array.length; i++) {

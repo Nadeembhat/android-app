@@ -136,7 +136,7 @@ public class ContractorLoginActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "Failed to login");
+                            Toast.makeText(getApplicationContext(), "Unable to log in. Please check your credentials.", Toast.LENGTH_LONG).show();
                         }
                     }
             ) {
