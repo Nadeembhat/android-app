@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.labourtoday.androidapp.labourer.LabourerAvailability">
+    android:id="@+id/top_level_layout"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,112 +16,124 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
 
-    <Switch
-        android:id="@+id/now"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Available Immediately"
-        android:textSize="20sp"
-        android:thumbTint="@color/teal"
-        android:trackTint="@color/teal"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"/>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.labourtoday.androidapp.labourer.LabourerAvailability">
 
-    <Switch
-        android:id="@+id/mon"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Monday"
-        android:textSize="20sp"
-        android:thumbTint="@color/teal"
-        android:trackTint="@color/teal"
-        android:layout_below="@id/now"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"/>
+        <Switch
+            android:id="@+id/now"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Available Immediately"
+            android:textSize="20sp"
+            android:thumbTint="@color/teal"
+            android:trackTint="@color/teal"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"/>
 
-    <Switch
-        android:id="@+id/tues"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Tuesday"
-        android:textSize="20sp"
-        android:thumbTint="@color/teal"
-        android:trackTint="@color/teal"
-        android:layout_below="@id/mon"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"/>
+        <Switch
+            android:id="@+id/mon"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Monday"
+            android:textSize="20sp"
+            android:thumbTint="@color/teal"
+            android:trackTint="@color/teal"
+            android:layout_below="@id/now"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"/>
 
-    <Switch
-        android:id="@+id/wed"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Wednesday"
-        android:textSize="20sp"
-        android:thumbTint="@color/teal"
-        android:trackTint="@color/teal"
-        android:layout_below="@id/tues"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"/>
+        <Switch
+            android:id="@+id/tues"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Tuesday"
+            android:textSize="20sp"
+            android:thumbTint="@color/teal"
+            android:trackTint="@color/teal"
+            android:layout_below="@id/mon"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"/>
 
-    <Switch
-        android:id="@+id/thurs"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Thursday"
-        android:textSize="20sp"
-        android:thumbTint="@color/teal"
-        android:trackTint="@color/teal"
-        android:layout_below="@id/wed"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"/>
+        <Switch
+            android:id="@+id/wed"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Wednesday"
+            android:textSize="20sp"
+            android:thumbTint="@color/teal"
+            android:trackTint="@color/teal"
+            android:layout_below="@id/tues"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"/>
 
-    <Switch
-        android:id="@+id/fri"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Friday"
-        android:textSize="20sp"
-        android:thumbTint="@color/teal"
-        android:trackTint="@color/teal"
-        android:layout_below="@id/thurs"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"/>
+        <Switch
+            android:id="@+id/thurs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Thursday"
+            android:textSize="20sp"
+            android:thumbTint="@color/teal"
+            android:trackTint="@color/teal"
+            android:layout_below="@id/wed"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"/>
 
-    <Switch
-        android:id="@+id/sat"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Saturday"
-        android:textSize="20sp"
-        android:thumbTint="@color/teal"
-        android:trackTint="@color/teal"
-        android:layout_below="@id/fri"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"/>
+        <Switch
+            android:id="@+id/fri"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Friday"
+            android:textSize="20sp"
+            android:thumbTint="@color/teal"
+            android:trackTint="@color/teal"
+            android:layout_below="@id/thurs"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"/>
 
-    <Switch
-        android:id="@+id/sun"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Sunday"
-        android:textSize="20sp"
-        android:thumbTint="@color/teal"
-        android:trackTint="@color/teal"
-        android:layout_below="@id/sat"
-        android:layout_alignParentStart="true" />
+        <Switch
+            android:id="@+id/sat"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Saturday"
+            android:textSize="20sp"
+            android:thumbTint="@color/teal"
+            android:trackTint="@color/teal"
+            android:layout_below="@id/fri"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:backgroundTint="@color/yellow"
-        android:background="@drawable/checkmark"
-        android:layout_below="@id/sun"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="27dp"
-        android:onClick="updateAvailability"
-        />
+        <Switch
+            android:id="@+id/sun"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Sunday"
+            android:textSize="20sp"
+            android:thumbTint="@color/teal"
+            android:trackTint="@color/teal"
+            android:layout_below="@id/sat"
+            android:layout_alignParentStart="true" />
 
-</RelativeLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:backgroundTint="@color/yellow"
+            android:background="@drawable/checkmark"
+            android:layout_below="@id/sun"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="27dp"
+            android:onClick="updateAvailability"
+            />
+
+    </RelativeLayout>
+</LinearLayout>

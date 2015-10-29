@@ -32,7 +32,6 @@
             android:ems="10"
             android:id="@+id/edit_email"
             android:layout_marginTop="20dp"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <EditText
@@ -44,11 +43,10 @@
             android:id="@+id/edit_password"
             android:layout_marginTop="20dp"
             android:layout_below="@+id/edit_email"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/button_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -65,8 +63,7 @@
             android:layout_height="wrap_content"
             android:text="Don&apos;t have an account? Register"
             android:id="@+id/textView3"
-            android:layout_alignBottom="@+id/fab"
-            android:layout_alignParentLeft="true"
+            android:layout_alignBottom="@+id/button_login"
             android:layout_alignParentStart="true" />
 
         <TextView
@@ -78,9 +75,7 @@
             android:clickable="true"
             android:onClick="labourerRegister"
             android:layout_alignBottom="@+id/textView3"
-            android:layout_toRightOf="@+id/textView3"
             android:layout_toEndOf="@+id/textView3"
-            android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             />
 

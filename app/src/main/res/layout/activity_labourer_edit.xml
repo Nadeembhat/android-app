@@ -27,7 +27,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
             android:hint="First Name"
             android:ems="10"
             android:id="@+id/edit_first_name"
@@ -38,7 +38,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
             android:hint="Last Name"
             android:ems="10"
             android:id="@+id/edit_last_name"
@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="Confirm New Password (optional)"
+            android:hint="Confirm New Password"
             android:ems="10"
             android:id="@+id/confirm_password"
             android:layout_marginTop="20dp"
@@ -113,7 +113,7 @@
             android:layout_alignParentStart="true" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/button_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"

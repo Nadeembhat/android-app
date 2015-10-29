@@ -8,11 +8,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
@@ -22,8 +22,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class DatePickerActivity extends AppCompatActivity {
@@ -85,6 +83,11 @@ public class DatePickerActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (jobAddress.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please enter the address of the job site",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 final String startDate = datePicker.getYear() + " " + datePicker.getMonth() + " " + datePicker.getDayOfMonth();
                 final String startTime = timePicker.getCurrentHour() + " " + timePicker.getCurrentMinute();
 
