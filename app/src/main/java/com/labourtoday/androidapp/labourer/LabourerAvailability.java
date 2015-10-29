@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -134,6 +135,7 @@ public class LabourerAvailability extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String>  params = new HashMap<>();
                 // Get the registration info from input fields and add them to the body of the request
+                Log.d("LabourerAvailability", getAvailabilityParam());
                 params.put(Constants.AVAILABILITY, getAvailabilityParam());
                 return params;
             }
@@ -159,14 +161,21 @@ public class LabourerAvailability extends AppCompatActivity {
     }
 
     private String getAvailabilityParam() {
-        return String.valueOf(sharedPreferences.getBoolean(Constants.MON, false)) + " " +
-                String.valueOf(sharedPreferences.getBoolean(Constants.TUES, false)) + " " +
-                String.valueOf(sharedPreferences.getBoolean(Constants.WED, false)) + " " +
-                String.valueOf(sharedPreferences.getBoolean(Constants.THURS, false)) + " " +
-                String.valueOf(sharedPreferences.getBoolean(Constants.FRI, false)) + " " +
-                String.valueOf(sharedPreferences.getBoolean(Constants.SAT, false)) + " " +
-                String.valueOf(sharedPreferences.getBoolean(Constants.SUN, false)) + " " +
-                String.valueOf(sharedPreferences.getBoolean(Constants.NOW, false));
+        return boolToString(sharedPreferences.getBoolean(Constants.NOW, false)) +
+                boolToString(sharedPreferences.getBoolean(Constants.MON, false)) +
+                boolToString(sharedPreferences.getBoolean(Constants.TUES, false)) +
+                boolToString(sharedPreferences.getBoolean(Constants.WED, false)) +
+                boolToString(sharedPreferences.getBoolean(Constants.THURS, false)) +
+                boolToString(sharedPreferences.getBoolean(Constants.FRI, false)) +
+                boolToString(sharedPreferences.getBoolean(Constants.SAT, false)) +
+                boolToString(sharedPreferences.getBoolean(Constants.SUN, false));
+    }
+
+    private String boolToString(boolean generalLabour) {
+        if (generalLabour)
+            return "T";
+        else
+            return "F";
     }
 
 

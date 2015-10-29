@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.labourtoday.androidapp.MainActivity;
 import com.labourtoday.androidapp.R;
 
 public class MessageListenerService extends GcmListenerService {
@@ -28,11 +29,16 @@ public class MessageListenerService extends GcmListenerService {
     private void sendNotification(String message) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+        /*
         Intent notificationIntent = new Intent(Intent.ACTION_VIEW);
         notificationIntent.setData(Uri.parse("sms:"));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        */
 
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -44,7 +50,7 @@ public class MessageListenerService extends GcmListenerService {
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(0, notificationBuilder.build());
     }
 }
 

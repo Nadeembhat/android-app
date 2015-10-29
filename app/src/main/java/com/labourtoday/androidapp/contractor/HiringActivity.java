@@ -37,11 +37,15 @@ public class HiringActivity extends AppCompatActivity {
     private final int PROFILE = 0;
     private final int LOG_OUT = 1;
 
+    private Switch generalLabourSwitch;
+
     private Drawer result;
     String[] experienceList = new String[]{"No", "Yes 1-3 months", "Yes > 6 months", "Red Seal"};
 
     private RadioGroup carpentryRadioGroup;
     private RadioGroup concreteRadioGroup;
+
+    private SharedPreferences settings;
 
 
     @Override
@@ -52,19 +56,23 @@ public class HiringActivity extends AppCompatActivity {
         carpentryRadioGroup = (RadioGroup) findViewById(R.id.carpentry_radio);
         concreteRadioGroup = (RadioGroup) findViewById(R.id.concrete_radio);
 
+        settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        carpentryRadioGroup.check(R.id.car_no);
+        concreteRadioGroup.check(R.id.con_no);
+
+        // setting switch
+        generalLabourSwitch = (Switch) findViewById(R.id.gen_labour_text);
+        generalLabourSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                settings.edit().putBoolean(Constants.GENERAL_LABOUR, isChecked).apply();
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Labour Today");
-
-        // setting switch
-        Switch mySwitch = (Switch) findViewById(R.id.gen_labour_text);
-        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            }
-        });
 
         result = new DrawerBuilder()
                 .withActivity(this)
@@ -83,7 +91,7 @@ public class HiringActivity extends AppCompatActivity {
                                 startActivity(hireIntent);
                                 return true;
                             case LOG_OUT:
-                                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                 settings.edit().remove(Constants.AUTH_TOKEN).apply();
                                 settings.edit().remove(Constants.LAST_LOGIN).apply();
                                 // Return to the welcome page
@@ -120,8 +128,10 @@ public class HiringActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (result != null && result.isDrawerOpen()) {
             result.closeDrawer();
-        } else {
-            super.onBackPressed();
+        }
+        else {
+            startActivity(new Intent(this, DatePickerActivity.class));
+            finish();
         }
     }
 
@@ -169,9 +179,11 @@ public class HiringActivity extends AppCompatActivity {
 
                 params.put("carpentry", Integer.toString(Arrays.asList(experienceList).indexOf(selectedCarpentry.getText())));
                 params.put("concrete_forming", Integer.toString(Arrays.asList(experienceList).indexOf(selectedConcrete.getText())));
+                params.put("general_labour", Integer.toString(booleanToInt(settings.getBoolean(Constants.GENERAL_LABOUR, false))));
                 params.put("start_date", i.getStringExtra("start_date"));
                 params.put("start_time", i.getStringExtra("start_time"));
                 params.put("job_address", i.getStringExtra("job_address"));
+                params.put("start_day", Integer.toString(dayToInt(i.getStringExtra("start_day"))));
                 params.put("job_code", generateJobCode());
 
                 return params;
@@ -180,7 +192,7 @@ public class HiringActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String>  params = new HashMap<>();
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 params.put("Authorization", "Token " + settings.getString(Constants.AUTH_TOKEN, "noToken"));
                 return params;
             }
@@ -188,6 +200,34 @@ public class HiringActivity extends AppCompatActivity {
         Volley.newRequestQueue(getApplicationContext()).add(updateDeviceRequest);
     }
 
+    private int booleanToInt(boolean generalLabour) {
+        if (generalLabour)
+            return 1;
+        else
+            return 0;
+    }
+
+    private int dayToInt(String day) {
+        switch (day) {
+            case "Monday":
+                return 1;
+            case "Tuesday":
+                return 2;
+            case "Wednesday":
+                return 3;
+            case "Thursday":
+                return 4;
+            case "Friday":
+                return 5;
+            case "Saturday":
+                return 6;
+            case "Sunday":
+                return 7;
+            default:
+                return 0;
+        }
+
+    }
 }
 
 

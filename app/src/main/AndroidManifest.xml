@@ -92,6 +92,8 @@
         </activity>
         <activity android:name=".labourer.LabourerEditActivity" >
         </activity>
+        <activity android:name=".contractor.CreditCardActivity" >
+        </activity>
     </application>
 
 </manifest>

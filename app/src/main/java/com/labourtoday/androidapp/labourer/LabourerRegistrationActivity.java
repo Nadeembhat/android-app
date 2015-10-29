@@ -127,6 +127,7 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
                         params.put(Constants.PHONE_NUMBER, formatPhoneNumber(phoneNumber.getText().toString()));
                         params.put(Constants.ADDRESS, address.getText().toString());
                         params.put(Constants.SIN, sin.getText().toString());
+                        params.put(Constants.RATING, "0.000");
                         params.put("Content-Type","application/json");
                         return params;
                     }

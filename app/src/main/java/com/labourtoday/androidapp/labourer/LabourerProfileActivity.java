@@ -33,10 +33,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LabourerProfileActivity extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {
+public class LabourerProfileActivity extends AppCompatActivity {
 
-    private Switch mySwitch;
-    private RelativeLayout profileExperience;
+    private Switch generalLabourSwitch;
 
     private Drawer result;
     private final int PROFILE = 0;
@@ -45,6 +44,7 @@ public class LabourerProfileActivity extends AppCompatActivity implements View.O
     private RadioGroup carpentryRadioGroup;
     private RadioGroup concreteRadioGroup;
 
+    private SharedPreferences settings;
 
     String[] experienceList = new String[]{"No", "Yes 1-3 months", "Yes > 6 months", "Red Seal"};
 
@@ -52,13 +52,23 @@ public class LabourerProfileActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_labourer_profile);
+        settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         carpentryRadioGroup = (RadioGroup) findViewById(R.id.carpentry_radio);
         concreteRadioGroup = (RadioGroup) findViewById(R.id.concrete_radio);
 
+        carpentryRadioGroup.check(settings.getInt(Constants.CARPENTRY, R.id.car_no));
+        concreteRadioGroup.check(settings.getInt(Constants.CONCRETE, R.id.con_no));
+
         // setting switch
-        mySwitch = (Switch) findViewById(R.id.gen_labour_text);
-        mySwitch.setOnCheckedChangeListener(this);
+        generalLabourSwitch = (Switch) findViewById(R.id.gen_labour_text);
+        generalLabourSwitch.setChecked(settings.getBoolean(Constants.GENERAL_LABOUR, false));
+        generalLabourSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                settings.edit().putBoolean(Constants.GENERAL_LABOUR, isChecked).apply();
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,7 +91,6 @@ public class LabourerProfileActivity extends AppCompatActivity implements View.O
                                 startActivity(hireIntent);
                                 return true;
                             case LOG_OUT:
-                                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                 settings.edit().remove(Constants.AUTH_TOKEN).apply();
                                 settings.edit().remove(Constants.LAST_LOGIN).apply();
                                 Intent welcomeIntent = new Intent(LabourerProfileActivity.this, LabourerLoginActivity.class);
@@ -111,7 +120,9 @@ public class LabourerProfileActivity extends AppCompatActivity implements View.O
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getApplicationContext(), "Successfully update profile", Toast.LENGTH_LONG).show();
+                        settings.edit().putInt(Constants.CARPENTRY, carpentryRadioGroup.getCheckedRadioButtonId()).apply();
+                        settings.edit().putInt(Constants.CONCRETE, concreteRadioGroup.getCheckedRadioButtonId()).apply();
+                        Toast.makeText(getApplicationContext(), "Successfully updated profile", Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -129,13 +140,13 @@ public class LabourerProfileActivity extends AppCompatActivity implements View.O
                 Map<String, String> params = new HashMap<>();
                 params.put("carpentry", Integer.toString(Arrays.asList(experienceList).indexOf(selectedCarpentry.getText())));
                 params.put("concrete_forming", Integer.toString(Arrays.asList(experienceList).indexOf(selectedConcrete.getText())));
+                params.put("general_labour", Integer.toString(booleanToInt(settings.getBoolean(Constants.GENERAL_LABOUR, false))));
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String>  params = new HashMap<>();
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 params.put("Authorization", "Token " + settings.getString(Constants.AUTH_TOKEN, "noToken"));
                 return params;
             }
@@ -153,14 +164,16 @@ public class LabourerProfileActivity extends AppCompatActivity implements View.O
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-
+    public void onBackPressed() {
+        if (result != null && result.isDrawerOpen()) {
+            result.closeDrawer();
         }
     }
 
-    @Override
-    public void onClick(View v) {
-
+    private int booleanToInt(boolean generalLabour) {
+        if (generalLabour)
+            return 1;
+        else
+            return 0;
     }
 }

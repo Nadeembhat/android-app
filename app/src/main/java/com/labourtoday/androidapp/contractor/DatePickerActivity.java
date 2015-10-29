@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,6 +21,10 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DatePickerActivity extends AppCompatActivity {
     private TimePicker timePicker;
@@ -86,10 +92,19 @@ public class DatePickerActivity extends AppCompatActivity {
                 i.putExtra("start_date", startDate);
                 i.putExtra("start_time", startTime);
                 i.putExtra("job_address", jobAddress.getText().toString());
+                i.putExtra("start_day", DateFormat.format("EEEE",
+                        new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth())).toString());
                 startActivity(i);
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (result != null && result.isDrawerOpen()) {
+            result.closeDrawer();
+        }
     }
 }
 

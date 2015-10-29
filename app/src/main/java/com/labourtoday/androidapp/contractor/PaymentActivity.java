@@ -34,9 +34,8 @@ import java.util.Map;
 
 public class PaymentActivity extends AppCompatActivity {
     private ProgressDialog progress;
-    private EditText cardNumber;
-    private EditText cvc;
-    private EditText hoursWorked;
+    private EditText cardNumber, cvc, hoursWorked;
+    private EditText workerId;
     private Spinner monthSpinner;
     private Spinner yearSpinner;
     private RatingBar ratingBar;
@@ -51,6 +50,8 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+
+        workerId = (EditText) findViewById(R.id.edit_worker_id);
         monthSpinner = (Spinner) findViewById(R.id.expMonth);
         yearSpinner = (Spinner) findViewById(R.id.expYear);
         cvc = (EditText) findViewById(R.id.cvc);
@@ -89,6 +90,11 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     public void pay(View view) {
+        if (workerId.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Enter your worker's ID (Important!)", Toast.LENGTH_LONG).show();
+            return;
+        }
+        progress.show();
         rateLabourer();
 
         Card card = new Card(
@@ -111,20 +117,23 @@ public class PaymentActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(String response) {
                                     Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_LONG).show();
+                                    progress.dismiss();
                                 }
                             },
-                                    new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            Log.d("PaymentActivity", "Error making payment");
-                                        }
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_LONG).show();
+                                        progress.dismiss();
                                     }
+                                }
                             ) {
                                 @Override
                                 protected Map<String, String> getParams() {
                                     Map<String, String> paramsMap = new HashMap<String, String>();
                                     paramsMap.put(Constants.STRIPE_TOKEN, token_id);
                                     paramsMap.put("hours_worked", hoursWorked.getText().toString());
+                                    paramsMap.put("worker_id", workerId.getText().toString());
                                     return paramsMap;
                                 }
 
@@ -174,7 +183,8 @@ public class PaymentActivity extends AppCompatActivity {
             //Create the body of the request
             protected Map<String, String> getParams() {
                 Map<String, String>  params = new HashMap<>();
-                params.put(Constants.RATING, new DecimalFormat("#.##").format(ratingBar.getRating()));
+                params.put(Constants.RATING, new DecimalFormat("#.00").format(ratingBar.getRating()));
+                params.put("worker_id", workerId.getText().toString());
                 return params;
             }
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.labourtoday.androidapp.contractor.ContractorLoginActivity;
+import com.labourtoday.androidapp.contractor.DatePickerActivity;
 import com.labourtoday.androidapp.contractor.HiringActivity;
 import com.labourtoday.androidapp.labourer.LabourerLoginActivity;
 import com.labourtoday.androidapp.labourer.LabourerProfileActivity;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void launchContractorMain(View view) {
         if (sharedPreferences.getString(Constants.LAST_LOGIN, "").equals(Constants.CONTRACTOR)) {
-            startActivity(new Intent(this, HiringActivity.class));
+            startActivity(new Intent(this, DatePickerActivity.class));
         } else {
             startActivity(new Intent(this, ContractorLoginActivity.class));
         }
