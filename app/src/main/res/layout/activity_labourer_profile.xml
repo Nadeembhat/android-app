@@ -101,7 +101,7 @@
                     />
 
                 <RadioButton
-                    android:id="@+id/car_redseal"
+                    android:id="@+id/button_redseal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:button="@null"

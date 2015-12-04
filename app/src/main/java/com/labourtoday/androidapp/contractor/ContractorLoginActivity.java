@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -45,6 +46,10 @@ public class ContractorLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contractor_login);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Login");
 
         username =  (EditText) findViewById(R.id.edit_email);
         password = (EditText) findViewById(R.id.edit_password);
@@ -92,10 +97,10 @@ public class ContractorLoginActivity extends AppCompatActivity {
     Displays error message if authentication fails.
      */
     public void authenticate(final String username, final String password, final boolean update) {
-        /*In the case that obtaining device id somehow failed, do not attempt to login*/
+        // In the case that obtaining device id somehow failed, do not attempt to login
         if (registrationId.equals(Constants.NO_DEVICE)){
-            Toast.makeText(this, "Error: Failed to obtain device id. Please check your connection", Toast.LENGTH_LONG).show();
-            recreate(); //Restart the activity so we can try to get device id again.
+            Toast.makeText(this, "Failed to obtain device id. Please check your internet connection", Toast.LENGTH_LONG).show();
+            recreate(); // Restart the activity so we can try to get device id again.
         }
         else {
             String url = Constants.URLS.TOKEN_AUTH.string;
@@ -115,7 +120,7 @@ public class ContractorLoginActivity extends AppCompatActivity {
                                 editor.putString(Constants.LAST_LOGIN, Constants.CONTRACTOR);
                                 editor.apply();
 
-                                Intent homeIntent = new Intent(ContractorLoginActivity.this, DatePickerActivity.class); //Prepare intent to go to Home Screen
+                                Intent homeIntent = new Intent(ContractorLoginActivity.this, ContractorMainActivity.class); //Prepare intent to go to Home Screen
 
                                 /*On regular login (not from registration), need to update device ID on server*/
                                 if (update) {

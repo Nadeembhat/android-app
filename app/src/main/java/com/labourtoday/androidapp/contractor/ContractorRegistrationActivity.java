@@ -6,13 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,6 +30,10 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
 import com.labourtoday.androidapp.gcm.TokenRegistrationService;
+import com.stripe.android.Stripe;
+import com.stripe.android.TokenCallback;
+import com.stripe.android.model.Card;
+import com.stripe.android.model.Token;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +41,7 @@ import java.util.Map;
 public class ContractorRegistrationActivity extends AppCompatActivity {
     private static final String TAG = "RegistrationActivity";
     private BroadcastReceiver tokenBroadcastReceiver; //listens for REGISTRATION_COMPLETE message from IDRegistrationService
-
+    public static final String PUBLISHABLE_KEY = "pk_test_HIK07thV9P8ojo7HShUyAOTb";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private ProgressDialog progress;
     //Input fields for creating new User
@@ -40,13 +49,27 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
     private EditText password, passwordConfirm;
     private EditText first_name, last_name;
 
+    private EditText cvc, cardNumber;
+    private Spinner monthSpinner;
+    private Spinner yearSpinner;
+    private String tokenId;
+
+    private String[] months = new String[]{"January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"};
+    private String[] years = new String[]{"2015", "2016", "2017", "2018", "2019", "2020", "2021",
+            "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contractor_registration);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Sign up info");
+
         progress = new ProgressDialog(ContractorRegistrationActivity.this);
-        progress.setMessage("Registering...");
+        progress.setMessage("Registering and finding your worker...");
 
         //Assign input fields to instance variables
         company = (EditText) findViewById(R.id.edit_company_name);
@@ -56,6 +79,28 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         first_name = (EditText) findViewById(R.id.edit_first_name);
         last_name = (EditText) findViewById(R.id.edit_last_name);
         phoneNumber = (EditText) findViewById(R.id.edit_phone_number);
+
+        monthSpinner = (Spinner) findViewById(R.id.expMonth);
+        yearSpinner = (Spinner) findViewById(R.id.expYear);
+        cvc = (EditText) findViewById(R.id.cvc);
+        cardNumber = (EditText) findViewById(R.id.number);
+
+        ArrayAdapter<String> monthsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, months);
+        ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
+
+        monthSpinner.setAdapter(monthsAdapter);
+        yearSpinner.setAdapter(yearsAdapter);
+
+        ImageView stripe = (ImageView)findViewById(R.id.stripe_image);
+        stripe.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://stripe.com/about"));
+                startActivity(intent);
+            }
+        });
     }
 
     /*
@@ -66,11 +111,45 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         final String username_input = username.getText().toString();
         final String password_input = password.getText().toString();
         final String password_confirm = passwordConfirm.getText().toString();
+        Card card = new Card(
+                cardNumber.getText().toString(),
+                monthToInt(monthSpinner.getSelectedItem().toString()),
+                Integer.parseInt(yearSpinner.getSelectedItem().toString()),
+                cvc.getText().toString()
+        );
+
+        if (card.validateCard()) {
+            new Stripe().createToken(
+                    card,
+                    PUBLISHABLE_KEY,
+                    new TokenCallback() {
+                        public void onSuccess(Token token) {
+                            Log.d("PaymentActivity", token.getId());
+                            tokenId = token.getId();
+                        }
+                        public void onError(Exception error) {
+                            Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+        } else if (!card.validateNumber()) {
+            Toast.makeText(getApplicationContext(), "Invalid card number. Please try again", Toast.LENGTH_LONG).show();
+            return;
+        } else if (!card.validateExpiryDate()) {
+            Toast.makeText(getApplicationContext(), "Invalid expiry date. Please try again", Toast.LENGTH_LONG).show();
+            return;
+        } else if (!card.validateCVC()) {
+            Toast.makeText(getApplicationContext(), "Invalid cvc. Please try again", Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            Toast.makeText(getApplicationContext(), "Invalid card. Please try with another", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         if (!password_input.equals(password_confirm)) {
             Toast.makeText(this, "Passwords do not match. Please try again.", Toast.LENGTH_LONG).show();
             return;
         }
+
         progress.show();
         tokenBroadcastReceiver = new BroadcastReceiver() { // Wait for TokenRegistrationService to send you the RegistrationId from GCM
             @Override
@@ -115,7 +194,6 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                     protected Map<String, String> getParams()
                     {
                         Map<String, String>  params = new HashMap<>();
-                        // Get the registration info from input fields and add them to the body of the request
                         params.put(Constants.COMPANY_NAME, company.getText().toString());
                         params.put("username", username_input);
                         params.put(Constants.PASSWORD, password_input);
@@ -123,6 +201,7 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                         params.put(Constants.FIRST_NAME, first_name.getText().toString());
                         params.put(Constants.LAST_NAME, last_name.getText().toString());
                         params.put(Constants.PHONE_NUMBER, formatPhoneNumber(phoneNumber.getText().toString()));
+                        params.put(Constants.STRIPE_TOKEN, tokenId);
                         params.put("Content-Type","application/json");
                         return params;
                     }
@@ -184,6 +263,37 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         }
         String formatted = new String(array);
         return "+1" + formatted.replaceAll("\\s+", "");
+    }
+
+    private int monthToInt(String month) {
+        switch (month) {
+            case "January":
+                return 1;
+            case "February":
+                return 2;
+            case "March":
+                return 3;
+            case "April":
+                return 4;
+            case "May":
+                return 5;
+            case "June":
+                return 6;
+            case "July":
+                return 7;
+            case "August":
+                return 8;
+            case "September":
+                return 9;
+            case "October":
+                return 10;
+            case "November":
+                return 11;
+            case "December":
+                return 12;
+            default:
+                return 0;
+        }
     }
 }
 

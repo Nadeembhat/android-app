@@ -80,7 +80,9 @@
         </activity>
         <activity android:name=".contractor.DatePickerActivity" >
         </activity>
-        <activity android:name=".contractor.HiringActivity" >
+        <activity
+            android:name=".contractor.HiringActivity"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity android:name=".contractor.ContractorProfileActivity" >
         </activity>
@@ -92,7 +94,7 @@
         </activity>
         <activity android:name=".labourer.LabourerEditActivity" >
         </activity>
-        <activity android:name=".contractor.CreditCardActivity" >
+        <activity android:name=".contractor.ContractorMainActivity" >
         </activity>
     </application>
 

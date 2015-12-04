@@ -1,18 +1,18 @@
 package com.labourtoday.androidapp.contractor;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,10 +23,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
-import com.stripe.android.Stripe;
-import com.stripe.android.TokenCallback;
-import com.stripe.android.model.Card;
-import com.stripe.android.model.Token;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -34,17 +35,18 @@ import java.util.Map;
 
 public class PaymentActivity extends AppCompatActivity {
     private ProgressDialog progress;
-    private EditText cardNumber, cvc, hoursWorked;
+    private EditText hoursWorked, hourlyWage;
     private EditText workerId;
-    private Spinner monthSpinner;
-    private Spinner yearSpinner;
+
+    private SharedPreferences settings;
+
     private RatingBar ratingBar;
     private Button payButton;
-    public static final String PUBLISHABLE_KEY = "pk_test_gb8kyYk3nOHBWsCIsaq3fWwj";
 
-    private String[] months = new String[]{"January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"};
-    private String[] years = new String[]{"2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"};
+    private final int PROFILE = 0;
+    private final int LOG_OUT = 1;
+
+    private Drawer result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +54,47 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
 
         workerId = (EditText) findViewById(R.id.edit_worker_id);
-        monthSpinner = (Spinner) findViewById(R.id.expMonth);
-        yearSpinner = (Spinner) findViewById(R.id.expYear);
-        cvc = (EditText) findViewById(R.id.cvc);
-        cardNumber = (EditText) findViewById(R.id.number);
         hoursWorked = (EditText) findViewById(R.id.edit_hours_worked);
+        hourlyWage = (EditText) findViewById(R.id.edit_wage);
         ratingBar = (RatingBar) findViewById(R.id.rating_bar);
         payButton = (Button) findViewById(R.id.pay_button);
         progress = new ProgressDialog(PaymentActivity.this);
         progress.setMessage("Payment Processing...");
 
-        ArrayAdapter<String> monthsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, months);
-        ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Payment");
 
-        monthSpinner.setAdapter(monthsAdapter);
-        yearSpinner.setAdapter(yearsAdapter);
+        result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withSavedInstance(savedInstanceState)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Profile"),
+                        new SecondaryDrawerItem().withName("Log out")
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        switch (position) {
+                            case PROFILE:
+                                Intent hireIntent = new Intent(PaymentActivity.this, ContractorProfileActivity.class);
+                                startActivity(hireIntent);
+                                return true;
+                            case LOG_OUT:
+                                settings.edit().remove(Constants.AUTH_TOKEN).apply();
+                                settings.edit().remove(Constants.LAST_LOGIN).apply();
+                                // Return to the welcome page
+                                Intent welcomeIntent = new Intent(PaymentActivity.this, ContractorLoginActivity.class);
+                                startActivity(welcomeIntent);
+                                finish();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                })
+                .build();
 
         hoursWorked.addTextChangedListener(new TextWatcher() {
             @Override
@@ -82,7 +110,7 @@ public class PaymentActivity extends AppCompatActivity {
                 if (s.toString().equals("")) {
                     payButton.setText("Pay");
                 } else {
-                    double amount = Double.parseDouble(s.toString()) * 19;
+                    double amount = Double.parseDouble(s.toString()) * Integer.parseInt(hourlyWage.getText().toString());
                     payButton.setText("Pay $" + new DecimalFormat("#.##").format(amount));
                 }
             }
@@ -96,72 +124,40 @@ public class PaymentActivity extends AppCompatActivity {
         }
         progress.show();
         rateLabourer();
+        StringRequest postRequest = new StringRequest(Request.Method.POST,
+                Constants.URLS.PAYMENT.string, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_LONG).show();
+                progress.dismiss();
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_LONG).show();
+                        progress.dismiss();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> paramsMap = new HashMap<String, String>();
+                paramsMap.put("hours_worked", hoursWorked.getText().toString());
+                paramsMap.put("worker_id", workerId.getText().toString());
+                return paramsMap;
+            }
 
-        Card card = new Card(
-                cardNumber.getText().toString(),
-                monthToInt(monthSpinner.getSelectedItem().toString()),
-                Integer.parseInt(yearSpinner.getSelectedItem().toString()),
-                cvc.getText().toString()
-        );
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Token " +
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.AUTH_TOKEN, "noTokenFound"));
+                return params;
+            }
+        };
+        Volley.newRequestQueue(getApplicationContext()).add(postRequest);
 
-        if (card.validateCard()) {
-            new Stripe().createToken(
-                    card,
-                    PUBLISHABLE_KEY,
-                    new TokenCallback() {
-                        public void onSuccess(Token token) {
-                            Log.d("PaymentActivity", token.getId());
-                            final String token_id = token.getId();
-                            StringRequest postRequest = new StringRequest(Request.Method.POST,
-                                    Constants.URLS.PAYMENT.string, new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_LONG).show();
-                                    progress.dismiss();
-                                }
-                            },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_LONG).show();
-                                        progress.dismiss();
-                                    }
-                                }
-                            ) {
-                                @Override
-                                protected Map<String, String> getParams() {
-                                    Map<String, String> paramsMap = new HashMap<String, String>();
-                                    paramsMap.put(Constants.STRIPE_TOKEN, token_id);
-                                    paramsMap.put("hours_worked", hoursWorked.getText().toString());
-                                    paramsMap.put("worker_id", workerId.getText().toString());
-                                    return paramsMap;
-                                }
-
-                                @Override
-                                public Map<String, String> getHeaders() throws AuthFailureError {
-                                    Map<String, String> params = new HashMap<>();
-                                    params.put("Authorization", "Token " +
-                                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.AUTH_TOKEN, "noTokenFound"));
-                                    return params;
-                                }
-                            };
-                            Volley.newRequestQueue(getApplicationContext()).add(postRequest);
-
-                        }
-
-                        public void onError(Exception error) {
-                            Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-        } else if (!card.validateNumber()) {
-            Toast.makeText(getApplicationContext(), "Invalid card number. Please try again", Toast.LENGTH_LONG).show();
-        } else if (!card.validateExpiryDate()) {
-            Toast.makeText(getApplicationContext(), "Invalid expiry date. Please try again", Toast.LENGTH_LONG).show();
-        } else if (!card.validateCVC()) {
-            Toast.makeText(getApplicationContext(), "Invalid cvc. Please try again", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Invalid card. Please try with another", Toast.LENGTH_LONG).show();
-        }
     }
 
     private void rateLabourer() {
@@ -197,36 +193,5 @@ public class PaymentActivity extends AppCompatActivity {
             }
         };
         Volley.newRequestQueue(getApplicationContext()).add(putRequest);
-    }
-
-    private int monthToInt(String month) {
-        switch (month) {
-            case "January":
-                return 1;
-            case "February":
-                return 2;
-            case "March":
-                return 3;
-            case "April":
-                return 4;
-            case "May":
-                return 5;
-            case "June":
-                return 6;
-            case "July":
-                return 7;
-            case "August":
-                return 8;
-            case "September":
-                return 9;
-            case "October":
-                return 10;
-            case "November":
-                return 11;
-            case "December":
-                return 12;
-            default:
-                return 0;
-        }
     }
 }

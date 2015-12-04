@@ -1,118 +1,217 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/teal"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/teal"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        >
+        android:id="@+id/top_level_layout"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_width="0px"
-            android:layout_height="0px"
-            android:id="@+id/linearLayout"
-            android:orientation="horizontal"/>
-
-        <EditText
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:hint="First Name"
-            android:ems="10"
-            android:id="@+id/edit_first_name"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:hint="Last Name"
-            android:ems="10"
-            android:id="@+id/edit_last_name"
-            android:layout_below="@id/edit_first_name"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:hint="Company Name"
-            android:ems="10"
-            android:id="@+id/edit_company_name"
-            android:layout_below="@id/edit_last_name"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:hint="Email"
-            android:ems="10"
-            android:id="@+id/edit_email"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/edit_company_name"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:ems="10"
-            android:id="@+id/edit_password"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/edit_email"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Confirm Password"
-            android:ems="10"
-            android:id="@+id/confirm_password"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/edit_password"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:hint="Mobile Number"
-            android:ems="10"
-            android:id="@+id/edit_phone_number"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/confirm_password"
-            android:layout_alignParentStart="true" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/button_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:backgroundTint="@color/yellow"
-            android:background="@drawable/checkmark"
-            android:layout_below="@+id/edit_phone_number"
-            android:layout_alignParentEnd="true"
-            android:onClick="registerUser"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/darkTeal"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             />
 
-    </RelativeLayout>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            >
 
+            <TextView
+                android:id="@+id/intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="We just need some quick details and then we can find you the ideal worker"
+                android:textAlignment="center"
+                android:textSize="26sp"
+                android:textColor="@color/darkTeal"
+                android:layout_marginBottom="10dp"
+                />
+
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:id="@+id/linearLayout"
+                android:orientation="horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="First Name"
+                android:textColorHint="@color/lightTeal"
+                android:ems="10"
+                android:textSize="26sp"
+                android:id="@+id/edit_first_name"
+                android:layout_below="@id/intro"
+                android:layout_toEndOf="@id/linearLayout" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="Last Name"
+                android:ems="10"
+                android:textSize="26sp"
+                android:textColorHint="@color/lightTeal"
+                android:id="@+id/edit_last_name"
+                android:layout_below="@id/edit_first_name"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="Company Name"
+                android:textColorHint="@color/lightTeal"
+                android:ems="10"
+                android:textSize="26sp"
+                android:id="@+id/edit_company_name"
+                android:layout_below="@id/edit_last_name"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Email"
+                android:textColorHint="@color/lightTeal"
+                android:ems="10"
+                android:textSize="26sp"
+                android:id="@+id/edit_email"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/edit_company_name"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:textColorHint="@color/lightTeal"
+                android:ems="10"
+                android:textSize="26sp"
+                android:id="@+id/edit_password"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/edit_email"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Confirm Password"
+                android:ems="10"
+                android:textSize="26sp"
+                android:id="@+id/confirm_password"
+                android:textColorHint="@color/lightTeal"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/edit_password"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="Mobile Number"
+                android:ems="10"
+                android:textSize="26sp"
+                android:id="@+id/edit_phone_number"
+                android:textColorHint="@color/lightTeal"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/confirm_password"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:id="@+id/number"
+                android:layout_height="44dp"
+                android:layout_width="319dp"
+                android:nextFocusDown="@+id/expMonth"
+                android:nextFocusRight="@+id/expMonth"
+                android:nextFocusForward="@+id/expMonth"
+                android:layout_marginTop="20dp"
+                android:textSize="26sp"
+                android:inputType="number"
+                android:textColorHint="@color/lightTeal"
+                android:drawableStart="@drawable/creditcard"
+                android:drawablePadding="10dp"
+                android:hint="Card Number"
+                android:background="@null"
+                android:layout_below="@id/edit_phone_number"
+                />
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:hint="CVC"
+                android:background="@null"
+                android:textColorHint="@color/lightTeal"
+                android:textSize="26sp"
+                android:id="@+id/cvc"
+                android:inputType="number"
+                android:layout_above="@+id/button_register"
+                android:layout_alignStart="@+id/stripe_image" />
+
+            <Spinner
+                android:layout_height="44dp"
+                android:layout_width="110dp"
+                android:id="@+id/expYear"
+                android:nextFocusForward="@+id/cvc"
+                android:layout_below="@+id/number"
+                android:layout_marginTop="10dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:layout_centerHorizontal="true" />
+
+            <Spinner
+                android:layout_height="44dp"
+                android:layout_width="110dp"
+                android:id="@+id/expMonth"
+                android:nextFocusForward="@+id/expYear"
+                android:layout_below="@+id/number"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentStart="true"
+                android:background="@android:drawable/btn_dropdown"
+                android:layout_toStartOf="@+id/expYear" />
+
+            <Button
+                android:id="@+id/button_register"
+                android:layout_width="210dp"
+                android:layout_height="44dp"
+                android:text="Find a worker"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_below="@id/expMonth"
+                android:textColor="@color/md_white_1000"
+                android:background="@drawable/outline_rectangle_teal"
+                android:layout_marginTop="20dp"
+                android:onClick="registerUser" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="poweredByStripe"
+                android:src="@drawable/stripe"
+                android:layout_marginStart="10dp"
+                android:layout_alignBottom="@+id/button_register"
+                android:layout_toEndOf="@+id/button_register"
+                android:id="@+id/stripe_image" />
+
+        </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

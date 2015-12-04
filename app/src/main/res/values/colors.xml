@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="teal">#4DB6AC</color>
+    <color name="teal">#26A69A</color>
     <color name="yellow">#FFFF00</color>
     <color name="darkTeal">#00897B</color>
     <color name="grey">#E0E0E0</color>
+    <color name="dark">#00695C</color>
+    <color name="lightTeal">#80CBC4</color>
 </resources>

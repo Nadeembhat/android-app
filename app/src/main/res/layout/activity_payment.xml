@@ -1,131 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/teal"
-    tools:context="com.labourtoday.androidapp.contractor.PaymentActivity">
+    android:layout_height="wrap_content"
+    android:id="@+id/top_level_layout"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_width="0px"
-        android:layout_height="0px"
-        android:id="@+id/linearLayout"
-        android:orientation="horizontal"/>
-
-    <EditText
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="Enter Worker ID"
-        android:id="@+id/edit_worker_id"
-        android:layout_marginTop="20dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/darkTeal"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rating"
-        android:text="Worker Rating"
-        android:textColor="#ffffff"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:layout_below="@id/edit_worker_id"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="15dp"/>
-
-
-    <RatingBar
-        android:id="@+id/rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="5"
-        android:stepSize="1.0"
-        android:layout_below="@+id/rating"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:id="@+id/number"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:nextFocusDown="@+id/expMonth"
-        android:nextFocusRight="@+id/expMonth"
-        android:nextFocusForward="@+id/expMonth"
-        android:layout_marginTop="40dp"
-        android:textSize="30sp"
-        android:inputType="number"
-        android:background="#ffffff"
-        android:hint="Credit Card Number"
-        android:layout_below="@id/rating_bar"
-        />
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.labourtoday.androidapp.contractor.PaymentActivity">
 
-    <EditText
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:hint="CVC"
-        android:id="@+id/cvc"
-        android:layout_below="@+id/number"
-        android:background="#ffffff"
-        android:layout_alignEnd="@+id/number"
-        android:layout_alignBottom="@+id/expYear"
-        android:layout_toEndOf="@+id/expYear"
-        android:inputType="number"
-        android:textSize="25sp" />
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:id="@+id/linearLayout"
+            android:orientation="horizontal"/>
 
-    <Spinner
-        android:layout_height="30dp"
-        android:layout_width="89dp"
-        android:id="@+id/expYear"
-        android:nextFocusForward="@+id/cvc"
-        android:background="#ffffff"
-        android:layout_below="@+id/number"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Worker ID #"
+            android:textColor="@color/darkTeal"
+            android:textSize="24sp"
+            android:id="@+id/text_worker_id"
+            android:layout_marginTop="20dp" />
 
-    <Spinner
-        android:layout_height="30dp"
-        android:layout_width="91dp"
-        android:id="@+id/expMonth"
-        android:nextFocusForward="@+id/expYear"
-        android:background="#ffffff"
-        android:layout_below="@+id/number"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/expYear" />
+        <EditText
+            android:layout_width="100dp"
+            android:layout_height="44dp"
+            android:inputType="number"
+            android:textSize="24sp"
+            android:textAlignment="textEnd"
+            android:hint=""
+            android:id="@+id/edit_worker_id"
+            android:layout_alignBottom="@+id/text_worker_id"
+            android:layout_alignParentEnd="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pay"
-        android:id="@+id/pay_button"
-        android:textColor="@color/md_white_1000"
-        android:background="@drawable/outline_rectangle"
-        android:layout_below="@+id/cvc"
-        android:layout_marginTop="114dp"
-        android:textSize="30sp"
-        android:onClick="pay"
-        android:layout_alignEnd="@+id/edit_hours_worked"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/edit_hours_worked"
-        android:background="#ffffff"
-        android:hint="Hours worked"
-        android:textSize="30sp"
-        android:layout_below="@+id/expMonth"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
-        android:layout_alignEnd="@id/cvc" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rating"
+            android:text="Worker Rating"
+            android:textColor="@color/darkTeal"
+            android:textSize="24sp"
+            android:layout_below="@id/edit_worker_id"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"/>
 
 
-</RelativeLayout>
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1.0"
+            android:layout_below="@+id/rating"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hours worked"
+            android:textColor="@color/darkTeal"
+            android:textSize="24sp"
+            android:id="@+id/text_worker_hours"
+            android:layout_below="@id/rating_bar"
+            android:layout_marginTop="20dp" />
+
+        <EditText
+            android:layout_width="100dp"
+            android:layout_height="44dp"
+            android:inputType="numberDecimal"
+            android:id="@+id/edit_hours_worked"
+            android:hint=""
+            android:textAlignment="textEnd"
+            android:textSize="24sp"
+            android:layout_alignBottom="@+id/text_worker_hours"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hourly Wage"
+            android:textColor="@color/darkTeal"
+            android:textSize="24sp"
+            android:id="@+id/text_wage"
+            android:layout_below="@id/text_worker_hours"
+            android:layout_marginTop="20dp" />
+
+        <EditText
+            android:layout_width="100dp"
+            android:layout_height="44dp"
+            android:inputType="number"
+            android:id="@+id/edit_wage"
+            android:hint=""
+            android:textAlignment="textEnd"
+            android:textSize="24sp"
+            android:layout_alignBottom="@+id/text_wage"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="320dp"
+            android:layout_height="60dp"
+            android:text="Pay"
+            android:id="@+id/pay_button"
+            android:textColor="@color/md_white_1000"
+            android:background="@drawable/outline_rectangle_teal"
+            android:textSize="30sp"
+            android:onClick="pay"
+            android:layout_alignEnd="@+id/edit_hours_worked"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+</LinearLayout>
