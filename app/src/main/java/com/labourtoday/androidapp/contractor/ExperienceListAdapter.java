@@ -79,40 +79,40 @@ public class ExperienceListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         //if (convertView == null) {
             ExperienceListGroup grp = (ExperienceListGroup) getGroup(groupPosition);
-            LayoutInflater infalInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             switch(grp.getName()) {
                 case "General labour":
-                    convertView = infalInflater.inflate(R.layout.exp_gen, null);
+                    convertView = inflater.inflate(R.layout.exp_gen, parent, false);
                     break;
                 case "Carpentry":
-                    convertView = infalInflater.inflate(R.layout.exp_car, null);
+                    convertView = inflater.inflate(R.layout.exp_car, parent, false);
                     break;
                 case "Concrete":
-                    convertView = infalInflater.inflate(R.layout.exp_con, null);
+                    convertView = inflater.inflate(R.layout.exp_con, parent, false);
                     break;
                 case "Dry walling":
-                    convertView = infalInflater.inflate(R.layout.exp_dry, null);
+                    convertView = inflater.inflate(R.layout.exp_dry, parent, false);
                     break;
                 case "Painting":
-                    convertView = infalInflater.inflate(R.layout.exp_paint, null);;
+                    convertView = inflater.inflate(R.layout.exp_paint, parent, false);
                     break;
                 case "Landscaping":
-                    convertView = infalInflater.inflate(R.layout.exp_land, null);
+                    convertView = inflater.inflate(R.layout.exp_land, parent, false);
                     break;
                 case "Machine operating":
-                    convertView = infalInflater.inflate(R.layout.exp_mo, null);
+                    convertView = inflater.inflate(R.layout.exp_mo, parent, false);
                     break;
                 case "Roofing":
-                    convertView = infalInflater.inflate(R.layout.exp_roof, null);;
+                    convertView = inflater.inflate(R.layout.exp_roof, parent, false);
                     break;
                 case "Brick laying":
-                    convertView = infalInflater.inflate(R.layout.exp_brick, null);
+                    convertView = inflater.inflate(R.layout.exp_brick, parent, false);
                     break;
                 case "Electrical":
-                    convertView = infalInflater.inflate(R.layout.exp_elec, null);
+                    convertView = inflater.inflate(R.layout.exp_elec, parent, false);
                     break;
                 case "Plumbing":
-                    convertView = infalInflater.inflate(R.layout.exp_plumb, null);
+                    convertView = inflater.inflate(R.layout.exp_plumb, parent, false);
                     break;
                 default:
                     break;

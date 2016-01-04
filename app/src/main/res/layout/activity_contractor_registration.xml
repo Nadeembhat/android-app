@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white_1000"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -149,24 +150,26 @@
                 android:textSize="26sp"
                 android:inputType="number"
                 android:textColorHint="@color/lightTeal"
-                android:drawableStart="@drawable/creditcard"
+                android:drawableStart="@drawable/cc"
                 android:drawablePadding="10dp"
                 android:hint="Card Number"
-                android:background="@null"
+                android:background="@drawable/outline_rectangle_light"
                 android:layout_below="@id/edit_phone_number"
                 />
 
             <EditText
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_width="89dp"
                 android:hint="CVC"
-                android:background="@null"
+                android:background="@drawable/outline_rectangle_light"
                 android:textColorHint="@color/lightTeal"
                 android:textSize="26sp"
                 android:id="@+id/cvc"
                 android:inputType="number"
-                android:layout_above="@+id/button_register"
-                android:layout_alignStart="@+id/stripe_image" />
+                android:textAlignment="center"
+                android:layout_marginStart="10dp"
+                android:layout_alignTop="@+id/expYear"
+                android:layout_alignEnd="@+id/number" />
 
             <Spinner
                 android:layout_height="44dp"
@@ -174,8 +177,8 @@
                 android:id="@+id/expYear"
                 android:nextFocusForward="@+id/cvc"
                 android:layout_below="@+id/number"
-                android:layout_marginTop="10dp"
-                android:background="@android:drawable/btn_dropdown"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/outline_rectangle_light"
                 android:layout_centerHorizontal="true" />
 
             <Spinner
@@ -184,9 +187,9 @@
                 android:id="@+id/expMonth"
                 android:nextFocusForward="@+id/expYear"
                 android:layout_below="@+id/number"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/outline_rectangle_light"
                 android:layout_alignParentStart="true"
-                android:background="@android:drawable/btn_dropdown"
                 android:layout_toStartOf="@+id/expYear" />
 
             <Button

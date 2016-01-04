@@ -34,11 +34,12 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HiringActivity extends AppCompatActivity {
-    private final int PROFILE = 0;
+    private final int groupPosition = 0;
     private final int LOG_OUT = 1;
 
     private Drawer result;
@@ -50,9 +51,8 @@ public class HiringActivity extends AppCompatActivity {
     private ExperienceListAdapter experienceListAdapter;
     private EditText jobAddr;
 
-    private String genExp, genNum, carExp, carNum, conExp, conNum, dryExp, dryNum,
-            paintingExp, paintingNum, landExp, landNum, moExp, moNum, roofExp, roofNum,
-            brickExp, brickNum, elecExp, elecNum, plumbExp, plumbNum;
+    private String genExp, carExp, conExp, dryExp, paintingExp, landExp, moExp, roofExp,
+            brickExp, elecExp, plumbExp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class HiringActivity extends AppCompatActivity {
                         @Override
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                             switch (position) {
-                                case PROFILE:
+                                case groupPosition:
                                     Intent hireIntent = new Intent(HiringActivity.this, ContractorProfileActivity.class);
                                     startActivity(hireIntent);
                                     return true;
@@ -97,9 +97,8 @@ public class HiringActivity extends AppCompatActivity {
                     }).build();
         }
 
-        genExp = genNum = carExp = carNum = conExp = conNum = dryExp = dryNum =
-                paintingExp = paintingNum = landExp = landNum = moExp = moNum = roofExp = roofNum =
-                brickExp = brickNum = elecExp = elecNum = plumbExp = plumbNum = "0";
+        genExp = carExp = conExp = dryExp = paintingExp = landExp = moExp = roofExp =
+                brickExp = elecExp = plumbExp = "0";
 
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         jobAddr = (EditText) findViewById(R.id.edit_address);
@@ -108,6 +107,7 @@ public class HiringActivity extends AppCompatActivity {
         expListView = (ExpandableListView) findViewById(R.id.list_experiences);
         experienceListAdapter = new ExperienceListAdapter(this, expGroupList);
         expListView.setAdapter(experienceListAdapter);
+
         setListViewHeight(expListView);
 
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -120,11 +120,41 @@ public class HiringActivity extends AppCompatActivity {
 
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
+
             @Override
             public void onGroupExpand(int groupPosition) {
-                if (groupPosition != previousGroup)
+                if (groupPosition != previousGroup) {
                     expListView.collapseGroup(previousGroup);
+                }
+
                 previousGroup = groupPosition;
+                ExperienceListGroup grp = (ExperienceListGroup) experienceListAdapter.getGroup(groupPosition);
+                ExperienceListChild child = (ExperienceListChild) experienceListAdapter.getChild(groupPosition, 0);
+                RadioGroup radioGroup = (RadioGroup) experienceListAdapter.getChildView(groupPosition, 0, true, null, expListView).findViewById(child.getRadioGroup());
+                int x = settings.getInt(grp.getName(), 0);
+                Log.d("OnExpand", Integer.toString(x));
+                radioGroup.check(settings.getInt(grp.getName(), 0));
+
+            }
+        });
+
+
+        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                if (groupPosition > 0) {
+                    ExperienceListGroup grp = (ExperienceListGroup) experienceListAdapter.getGroup(groupPosition);
+                    ExperienceListChild child = (ExperienceListChild) experienceListAdapter.getChild(groupPosition, 0);
+                    RadioGroup radioGrp = (RadioGroup) experienceListAdapter.getChildView(groupPosition, 0, true, null, expListView).findViewById(child.getRadioGroup());
+                    radioGrp.check(R.id.button_six_con);
+                    if (radioGrp == null) {
+                        settings.edit().putInt(grp.getName(), 0);
+                    } else {
+                        int x = radioGrp.getCheckedRadioButtonId();
+                        Log.d("OnCollapse", Integer.toString(x));
+                        settings.edit().putInt(grp.getName(), radioGrp.getCheckedRadioButtonId()).apply();
+                    }
+                }
             }
         });
 
@@ -162,43 +192,21 @@ public class HiringActivity extends AppCompatActivity {
         }
     }
 
-    public String generateJobCode() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Intent i = getIntent();
-        String jobCode = sharedPreferences.getString(Constants.CONTRACTOR, null).substring(0, 4);
-        jobCode += i.getStringExtra("start_date");
-        jobCode += i.getStringExtra("start_time");
-        jobCode = jobCode.replaceAll("\\s+","");
-        sharedPreferences.edit().putString("job_code", jobCode).apply();
-        return jobCode;
-    }
-
     public void requestWorker(View view) {
         setUpRequest();
         if (settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
             Intent i = new Intent(getApplicationContext(), ContractorRegistrationActivity.class);
             i.putExtra("genExp", genExp);
-            i.putExtra("genNum", genNum);
             i.putExtra("carExp", carExp);
-            i.putExtra("carNum", carNum);
             i.putExtra("conExp", conExp);
-            i.putExtra("conNum", conNum);
             i.putExtra("dryExp", dryExp);
-            i.putExtra("dryNum", dryNum);
             i.putExtra("paintingExp", paintingExp);
-            i.putExtra("paintingNum", paintingNum);
             i.putExtra("landExp", landExp);
-            i.putExtra("landNum", landNum);
             i.putExtra("moExp", moExp);
-            i.putExtra("moNum", moNum);
             i.putExtra("roofExp", roofExp);
-            i.putExtra("roofNum", roofNum);
             i.putExtra("brickExp", brickExp);
-            i.putExtra("brickNum", brickNum);
             i.putExtra("elecExp", elecExp);
-            i.putExtra("elecNum", elecNum);
             i.putExtra("plumbExp", plumbExp);
-            i.putExtra("plumbNum", plumbNum);
             startActivity(i);
         } else {
             String url = Constants.URLS.LABOURER_SEARCH.string;
@@ -226,16 +234,23 @@ public class HiringActivity extends AppCompatActivity {
 
                     Intent i = getIntent();
 
-                    //params.put("carpentry", Integer.toString(Arrays.asList(experienceList).indexOf(selectedCarpentry.getText())));
-                    //params.put("concrete_forming", Integer.toString(Arrays.asList(experienceList).indexOf(selectedConcrete.getText())));
-                    params.put("general_labour", Integer.toString(booleanToInt(settings.getBoolean(Constants.GENERAL_LABOUR, false))));
+                    params.put("carpentry", Integer.toString(Arrays.asList(experienceList).indexOf(carExp)));
+                    params.put("concrete_forming", Integer.toString(Arrays.asList(experienceList).indexOf(conExp)));
+                    params.put("general_labour", Integer.toString(Arrays.asList(experienceList).indexOf(genExp)));
+                    params.put("dry_walling", Integer.toString(Arrays.asList(experienceList).indexOf(dryExp)));
+                    params.put("painting", Integer.toString(Arrays.asList(experienceList).indexOf(paintingExp)));
+                    params.put("landscaping", Integer.toString(Arrays.asList(experienceList).indexOf(landExp)));
+                    params.put("machine_operating", Integer.toString(Arrays.asList(experienceList).indexOf(moExp)));
+                    params.put("roofing", Integer.toString(Arrays.asList(experienceList).indexOf(roofExp)));
+                    params.put("brick_laying", Integer.toString(Arrays.asList(experienceList).indexOf(brickExp)));
+                    params.put("electrical", Integer.toString(Arrays.asList(experienceList).indexOf(elecExp)));
+                    params.put("plumbing", Integer.toString(Arrays.asList(experienceList).indexOf(plumbExp)));
+
+                    params.put("start_day", Integer.toString(dayToInt(i.getStringExtra("start_day"))));
                     params.put("start_date", i.getStringExtra("start_date"));
                     params.put("start_time", i.getStringExtra("start_time"));
                     params.put("job_address", jobAddr.getText().toString());
-                    params.put("wage", i.getStringExtra("wage"));
-                    params.put("start_day", Integer.toString(dayToInt(i.getStringExtra("start_day"))));
-                    params.put("job_code", generateJobCode());
-
+                    //params.put("wage", );
                     return params;
                 }
 
@@ -249,13 +264,6 @@ public class HiringActivity extends AppCompatActivity {
             };
             Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
         }
-    }
-
-    private int booleanToInt(boolean generalLabour) {
-        if (generalLabour)
-            return 1;
-        else
-            return 0;
     }
 
     private int dayToInt(String day) {
@@ -290,47 +298,36 @@ public class HiringActivity extends AppCompatActivity {
             ExperienceListChild child = new ExperienceListChild();
             switch(exp) {
                 case "General labour":
-                    child.setNumberPicker(R.id.edit_gen_num);
                     child.setRadioGroup(R.id.gen_radio_group);
                     break;
                 case "Carpentry":
-                    child.setNumberPicker(R.id.edit_car_num);
                     child.setRadioGroup(R.id.car_radio_group);
                     break;
                 case "Concrete":
-                    child.setNumberPicker(R.id.edit_con_num);
                     child.setRadioGroup(R.id.con_radio_group);
                     break;
                 case "Dry walling":
-                    child.setNumberPicker(R.id.edit_dry_num);
                     child.setRadioGroup(R.id.dry_radio_group);
                     break;
                 case "Painting":
-                    child.setNumberPicker(R.id.edit_paint_num);
                     child.setRadioGroup(R.id.paint_radio_group);
                     break;
                 case "Landscaping":
-                    child.setNumberPicker(R.id.edit_land_num);
                     child.setRadioGroup(R.id.land_radio_group);
                     break;
                 case "Machine operating":
-                    child.setNumberPicker(R.id.edit_mo_num);
                     child.setRadioGroup(R.id.mo_radio_group);
                     break;
                 case "Roofing":
-                    child.setNumberPicker(R.id.edit_roof_num);
                     child.setRadioGroup(R.id.roof_radio_group);
                     break;
                 case "Brick laying":
-                    child.setNumberPicker(R.id.edit_brick_num);
                     child.setRadioGroup(R.id.brick_radio_group);
                     break;
                 case "Electrical":
-                    child.setNumberPicker(R.id.edit_elec_num);
                     child.setRadioGroup(R.id.elec_radio_group);
                     break;
                 case "Plumbing":
-                    child.setNumberPicker(R.id.edit_plumb_num);
                     child.setRadioGroup(R.id.plumb_radio_group);
                     break;
                 default:
@@ -346,72 +343,50 @@ public class HiringActivity extends AppCompatActivity {
             ExperienceListChild child = (ExperienceListChild) experienceListAdapter.getChild(i, 0);
             RadioGroup radioGrp = (RadioGroup) findViewById(child.getRadioGroup());
             RadioButton selectedExp;
-            EditText numWorkers;
-            String num;
+
             try {
                 selectedExp = (RadioButton) findViewById(radioGrp.getCheckedRadioButtonId());
             } catch (NullPointerException e) {
                 continue;
             }
-            try {
-                numWorkers = (EditText) findViewById(child.getNumberPicker());
-                num = numWorkers.getText().toString();
-            } catch (NullPointerException e) {
-                continue;
-            }
+
             switch (i) {
                 case 0:
-                    genNum = num;
                     genExp = selectedExp.getText().toString();
                     break;
                 case 1:
-                    carNum = numWorkers.getText().toString();
                     carExp = selectedExp.getText().toString();
                     break;
                 case 2:
-                    conNum = numWorkers.getText().toString();
                     conExp = selectedExp.getText().toString();
                     break;
                 case 3:
-                    dryNum = numWorkers.getText().toString();
                     dryExp = selectedExp.getText().toString();
                     break;
                 case 4:
-                    paintingNum = numWorkers.getText().toString();
                     paintingExp = selectedExp.getText().toString();
                     break;
                 case 5:
-                    landNum = numWorkers.getText().toString();
                     landExp = selectedExp.getText().toString();
                     break;
                 case 6:
-                    moNum = numWorkers.getText().toString();
                     moExp = selectedExp.getText().toString();
                     break;
                 case 7:
-                    roofNum = numWorkers.getText().toString();
                     roofExp = selectedExp.getText().toString();
                     break;
                 case 8:
-                    brickNum = numWorkers.getText().toString();
                     brickExp = selectedExp.getText().toString();
                     break;
                 case 9:
-                    elecNum = numWorkers.getText().toString();
                     elecExp = selectedExp.getText().toString();
                     break;
                 case 10:
-                    plumbNum = numWorkers.getText().toString();
                     plumbExp = selectedExp.getText().toString();
                 default:
                     break;
             }
         }
-        Log.d("TESTING GENERAL LABOUR", genExp);
-        Log.d("TESTING GENERAL LABOUR", genNum);
-
-        Log.d("TESTING BRICK", brickExp);
-        Log.d("TESTING BRICK", brickNum);
     }
 
     private void setListViewHeight(ListView listView) {
@@ -429,6 +404,7 @@ public class HiringActivity extends AppCompatActivity {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
 
     private void setListViewHeight(ExpandableListView listView, int group) {
         ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
@@ -455,12 +431,14 @@ public class HiringActivity extends AppCompatActivity {
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
         if (height < 10)
             height = 200;
         params.height = height;
         listView.setLayoutParams(params);
         listView.requestLayout();
+
     }
 
 }

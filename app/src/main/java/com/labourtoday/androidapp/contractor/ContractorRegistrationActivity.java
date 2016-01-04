@@ -85,9 +85,10 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         cvc = (EditText) findViewById(R.id.cvc);
         cardNumber = (EditText) findViewById(R.id.number);
 
-        ArrayAdapter<String> monthsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, months);
-        ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
-
+        ArrayAdapter<String> monthsAdapter = new ArrayAdapter<>(this, R.layout.spinner_custom, months);
+        ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(this, R.layout.spinner_custom, years);
+        monthsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(monthsAdapter);
         yearSpinner.setAdapter(yearsAdapter);
 
