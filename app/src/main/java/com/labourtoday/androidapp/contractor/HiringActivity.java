@@ -62,7 +62,7 @@ public class HiringActivity extends AppCompatActivity {
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Labour Today");
+        setTitle("Worker details");
 
         if (!settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
             result = new DrawerBuilder()
@@ -100,7 +100,6 @@ public class HiringActivity extends AppCompatActivity {
         genExp = carExp = conExp = dryExp = paintingExp = landExp = moExp = roofExp =
                 brickExp = elecExp = plumbExp = "0";
 
-        settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         jobAddr = (EditText) findViewById(R.id.edit_address);
         setGroups();
 

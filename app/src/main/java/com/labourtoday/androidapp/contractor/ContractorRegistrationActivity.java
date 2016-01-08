@@ -35,6 +35,7 @@ import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,8 +57,9 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
 
     private String[] months = new String[]{"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
-    private String[] years = new String[]{"2015", "2016", "2017", "2018", "2019", "2020", "2021",
+    private String[] years = new String[]{"2016", "2017", "2018", "2019", "2020", "2021",
             "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032"};
+    String[] experienceList = new String[]{"No", "> 3 months experience (20/hr)", "> 6 months experience (22/hr)", "> 1 year experience (26/hr)", "Red seal (30/hr)"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,13 +175,7 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
                                 // Automatic login after registration using registered username and password
-                                Intent loginIntent = new Intent(ContractorRegistrationActivity.this, ContractorLoginActivity.class);
-                                loginIntent.setAction(Constants.ACTION_LOGIN);
-                                loginIntent.putExtra("username", username_input);
-                                loginIntent.putExtra(Constants.PASSWORD, password_input);
-                                progress.dismiss();
-                                startActivity(loginIntent);
-                                finish();
+                                requestWorker();
                             }
                         },
                         new Response.ErrorListener() {
@@ -296,5 +292,131 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                 return 0;
         }
     }
+
+    public void requestWorker() {
+        String url = Constants.URLS.LABOURER_SEARCH.string;
+        StringRequest workerRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Toast.makeText(getApplicationContext(), "Worker requested. We will get back to you soon.", Toast.LENGTH_LONG).show();
+                        progress.dismiss();
+                        Intent loginIntent = new Intent(ContractorRegistrationActivity.this, ContractorLoginActivity.class);
+                        loginIntent.setAction(Constants.ACTION_LOGIN);
+                        loginIntent.putExtra("username", username.getText().toString());
+                        loginIntent.putExtra(Constants.PASSWORD, password.getText().toString());
+                        startActivity(loginIntent);
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "There are no workers available at the moment. Please try again soon.",
+                                Toast.LENGTH_LONG).show();
+                        progress.dismiss();
+                        Intent loginIntent = new Intent(ContractorRegistrationActivity.this, ContractorLoginActivity.class);
+                        loginIntent.setAction(Constants.ACTION_LOGIN);
+                        loginIntent.putExtra("username", username.getText().toString());
+                        loginIntent.putExtra(Constants.PASSWORD, password.getText().toString());
+                        startActivity(loginIntent);
+                        finish();
+                    }
+                }
+        )
+        {
+            @Override
+            //Create the body of the request
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                Intent i = getIntent();
+
+                params.put(workerTypeRequestFormat(i.getStringExtra("workerType")), Integer.toString(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp"))));
+                params.put("start_day", Integer.toString(dayToInt(i.getStringExtra("start_day"))));
+                params.put("start_date", i.getStringExtra("start_date"));
+                params.put("start_time", i.getStringExtra("start_time"));
+                params.put("job_address", i.getStringExtra("job_address"));
+                params.put("hat", i.getStringExtra("hat"));
+                params.put("vest", i.getStringExtra("vest"));
+                params.put("tool", i.getStringExtra("tool"));
+                params.put("wage", Integer.toString(calculateWage(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp")))));
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String>  params = new HashMap<>();
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                params.put("Authorization", "Token " + settings.getString(Constants.AUTH_TOKEN, "noToken"));
+                return params;
+            }
+        };
+        Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
+    }
+
+    private int dayToInt(String day) {
+        switch (day) {
+            case "Monday":
+                return 1;
+            case "Tuesday":
+                return 2;
+            case "Wednesday":
+                return 3;
+            case "Thursday":
+                return 4;
+            case "Friday":
+                return 5;
+            case "Saturday":
+                return 6;
+            case "Sunday":
+                return 7;
+            default:
+                return 0;
+        }
+    }
+
+    private String workerTypeRequestFormat(String workerType) {
+        switch (workerType) {
+            case "General Labour":
+                return "general_labour";
+            case "Carpenter":
+                return "carpentry";
+            case "Concrete":
+                return "concrete_forming";
+            case "Drywaller":
+                return "dry_walling";
+            case "Painter":
+                return "painting";
+            case "Landscaper":
+                return "landscaping";
+            case "Machine Operator":
+                return "machine_operating";
+            case "Roofer":
+                return "roofing";
+            case "Plumber":
+                return "plumbing";
+            case "Electrician":
+                return "electrical";
+            default:
+                return "";
+        }
+    }
+
+    private int calculateWage(int index) {
+        Intent i = getIntent();
+        switch (index) {
+            case 1:
+                return 20;
+            case 2:
+                return 22;
+            case 3:
+                return 26;
+            default:
+                return 0;
+
+        }
+    }
+
 }
 

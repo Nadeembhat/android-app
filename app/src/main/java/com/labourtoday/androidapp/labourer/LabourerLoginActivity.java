@@ -1,6 +1,7 @@
 package com.labourtoday.androidapp.labourer;
 
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -43,6 +45,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
 
     private String registrationId = Constants.NO_DEVICE; //If regular login (not from RegistrationActivity), used to check if user is on a different device. No device by default
     private BroadcastReceiver tokenBroadCastReceiver;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,9 @@ public class LabourerLoginActivity extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.edit_email);
         password = (EditText) findViewById(R.id.edit_password);
+
+        progress = new ProgressDialog(LabourerLoginActivity.this);
+        progress.setMessage("We are getting everything set up...");
 
         Intent intent = getIntent();
         // If LoginActivity was started from RegistrationActivity, retrieve passed username/password to login automatically
@@ -124,7 +130,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
                                 editor.putString(Constants.LAST_LOGIN, Constants.LABOURER);
                                 editor.apply();
 
-                                Intent homeIntent = new Intent(getApplicationContext(), LabourerProfileActivity.class); //Prepare intent to go to Home Screen
+                                Intent homeIntent = new Intent(getApplicationContext(), LabourerGridActivity.class); //Prepare intent to go to Home Screen
 
                                 /*On regular login (not from registration), need to update device ID on server*/
                                 if (update) {
@@ -132,6 +138,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
                                 }
                                 /*Arrived here from RegistrationActivity, no need to update device id*/
                                 else {
+                                    updateAvailability();
                                     startActivity(homeIntent);
                                     finish();
                                 }
@@ -248,5 +255,59 @@ public class LabourerLoginActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void updateAvailability() {
+        String url = Constants.URLS.LABOURER_DETAIL.string;
+        progress.show();
+        StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progress.dismiss();
+                        Intent homeIntent = new Intent(getApplicationContext(), LabourerGridActivity.class);
+                        startActivity(homeIntent);
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progress.dismiss();
+                    }
+                }
+        )
+        {
+            @Override
+            //Create the body of the request
+            protected Map<String, String> getParams() {
+                Map<String, String>  params = new HashMap<>();
+                Intent prev = getIntent();
+                params.put(Constants.AVAILABILITY, prev.getStringExtra(Constants.AVAILABILITY));
+                params.put("general_labour", prev.getStringExtra("general_labour"));
+                params.put("carpentry", prev.getStringExtra("carpentry"));
+                params.put("concrete", prev.getStringExtra("concrete"));
+                params.put("landscaping", prev.getStringExtra("landscaping"));
+                params.put("painting", prev.getStringExtra("painting"));
+                params.put("drywalling", prev.getStringExtra("drywalling"));
+                params.put("roofing", prev.getStringExtra("roofing"));
+                params.put("machine_operation", prev.getStringExtra("machine_operation"));
+                params.put("plumbing", prev.getStringExtra("plumbing"));
+                params.put("electrical", prev.getStringExtra("electrical"));
+                params.put("hat", prev.getStringExtra("hat"));
+                params.put("vest", prev.getStringExtra("vest"));
+                params.put("tool", prev.getStringExtra("tool"));
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Token " +
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.AUTH_TOKEN, "noTokenFound"));
+                return params;
+            }
+        };
+        Volley.newRequestQueue(getApplicationContext()).add(putRequest);
     }
 }

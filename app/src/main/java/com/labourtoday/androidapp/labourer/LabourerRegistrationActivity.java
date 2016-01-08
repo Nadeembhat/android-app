@@ -95,8 +95,23 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
                                 // Automatic login after registration using registered username and password
                                 Intent loginIntent = new Intent(LabourerRegistrationActivity.this, LabourerLoginActivity.class);
                                 loginIntent.setAction(Constants.ACTION_LOGIN);
-                                loginIntent.putExtra(Constants.USERNAME, username_input);
-                                loginIntent.putExtra(Constants.PASSWORD, password_input);
+                                loginIntent.putExtra(Constants.USERNAME, username.getText().toString());
+                                loginIntent.putExtra(Constants.PASSWORD, password.getText().toString());
+                                Intent prev = getIntent();
+                                loginIntent.putExtra(Constants.AVAILABILITY, prev.getStringExtra(Constants.AVAILABILITY));
+                                loginIntent.putExtra("general_labour", prev.getStringExtra("general_labour"));
+                                loginIntent.putExtra("carpentry", prev.getStringExtra("carpentry"));
+                                loginIntent.putExtra("concrete", prev.getStringExtra("concrete"));
+                                loginIntent.putExtra("landscaping", prev.getStringExtra("landscaping"));
+                                loginIntent.putExtra("painting", prev.getStringExtra("painting"));
+                                loginIntent.putExtra("drywalling", prev.getStringExtra("drywalling"));
+                                loginIntent.putExtra("roofing", prev.getStringExtra("roofing"));
+                                loginIntent.putExtra("machine_operation", prev.getStringExtra("machine_operation"));
+                                loginIntent.putExtra("plumbing", prev.getStringExtra("plumbing"));
+                                loginIntent.putExtra("electrical", prev.getStringExtra("electrical"));
+                                loginIntent.putExtra("hat", prev.getStringExtra("hat"));
+                                loginIntent.putExtra("vest", prev.getStringExtra("vest"));
+                                loginIntent.putExtra("tool", prev.getStringExtra("tool"));
                                 progress.dismiss();
                                 startActivity(loginIntent);
                                 finish();

@@ -21,11 +21,25 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="When do you need the worker?"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text1"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/toolbar"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"/>
+
         <LinearLayout
+            android:id="@+id/datetime"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@id/toolbar"
+            android:layout_below="@id/text1"
             >
 
             <DatePicker
@@ -41,18 +55,114 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:layout_width="242dp"
-                android:layout_height="44dp"
-                android:text="Next"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:textColor="@color/md_white_1000"
-                android:background="@drawable/outline_rectangle_teal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="16dp"
-                android:id="@+id/next" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What is the address of the job?"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text2"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/datetime"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/edit_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Job address"
+            android:singleLine="true"
+            android:textColorHint="@color/lightTeal"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/text2"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What do you require the worker to have?"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text3"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/edit_address"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/checkboxes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text3"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            >
+
+            <RadioButton
+                android:id="@+id/button_hat"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableEnd="@drawable/radio_selector"
+                android:text="Hard hat"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="15dp"
+                />
+
+            <RadioButton
+                android:id="@+id/button_vest"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableEnd="@drawable/radio_selector"
+                android:text="Safety vest"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="15dp"
+                />
+
+            <RadioButton
+                android:id="@+id/button_tool"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableEnd="@drawable/radio_selector"
+                android:text="Tool belt and basic tools"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="15dp"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="242dp"
+            android:layout_height="44dp"
+            android:text="Next"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/md_white_1000"
+            android:layout_below="@id/checkboxes"
+            android:background="@drawable/outline_rectangle_teal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/next" />
     </RelativeLayout>
 
 </ScrollView>

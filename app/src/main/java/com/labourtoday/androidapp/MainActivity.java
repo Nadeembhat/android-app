@@ -10,17 +10,19 @@ import android.widget.Toast;
 
 import com.labourtoday.androidapp.contractor.ContractorLoginActivity;
 import com.labourtoday.androidapp.contractor.ContractorMainActivity;
+import com.labourtoday.androidapp.labourer.LabourerGridActivity;
 
 public class MainActivity extends AppCompatActivity {
     private int backButtonCount;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (!settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
-            startActivity(new Intent(this, ContractorMainActivity.class));
+        settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (settings.getString(Constants.LAST_LOGIN, null) == null) {
+            settings.edit().putString(Constants.LAST_LOGIN, "").apply();
         }
     }
 
@@ -40,12 +42,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Handler for the find work button.
+     * @param view
+     *          Reference to the button
+     */
+    public void launchLabourerMain(View view) {
+        if (settings.getString(Constants.LAST_LOGIN, "").equals(Constants.LABOURER)) {
+            startActivity(new Intent(this, LabourerGridActivity.class));
+        } else {
+            startActivity(new Intent(this, LabourerGridActivity.class));
+        }
+    }
+
+    /**
      * Handler for the login button
      * @param view
      *          Reference to the button
      */
     public void launchContractorLogin(View view) {
-        startActivity(new Intent(this, ContractorLoginActivity.class));
+        if (settings.getString(Constants.LAST_LOGIN, "").equals(Constants.CONTRACTOR)) {
+            startActivity(new Intent(this, ContractorMainActivity.class));
+        } else {
+            startActivity(new Intent(this, ContractorLoginActivity.class));
+        }
     }
 
 

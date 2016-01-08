@@ -96,6 +96,12 @@
         </activity>
         <activity android:name=".contractor.ContractorMainActivity" >
         </activity>
+        <activity android:name=".contractor.HiringGridActivity" >
+        </activity>
+        <activity android:name=".contractor.RadioGroupActivity" >
+        </activity>
+        <activity android:name=".labourer.LabourerGridActivity" >
+        </activity>
     </application>
 
 </manifest>

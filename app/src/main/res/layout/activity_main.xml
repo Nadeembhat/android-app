@@ -46,6 +46,19 @@
         android:id="@+id/button_hire"
         android:textSize="20sp"
         android:onClick="launchContractorMain"
+        android:layout_above="@+id/button_job"
+        android:layout_marginBottom="40dp"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="242dp"
+        android:layout_height="44dp"
+        android:text="Find a job"
+        android:textColor="@color/teal"
+        android:background="@drawable/outline_rectangle"
+        android:id="@+id/button_job"
+        android:textSize="20sp"
+        android:onClick="launchLabourerMain"
         android:layout_above="@+id/button_login"
         android:layout_centerHorizontal="true" />
 

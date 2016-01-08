@@ -7,18 +7,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
 import com.labourtoday.androidapp.contractor.ContractorLoginActivity;
@@ -28,13 +22,11 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class LabourerAvailability extends AppCompatActivity {
     private Drawer result;
     private final int PROFILE = 0;
     private final int LOG_OUT = 1;
+    private RadioGroup hat, vest, tool;
     private ProgressDialog progress;
     private Switch mon, tues, wed, thurs, fri, sat, sun, now;
     SharedPreferences sharedPreferences;
@@ -87,6 +79,10 @@ public class LabourerAvailability extends AppCompatActivity {
         sun = (Switch) findViewById(R.id.sun);
         now = (Switch) findViewById(R.id.now);
 
+        hat = (RadioGroup) findViewById(R.id.hat_radio);
+        vest = (RadioGroup) findViewById(R.id.vest_radio);
+        tool = (RadioGroup) findViewById(R.id.tool_radio);
+
         progress = new ProgressDialog(LabourerAvailability.this);
         progress.setMessage("Updating your profile...");
 
@@ -110,6 +106,27 @@ public class LabourerAvailability extends AppCompatActivity {
     }
 
     public void updateAvailability(View v) {
+        Intent prev = getIntent();
+        Intent i = new Intent(LabourerAvailability.this, LabourerRegistrationActivity.class);
+        RadioButton hatButton = (RadioButton) findViewById(hat.getCheckedRadioButtonId());
+        RadioButton vestButton = (RadioButton) findViewById(vest.getCheckedRadioButtonId());
+        RadioButton toolButton = (RadioButton) findViewById(tool.getCheckedRadioButtonId());
+        i.putExtra(Constants.AVAILABILITY, getAvailabilityParam());
+        i.putExtra("general_labour", prev.getStringExtra("general_labour"));
+        i.putExtra("carpentry", prev.getStringExtra("carpentry"));
+        i.putExtra("concrete", prev.getStringExtra("concrete"));
+        i.putExtra("landscaping", prev.getStringExtra("landscaping"));
+        i.putExtra("painting", prev.getStringExtra("painting"));
+        i.putExtra("drywalling", prev.getStringExtra("drywalling"));
+        i.putExtra("roofing", prev.getStringExtra("roofing"));
+        i.putExtra("machine_operation", prev.getStringExtra("machine_operation"));
+        i.putExtra("plumbing", prev.getStringExtra("plumbing"));
+        i.putExtra("electrical", prev.getStringExtra("electrical"));
+        i.putExtra("hat", yesNo(hatButton.getText().toString()));
+        i.putExtra("vest", yesNo(vestButton.getText().toString()));
+        i.putExtra("tool", yesNo(toolButton.getText().toString()));
+        startActivity(i);
+        /*
         String url = Constants.URLS.LABOURER_DETAIL.string;
         progress.show();
         StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
@@ -149,6 +166,7 @@ public class LabourerAvailability extends AppCompatActivity {
             }
         };
         Volley.newRequestQueue(getApplicationContext()).add(putRequest);
+        */
     }
 
     private void autoSaveSwitchState(Switch s, final String day) {
@@ -176,6 +194,14 @@ public class LabourerAvailability extends AppCompatActivity {
             return "T";
         else
             return "F";
+    }
+
+    private String yesNo(String param) {
+        if (param.equals("Yes")) {
+            return "1";
+        } else {
+            return "0";
+        }
     }
 
 

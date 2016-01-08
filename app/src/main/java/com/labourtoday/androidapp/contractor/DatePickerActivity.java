@@ -10,6 +10,8 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TimePicker;
 
 import com.labourtoday.androidapp.Constants;
@@ -26,6 +28,8 @@ public class DatePickerActivity extends AppCompatActivity {
     private TimePicker timePicker;
     private DatePicker datePicker;
     private SharedPreferences settings;
+    private EditText jobAddress;
+    private RadioButton hat, vest, tool;
 
     private final int PROFILE = 0;
     private final int LOG_OUT = 1;
@@ -39,8 +43,7 @@ public class DatePickerActivity extends AppCompatActivity {
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Date & time worker is required");
-        getSupportActionBar().setSubtitle("When do you need your worker?");
+        setTitle("Worker details");
 
         if (!settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
             result = new DrawerBuilder()
@@ -78,19 +81,31 @@ public class DatePickerActivity extends AppCompatActivity {
         Button next = (Button) findViewById(R.id.next);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
         datePicker = (DatePicker) findViewById(R.id.datePicker);
+        jobAddress = (EditText) findViewById(R.id.edit_address);
+        hat = (RadioButton) findViewById(R.id.button_hat);
+        vest = (RadioButton) findViewById(R.id.button_vest);
+        tool = (RadioButton) findViewById(R.id.button_tool);
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String startDate = datePicker.getYear() + " " + datePicker.getMonth() + " " + datePicker.getDayOfMonth();
                 final String startTime = timePicker.getCurrentHour() + " " + timePicker.getCurrentMinute();
-
-                Intent i = new Intent(getApplicationContext(), HiringActivity.class);
-                i.putExtra("start_date", startDate);
-                i.putExtra("start_time", startTime);
-                i.putExtra("start_day", DateFormat.format("EEEE",
-                        new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth())).toString());
-                startActivity(i);
+                Intent i;
+                if (settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
+                    i = new Intent(getApplicationContext(), ContractorRegistrationActivity.class);
+                    i.putExtra("start_date", startDate);
+                    i.putExtra("start_time", startTime);
+                    i.putExtra("start_day", DateFormat.format("EEEE",
+                            new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth())).toString());
+                    i.putExtra("job_address", jobAddress.getText().toString());
+                    i.putExtra("hat", hat.isChecked());
+                    i.putExtra("vest", vest.isChecked());
+                    i.putExtra("tool", tool.isChecked());
+                    i.putExtra("workerExp", i.getStringExtra("workerExp"));
+                    i.putExtra("workerType", i.getStringExtra("workerType"));
+                    startActivity(i);
+                }
                 finish();
             }
         });
@@ -105,6 +120,7 @@ public class DatePickerActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }
 
 

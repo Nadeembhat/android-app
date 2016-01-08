@@ -37,7 +37,7 @@ public class ContractorMainActivity extends AppCompatActivity {
      *          Reference to the button
      */
     public void launchHire(View view) {
-        startActivity(new Intent(this, DatePickerActivity.class));
+        startActivity(new Intent(this, HiringGridActivity.class));
     }
 
     /**

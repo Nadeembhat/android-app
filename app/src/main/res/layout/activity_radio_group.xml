@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/md_white_1000"
+    android:id="@+id/top_level_layout"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/darkTeal"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="50dp"
+        tools:context="com.labourtoday.androidapp.contractor.HiringGridActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What type of worker do you need?"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text1"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text_type_worker"
+            android:layout_below="@id/text1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+        <RadioGroup
+            android:id="@+id/checkboxes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_type_worker"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            >
+
+            <RadioButton
+                android:id="@+id/button_three"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableEnd="@drawable/radio_selector"
+                android:text="> 3 months experience (20/hr)"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="15dp"
+                />
+
+            <RadioButton
+                android:id="@+id/button_six"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableEnd="@drawable/radio_selector"
+                android:text="> 6 months experience (22/hr)"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="15dp"
+                />
+
+            <RadioButton
+                android:id="@+id/button_year"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableEnd="@drawable/radio_selector"
+                android:text="> 1 year experience (26/hr)"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="15dp"
+                />
+
+            <RadioButton
+                android:id="@+id/button_redseal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawablePadding="30dp"
+                android:drawableEnd="@drawable/radio_selector"
+                android:text="Red seal (30/hr)"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="15dp" />
+        </RadioGroup>
+
+        <Button
+            android:layout_width="242dp"
+            android:layout_height="44dp"
+            android:text="Next"
+            android:textColor="@color/md_white_1000"
+            android:background="@drawable/outline_rectangle_teal"
+            android:id="@+id/button_next"
+            android:onClick="next"
+            android:textSize="22sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+</LinearLayout>
+
+
