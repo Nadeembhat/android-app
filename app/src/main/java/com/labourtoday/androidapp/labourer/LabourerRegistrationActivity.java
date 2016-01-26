@@ -120,7 +120,7 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), error.getMessage(),
+                                Toast.makeText(getApplicationContext(), "Error registering. Please try again.",
                                         Toast.LENGTH_LONG).show();
                                 progress.dismiss();
                             }

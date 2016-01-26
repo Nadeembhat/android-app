@@ -29,6 +29,7 @@ import com.labourtoday.androidapp.gcm.TokenRegistrationService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ public class ContractorLoginActivity extends AppCompatActivity {
 
     private String registrationId = Constants.NO_DEVICE; //If regular login (not from RegistrationActivity), used to check if user is on a different device. No device by default
     private BroadcastReceiver tokenBroadCastReceiver;
+    private String[] experienceList = new String[]{"No", "> 3 months experience (20/hr)", "> 6 months experience (22/hr)", "> 1 year experience (26/hr)", "Red seal (30/hr)"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +130,7 @@ public class ContractorLoginActivity extends AppCompatActivity {
                                 }
                                 /*Arrived here from RegistrationActivity, no need to update device id*/
                                 else {
+                                    requestWorker();
                                     startActivity(homeIntent);
                                     finish();
                                 }
@@ -170,7 +173,6 @@ public class ContractorLoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, "Updated device ID" );
                         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(Constants.REGISTRATION_ID, registrationId);
@@ -244,5 +246,89 @@ public class ContractorLoginActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void requestWorker() {
+        String url = Constants.URLS.LABOURER_SEARCH.string;
+        StringRequest workerRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Toast.makeText(getApplicationContext(), "Worker requested. We will get back to you soon.", Toast.LENGTH_LONG).show();
+                        Intent mainIntent = new Intent(ContractorLoginActivity.this, ContractorMainActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "There are no workers available at the moment. Please try again soon.",
+                                Toast.LENGTH_LONG).show();
+                        Intent mainIntent = new Intent(ContractorLoginActivity.this, ContractorMainActivity.class);
+
+                        startActivity(mainIntent);
+                        finish();
+                    }
+                }
+        )
+        {
+            @Override
+            //Create the body of the request
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                Intent i = getIntent();
+
+                params.put(workerTypeRequestFormat(i.getStringExtra("workerType")), Integer.toString(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp"))));
+                params.put("start_day", i.getStringExtra("start_day"));
+                params.put("start_date", i.getStringExtra("start_date"));
+                params.put("start_time", i.getStringExtra("start_time"));
+                params.put("job_address", i.getStringExtra("job_address"));
+                params.put("city", i.getStringExtra("city"));
+                params.put("province", i.getStringExtra("province"));
+                params.put("hat", i.getStringExtra("hat"));
+                params.put("vest", i.getStringExtra("vest"));
+                params.put("tool", i.getStringExtra("tool"));
+                params.put("wage", i.getStringExtra("wage"));
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String>  params = new HashMap<>();
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                params.put("Authorization", "Token " + settings.getString(Constants.AUTH_TOKEN, "noToken"));
+                return params;
+            }
+        };
+        Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
+    }
+
+    private String workerTypeRequestFormat(String workerType) {
+        switch (workerType) {
+            case "General Labour":
+                return "general_labour";
+            case "Carpenter":
+                return "carpentry";
+            case "Concrete":
+                return "concrete_forming";
+            case "Drywaller":
+                return "dry_walling";
+            case "Painter":
+                return "painting";
+            case "Landscaper":
+                return "landscaping";
+            case "Machine Operator":
+                return "machine_operating";
+            case "Roofer":
+                return "roofing";
+            case "Plumber":
+                return "plumbing";
+            case "Electrician":
+                return "electrical";
+            default:
+                return "";
+        }
     }
 }

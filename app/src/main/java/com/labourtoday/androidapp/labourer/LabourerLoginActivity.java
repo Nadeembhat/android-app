@@ -43,7 +43,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
     //Input fields for creating new User
     private EditText username, password;
 
-    private String registrationId = Constants.NO_DEVICE; //If regular login (not from RegistrationActivity), used to check if user is on a different device. No device by default
+    private String registrationId; //If regular login (not from RegistrationActivity), used to check if user is on a different device. No device by default
     private BroadcastReceiver tokenBroadCastReceiver;
     private ProgressDialog progress;
 
@@ -130,13 +130,13 @@ public class LabourerLoginActivity extends AppCompatActivity {
                                 editor.putString(Constants.LAST_LOGIN, Constants.LABOURER);
                                 editor.apply();
 
-                                Intent homeIntent = new Intent(getApplicationContext(), LabourerGridActivity.class); //Prepare intent to go to Home Screen
+                                Intent homeIntent = new Intent(getApplicationContext(), LabourerJobsActivity.class); //Prepare intent to go to Home Screen
 
-                                /*On regular login (not from registration), need to update device ID on server*/
+                                // On regular login (not from registration), need to update device ID on server
                                 if (update) {
                                     updateDeviceID(homeIntent); //Update device ID on server, and start HomeActivity after its successful
                                 }
-                                /*Arrived here from RegistrationActivity, no need to update device id*/
+                                // Arrived here from RegistrationActivity, no need to update device id
                                 else {
                                     updateAvailability();
                                     startActivity(homeIntent);

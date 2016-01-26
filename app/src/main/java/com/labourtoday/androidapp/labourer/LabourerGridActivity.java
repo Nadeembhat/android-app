@@ -17,11 +17,11 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.ExpandableHeightGridView;
 import com.labourtoday.androidapp.R;
-import com.labourtoday.androidapp.contractor.ContractorLoginActivity;
 import com.labourtoday.androidapp.contractor.GridAdapter;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -80,7 +80,7 @@ public class LabourerGridActivity extends AppCompatActivity {
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                             switch (position) {
                                 case groupPosition:
-                                    Intent hireIntent = new Intent(LabourerGridActivity.this, LabourerEditActivity.class);
+                                    Intent hireIntent = new Intent(LabourerGridActivity.this, LabourerProfileActivity.class);
                                     startActivity(hireIntent);
                                     return true;
                                 case LOG_OUT:
@@ -88,7 +88,7 @@ public class LabourerGridActivity extends AppCompatActivity {
                                     settings.edit().remove(Constants.AUTH_TOKEN).apply();
                                     settings.edit().remove(Constants.LAST_LOGIN).apply();
                                     // Return to the welcome page
-                                    Intent welcomeIntent = new Intent(LabourerGridActivity.this, ContractorLoginActivity.class);
+                                    Intent welcomeIntent = new Intent(LabourerGridActivity.this, LabourerLoginActivity.class);
                                     startActivity(welcomeIntent);
                                     finish();
                                     return true;
@@ -117,7 +117,7 @@ public class LabourerGridActivity extends AppCompatActivity {
 
     public void showPopup(final View anchorView) {
 
-        final View popupView = getLayoutInflater().inflate(R.layout.activity_radio_group, null);
+        final View popupView = getLayoutInflater().inflate(R.layout.popup_radio, null);
 
         final PopupWindow popupWindow = new PopupWindow(popupView,
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -133,6 +133,10 @@ public class LabourerGridActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RadioButton radioButton = (RadioButton) popupView.findViewById(radioGroup.getCheckedRadioButtonId());
+                if (radioButton == null) {
+                    Toast.makeText(getApplicationContext(), "Please select your experience level", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 switch (workerType.getText().toString()) {
                     case "General Labour":
                         gen = Integer.toString(Arrays.asList(experienceList).indexOf(radioButton.getText().toString()));
@@ -185,12 +189,12 @@ public class LabourerGridActivity extends AppCompatActivity {
         //anchorView.getLocationOnScreen(location);
 
         // Using location, the PopupWindow will be displayed right under anchorView
-        popupWindow.showAtLocation(gridView, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(gridView, Gravity.CENTER, 0, 15);
 
     }
 
     public void nextLabourer(View view) {
-        Intent i = new Intent(LabourerGridActivity.this, LabourerAvailability.class);
+        Intent i = new Intent(LabourerGridActivity.this, LabourerAvailabilityActivity.class);
         i.putExtra("general_labour", gen);
         i.putExtra("carpentry", carpentry);
         i.putExtra("concrete", concrete);

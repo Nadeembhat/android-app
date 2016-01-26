@@ -14,6 +14,8 @@ public class Constants {
         CONTRACTOR_DETAIL(ROOT.string + "contractor-detail/"),
         TOKEN_AUTH(ROOT.string + "api-token-auth/"),
         LABOURER_SEARCH(ROOT.string + "labourer-search/" ),
+        JOB_LIST(ROOT.string + "job-list/"),
+        LABOURER_RESPONSE(ROOT.string + "labourer-response/"),
         ;
         public final String string;
         URLS(final String text ){
@@ -50,6 +52,11 @@ public class Constants {
     public static String RATING = "rating";
     public static String AVAILABILITY = "available";
 
+    public static String JOB_ADDRESS = "job_address";
+    public static String START_DATE = "start_date";
+    public static String START_TIME = "start_time";
+    public static String JOB_CODE = "job_code";
+    public static String WAGE = "wage";
     public static String CONTRACTOR = "contractor";
     public static String LABOURER = "labourer";
 
@@ -66,4 +73,6 @@ public class Constants {
     public static String CARPENTRY = "carpentry";
     public static String CONCRETE = "concrete";
     public static String GENERAL_LABOUR = "generalLabour";
+
+    public static String UPDATE_LABOURER_JOBS = "updateLabourerJobs";
 }

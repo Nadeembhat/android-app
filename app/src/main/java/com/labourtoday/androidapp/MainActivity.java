@@ -8,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.labourtoday.androidapp.contractor.ContractorLoginActivity;
 import com.labourtoday.androidapp.contractor.ContractorMainActivity;
-import com.labourtoday.androidapp.labourer.LabourerGridActivity;
+import com.labourtoday.androidapp.labourer.LabourerJobsActivity;
+import com.labourtoday.androidapp.labourer.LabourerMainActivity;
 
 public class MainActivity extends AppCompatActivity {
     private int backButtonCount;
@@ -48,22 +48,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void launchLabourerMain(View view) {
         if (settings.getString(Constants.LAST_LOGIN, "").equals(Constants.LABOURER)) {
-            startActivity(new Intent(this, LabourerGridActivity.class));
+            startActivity(new Intent(this, LabourerJobsActivity.class));
         } else {
-            startActivity(new Intent(this, LabourerGridActivity.class));
-        }
-    }
-
-    /**
-     * Handler for the login button
-     * @param view
-     *          Reference to the button
-     */
-    public void launchContractorLogin(View view) {
-        if (settings.getString(Constants.LAST_LOGIN, "").equals(Constants.CONTRACTOR)) {
-            startActivity(new Intent(this, ContractorMainActivity.class));
-        } else {
-            startActivity(new Intent(this, ContractorLoginActivity.class));
+            startActivity(new Intent(this, LabourerMainActivity.class));
         }
     }
 

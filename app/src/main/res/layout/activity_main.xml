@@ -60,19 +60,7 @@
         android:textSize="20sp"
         android:onClick="launchLabourerMain"
         android:layout_above="@+id/button_login"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="242dp"
-        android:layout_height="44dp"
-        android:text="Login"
-        android:textColor="@color/teal"
-        android:background="@drawable/outline_rectangle"
-        android:id="@+id/button_login"
-        android:textSize="20sp"
-        android:onClick="launchContractorLogin"
-        android:layout_marginTop="40dp"
-        android:layout_alignStart="@+id/button_hire"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

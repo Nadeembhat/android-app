@@ -55,8 +55,8 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
     private Spinner yearSpinner;
     private String tokenId;
 
-    private String[] months = new String[]{"January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"};
+    private String[] months = new String[]{"1", "2", "3", "4", "5", "6",
+            "7", "8", "9", "10", "11", "12"};
     private String[] years = new String[]{"2016", "2017", "2018", "2019", "2020", "2021",
             "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032"};
     String[] experienceList = new String[]{"No", "> 3 months experience (20/hr)", "> 6 months experience (22/hr)", "> 1 year experience (26/hr)", "Red seal (30/hr)"};
@@ -116,7 +116,7 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         final String password_confirm = passwordConfirm.getText().toString();
         Card card = new Card(
                 cardNumber.getText().toString(),
-                monthToInt(monthSpinner.getSelectedItem().toString()),
+                Integer.parseInt(monthSpinner.getSelectedItem().toString()),
                 Integer.parseInt(yearSpinner.getSelectedItem().toString()),
                 cvc.getText().toString()
         );
@@ -168,14 +168,32 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString(Constants.REGISTRATION_ID, registrationId);;
                 editor.apply();
-                /* Create the user-list POST request*/
+
                 String url = Constants.URLS.CONTRACTOR_LIST.string;
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 // Automatic login after registration using registered username and password
-                                requestWorker();
+                                Intent loginIntent = new Intent(ContractorRegistrationActivity.this, ContractorLoginActivity.class);
+                                loginIntent.setAction(Constants.ACTION_LOGIN);
+                                loginIntent.putExtra("username", username.getText().toString());
+                                loginIntent.putExtra(Constants.PASSWORD, password.getText().toString());
+                                Intent i = getIntent();
+
+                                loginIntent.putExtra("workerType", Integer.toString(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp"))));
+                                loginIntent.putExtra("start_day", Integer.toString(dayToInt(i.getStringExtra("start_day"))));
+                                loginIntent.putExtra("start_date", i.getStringExtra("start_date"));
+                                loginIntent.putExtra("start_time", i.getStringExtra("start_time"));
+                                loginIntent.putExtra("job_address", i.getStringExtra("job_address"));
+                                loginIntent.putExtra("city", i.getStringExtra("city"));
+                                loginIntent.putExtra("province", i.getStringExtra("province"));
+                                loginIntent.putExtra("hat", i.getStringExtra("hat"));
+                                loginIntent.putExtra("vest", i.getStringExtra("vest"));
+                                loginIntent.putExtra("tool", i.getStringExtra("tool"));
+                                loginIntent.putExtra("wage", Integer.toString(calculateWage(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp")))));
+                                startActivity(loginIntent);
+                                finish();
                             }
                         },
                         new Response.ErrorListener() {
@@ -262,99 +280,6 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         return "+1" + formatted.replaceAll("\\s+", "");
     }
 
-    private int monthToInt(String month) {
-        switch (month) {
-            case "January":
-                return 1;
-            case "February":
-                return 2;
-            case "March":
-                return 3;
-            case "April":
-                return 4;
-            case "May":
-                return 5;
-            case "June":
-                return 6;
-            case "July":
-                return 7;
-            case "August":
-                return 8;
-            case "September":
-                return 9;
-            case "October":
-                return 10;
-            case "November":
-                return 11;
-            case "December":
-                return 12;
-            default:
-                return 0;
-        }
-    }
-
-    public void requestWorker() {
-        String url = Constants.URLS.LABOURER_SEARCH.string;
-        StringRequest workerRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Toast.makeText(getApplicationContext(), "Worker requested. We will get back to you soon.", Toast.LENGTH_LONG).show();
-                        progress.dismiss();
-                        Intent loginIntent = new Intent(ContractorRegistrationActivity.this, ContractorLoginActivity.class);
-                        loginIntent.setAction(Constants.ACTION_LOGIN);
-                        loginIntent.putExtra("username", username.getText().toString());
-                        loginIntent.putExtra(Constants.PASSWORD, password.getText().toString());
-                        startActivity(loginIntent);
-                        finish();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "There are no workers available at the moment. Please try again soon.",
-                                Toast.LENGTH_LONG).show();
-                        progress.dismiss();
-                        Intent loginIntent = new Intent(ContractorRegistrationActivity.this, ContractorLoginActivity.class);
-                        loginIntent.setAction(Constants.ACTION_LOGIN);
-                        loginIntent.putExtra("username", username.getText().toString());
-                        loginIntent.putExtra(Constants.PASSWORD, password.getText().toString());
-                        startActivity(loginIntent);
-                        finish();
-                    }
-                }
-        )
-        {
-            @Override
-            //Create the body of the request
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                Intent i = getIntent();
-
-                params.put(workerTypeRequestFormat(i.getStringExtra("workerType")), Integer.toString(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp"))));
-                params.put("start_day", Integer.toString(dayToInt(i.getStringExtra("start_day"))));
-                params.put("start_date", i.getStringExtra("start_date"));
-                params.put("start_time", i.getStringExtra("start_time"));
-                params.put("job_address", i.getStringExtra("job_address"));
-                params.put("hat", i.getStringExtra("hat"));
-                params.put("vest", i.getStringExtra("vest"));
-                params.put("tool", i.getStringExtra("tool"));
-                params.put("wage", Integer.toString(calculateWage(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp")))));
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String>  params = new HashMap<>();
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                params.put("Authorization", "Token " + settings.getString(Constants.AUTH_TOKEN, "noToken"));
-                return params;
-            }
-        };
-        Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
-    }
-
     private int dayToInt(String day) {
         switch (day) {
             case "Monday":
@@ -373,33 +298,6 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                 return 7;
             default:
                 return 0;
-        }
-    }
-
-    private String workerTypeRequestFormat(String workerType) {
-        switch (workerType) {
-            case "General Labour":
-                return "general_labour";
-            case "Carpenter":
-                return "carpentry";
-            case "Concrete":
-                return "concrete_forming";
-            case "Drywaller":
-                return "dry_walling";
-            case "Painter":
-                return "painting";
-            case "Landscaper":
-                return "landscaping";
-            case "Machine Operator":
-                return "machine_operating";
-            case "Roofer":
-                return "roofing";
-            case "Plumber":
-                return "plumbing";
-            case "Electrician":
-                return "electrical";
-            default:
-                return "";
         }
     }
 

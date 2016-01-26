@@ -80,19 +80,13 @@
         </activity>
         <activity android:name=".contractor.DatePickerActivity" >
         </activity>
-        <activity
-            android:name=".contractor.HiringActivity"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
         <activity android:name=".contractor.ContractorProfileActivity" >
         </activity>
         <activity android:name=".contractor.PaymentActivity" >
         </activity>
-        <activity android:name=".labourer.LabourerAvailability" >
+        <activity android:name=".labourer.LabourerAvailabilityActivity" >
         </activity>
         <activity android:name=".labourer.LabourerProfileActivity" >
-        </activity>
-        <activity android:name=".labourer.LabourerEditActivity" >
         </activity>
         <activity android:name=".contractor.ContractorMainActivity" >
         </activity>
@@ -101,6 +95,10 @@
         <activity android:name=".contractor.RadioGroupActivity" >
         </activity>
         <activity android:name=".labourer.LabourerGridActivity" >
+        </activity>
+        <activity android:name=".labourer.LabourerMainActivity" >
+        </activity>
+        <activity android:name=".labourer.LabourerJobsActivity" >
         </activity>
     </application>
 

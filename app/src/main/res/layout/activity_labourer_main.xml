@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Would you like to"
+            android:text="Welcome to Labour Today"
             android:textAlignment="center"
             android:textSize="44sp"
             android:fontFamily="sans-serif-black"
@@ -47,28 +47,15 @@
         <Button
             android:layout_width="242dp"
             android:layout_height="44dp"
-            android:text="Hire a worker"
+            android:text="Get Started"
             android:textColor="@color/teal"
             android:background="@drawable/outline_rectangle"
             android:id="@+id/button_hire"
             android:textSize="20sp"
-            android:onClick="launchHire"
-            android:layout_above="@+id/button_pay"
+            android:onClick="launchStart"
+            android:layout_above="@+id/button_login_labourer"
             android:layout_centerHorizontal="true" />
 
-
-        <Button
-            android:layout_width="242dp"
-            android:layout_height="44dp"
-            android:text="Pay a worker"
-            android:textColor="@color/teal"
-            android:background="@drawable/outline_rectangle"
-            android:id="@+id/button_pay"
-            android:textSize="20sp"
-            android:onClick="launchPayment"
-            android:layout_marginTop="20dp"
-            android:layout_alignStart="@id/button_hire"
-            android:layout_above="@+id/button_login_contractor"/>
 
         <Button
             android:layout_width="242dp"
@@ -76,9 +63,9 @@
             android:text="Login"
             android:textColor="@color/teal"
             android:background="@drawable/outline_rectangle"
-            android:id="@+id/button_login_contractor"
+            android:id="@+id/button_login_labourer"
             android:textSize="20sp"
-            android:onClick="launchContractorLogin"
+            android:onClick="launchLabourerLogin"
             android:layout_marginTop="20dp"
             android:layout_alignStart="@id/button_hire"
             android:layout_alignParentBottom="true"/>

@@ -81,14 +81,14 @@ public class RadioGroupActivity extends AppCompatActivity {
 
     public void next(View button) {
         Intent i = new Intent(RadioGroupActivity.this, DatePickerActivity.class);
-        try {
-            radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-        } catch (NullPointerException e) {
-            Toast.makeText(getApplicationContext(), "Please select an experience level", Toast.LENGTH_LONG).show();
-            return;
+        radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+
+        if (radioButton != null) {
+            i.putExtra("workerExp", radioButton.getText().toString());
+            i.putExtra("workerType", workerType.getText().toString());
+            startActivity(i);
+        } else {
+            Toast.makeText(getApplicationContext(), "Please select an experience level", Toast.LENGTH_SHORT).show();
         }
-        i.putExtra("workerExp", radioButton.getText().toString());
-        i.putExtra("workerType", workerType.getText().toString());
-        startActivity(new Intent(RadioGroupActivity.this, DatePickerActivity.class));
     }
 }
