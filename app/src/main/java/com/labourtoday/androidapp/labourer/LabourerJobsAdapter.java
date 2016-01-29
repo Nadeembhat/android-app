@@ -73,7 +73,7 @@ public class LabourerJobsAdapter extends BaseExpandableListAdapter{
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.group_item, parent);
+            convertView = inflater.inflate(R.layout.group_item, null);
         }
         TextView type, date, time, city, prov, wage;
         type = (TextView) convertView.findViewById(R.id.jobType);
@@ -84,7 +84,7 @@ public class LabourerJobsAdapter extends BaseExpandableListAdapter{
         wage = (TextView) convertView.findViewById(R.id.jobWage);
 
         String job = jobs.get(groupPosition);
-        String[] jobProperties = job.split(" ");
+        String[] jobProperties = job.split("/");
         type.setText(jobProperties[0]);
         date.setText(jobProperties[1]);
         time.setText(jobProperties[2]);
@@ -99,7 +99,7 @@ public class LabourerJobsAdapter extends BaseExpandableListAdapter{
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.child_item, parent);
+            convertView = inflater.inflate(R.layout.child_item, null);
         }
 
         TextView address, description, duration;
@@ -111,7 +111,7 @@ public class LabourerJobsAdapter extends BaseExpandableListAdapter{
         decline = (Button) convertView.findViewById(R.id.button_decline);
 
         String job = jobs.get(groupPosition);
-        final String[] jobProperties = job.split(" ");
+        final String[] jobProperties = job.split("/");
         address.setText(jobProperties[6]);
         description.setText(jobProperties[7]);
         duration.setText(jobProperties[8]);
@@ -139,18 +139,18 @@ public class LabourerJobsAdapter extends BaseExpandableListAdapter{
     public void sendResponse(String option, String jobCode) {
         String url = Constants.URLS.LABOURER_RESPONSE.string;
         final String job = jobCode;
-        final String opt  = option;
+        final String opt = option;
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        context.recreate();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("LabourerJobs", "failed to fetch jobs");
+                        Log.d("LabourerJobs", "failed to send response");
                     }
                 }
         )
@@ -161,6 +161,8 @@ public class LabourerJobsAdapter extends BaseExpandableListAdapter{
                 Map<String, String>  params = new HashMap<>();
                 params.put("job_code", job);
                 params.put("option", opt);
+                Log.d("OPTION", opt);
+                Log.d("job_code", job);
                 return params;
             }
 

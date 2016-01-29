@@ -279,7 +279,7 @@ public class ContractorLoginActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
 
                 Intent i = getIntent();
-
+                Log.d("workerType", i.getStringExtra("workerType"));
                 params.put(workerTypeRequestFormat(i.getStringExtra("workerType")), Integer.toString(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp"))));
                 params.put("start_day", i.getStringExtra("start_day"));
                 params.put("start_date", i.getStringExtra("start_date"));

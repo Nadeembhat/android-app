@@ -90,39 +90,9 @@ public class LabourerJobsActivity extends AppCompatActivity {
                     })
                     .build();
         }
-
+        noAvail = (TextView) findViewById(R.id.no_avail);
         groups = new ArrayList<String>();
         setUpGroups();
-        noAvail = (TextView) findViewById(R.id.no_avail);
-        if (groups.size() == 0) {
-            noAvail.setText("No jobs available. Please check back later.");
-            return;
-        }
-        expandableListView = (ExpandableListView) findViewById(R.id.list_experiences);
-        adapter = new LabourerJobsAdapter(this, groups);
-        expandableListView.setAdapter(adapter);
-
-        setListViewHeight(expandableListView);
-
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                setListViewHeight(parent, groupPosition);
-                return false;
-            }
-        });
-
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int previousGroup = -1;
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                if (groupPosition != previousGroup) {
-                    expandableListView.collapseGroup(previousGroup);
-                }
-                previousGroup = groupPosition;
-            }
-        });
 
         /*
         broadcastReceiver = new BroadcastReceiver() {
@@ -214,17 +184,47 @@ public class LabourerJobsActivity extends AppCompatActivity {
                             for (int i = 0; i < jobs.length(); i++) {
                                 JSONObject job = jobs.getJSONObject(i);
                                 String jobStr =
-                                        job.getString("job_type") + " " +
-                                        job.getString("start_date") + " " +
-                                        job.getString("start_time") + " " +
-                                        job.getString("city") + " " +
-                                        job.getString("province") + " " +
-                                        job.getString("wage") + " " +
-                                        job.getString("job_address") + " " +
-                                        job.getString("job_description") + " " +
-                                        job.getString("duration") + " " + job.getString("job_code");
+                                        job.getString("job_type") + "/" +
+                                                job.getString("start_date") + "/" +
+                                                job.getString("start_time") + "/" +
+                                                job.getString("city") + "/" +
+                                                job.getString("province") + "/" +
+                                                job.getString("wage") + "/" +
+                                                job.getString("job_address") + "/" +
+                                                job.getString("job_description") + "/" +
+                                                job.getString("duration") + "/" + job.getString("job_code");
+                                Log.d("JOBFOUND", jobStr);
                                 groups.add(jobStr);
                             }
+                            if (groups.size() == 0) {
+                                noAvail.setText("No jobs available. Please check back later.");
+                                return;
+                            }
+                            expandableListView = (ExpandableListView) findViewById(R.id.list_experiences);
+                            adapter = new LabourerJobsAdapter(LabourerJobsActivity.this, groups);
+                            expandableListView.setAdapter(adapter);
+
+                            setListViewHeight(expandableListView);
+
+                            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                                @Override
+                                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                                    setListViewHeight(parent, groupPosition);
+                                    return false;
+                                }
+                            });
+
+                            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+                                int previousGroup = -1;
+
+                                @Override
+                                public void onGroupExpand(int groupPosition) {
+                                    if (groupPosition != previousGroup) {
+                                        expandableListView.collapseGroup(previousGroup);
+                                    }
+                                    previousGroup = groupPosition;
+                                }
+                            });
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

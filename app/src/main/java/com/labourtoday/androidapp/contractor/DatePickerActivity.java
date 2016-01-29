@@ -90,7 +90,6 @@ public class DatePickerActivity extends AppCompatActivity {
                     .build();
         }
 
-        Log.d("WTFfewwf", getIntent().getStringExtra("workerType"));
 
         Button next = (Button) findViewById(R.id.next);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
@@ -156,9 +155,10 @@ public class DatePickerActivity extends AppCompatActivity {
                             Map<String, String> params = new HashMap<>();
 
                             Intent i = getIntent();
+                            Log.d("workerType", workerTypeRequestFormat(i.getStringExtra("workerType")));
                             params.put(workerTypeRequestFormat(i.getStringExtra("workerType")), Integer.toString(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp"))));
-                            params.put("start_day", DateFormat.format("EEEE",
-                                    new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth())).toString());
+                            params.put("start_day", dayToInt(DateFormat.format("EEEE",
+                                    new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth())).toString()));
                             params.put("start_date", datePicker.getYear() + " " + datePicker.getMonth() + " " + datePicker.getDayOfMonth());
                             params.put("start_time", timePicker.getCurrentHour() + " " + timePicker.getCurrentMinute());
                             params.put("job_address", jobAddress.getText().toString());
@@ -168,6 +168,10 @@ public class DatePickerActivity extends AppCompatActivity {
                             params.put("vest", Integer.toString(boolToInt(vest.isChecked())));
                             params.put("tool", Integer.toString(boolToInt(tool.isChecked())));
                             params.put("wage", Integer.toString(calculateWage(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp")))));
+                            params.put("job_code", "aweftest");
+                            params.put("job_description", "god awful job");
+                            params.put("duration", "24hrs");
+                            params.put("job_type", i.getStringExtra("workerType"));
                             return params;
                         }
 
@@ -194,24 +198,24 @@ public class DatePickerActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private int dayToInt(String day) {
+    private String dayToInt(String day) {
         switch (day) {
             case "Monday":
-                return 1;
+                return "1";
             case "Tuesday":
-                return 2;
+                return "2";
             case "Wednesday":
-                return 3;
+                return "3";
             case "Thursday":
-                return 4;
+                return "4";
             case "Friday":
-                return 5;
+                return "5";
             case "Saturday":
-                return 6;
+                return "6";
             case "Sunday":
-                return 7;
+                return "7";
             default:
-                return 0;
+                return "0";
         }
     }
 

@@ -182,7 +182,7 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                                 Intent i = getIntent();
 
                                 loginIntent.putExtra("workerType", Integer.toString(Arrays.asList(experienceList).indexOf(i.getStringExtra("workerExp"))));
-                                loginIntent.putExtra("start_day", Integer.toString(dayToInt(i.getStringExtra("start_day"))));
+                                loginIntent.putExtra("start_day", dayToInt(i.getStringExtra("start_day")));
                                 loginIntent.putExtra("start_date", i.getStringExtra("start_date"));
                                 loginIntent.putExtra("start_time", i.getStringExtra("start_time"));
                                 loginIntent.putExtra("job_address", i.getStringExtra("job_address"));
@@ -280,24 +280,24 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         return "+1" + formatted.replaceAll("\\s+", "");
     }
 
-    private int dayToInt(String day) {
+    private String dayToInt(String day) {
         switch (day) {
             case "Monday":
-                return 1;
+                return "1";
             case "Tuesday":
-                return 2;
+                return "2";
             case "Wednesday":
-                return 3;
+                return "3";
             case "Thursday":
-                return 4;
+                return "4";
             case "Friday":
-                return 5;
+                return "5";
             case "Saturday":
-                return 6;
+                return "6";
             case "Sunday":
-                return 7;
+                return "7";
             default:
-                return 0;
+                return "0";
         }
     }
 
