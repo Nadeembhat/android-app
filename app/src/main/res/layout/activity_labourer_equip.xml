@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/md_white_1000"
+    >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/top_level_layout"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="com.labourtoday.androidapp.labourer.LabourerEquipActivity">
+
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:id="@+id/linearLayout"
+                android:orientation="horizontal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Step 4 of 5"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text_step"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you have a valid drivers license?"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text1"
+                android:textColor="@color/teal"
+                android:layout_below="@id/text_step"
+                android:layout_marginBottom="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/radio_drivers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text1"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="20dp"
+                >
+
+                <RadioButton
+                    android:id="@+id/button_drivers_yes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="Yes"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/button_drivers_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="No"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/button_drivers_l"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="L"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/button_drivers_n"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="N"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you have a vehicle?"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text2"
+                android:textColor="@color/teal"
+                android:layout_below="@id/radio_drivers"
+                android:layout_marginBottom="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/radio_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text2"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="20dp"
+                >
+
+                <RadioButton
+                    android:id="@+id/button_car_yes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="Yes"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/button_car_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="No"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/button_car_some"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="L"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you have a tool belt with basic tools?"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text3"
+                android:textColor="@color/teal"
+                android:layout_below="@id/radio_car"
+                android:layout_marginBottom="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/radio_belt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text3"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="20dp"
+                >
+                <RadioButton
+                    android:id="@+id/button_belt_yes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="Yes"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+                <RadioButton
+                    android:id="@+id/button_belt_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="No"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you have steel toe boots?"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text4"
+                android:textColor="@color/teal"
+                android:layout_below="@id/radio_belt"
+                android:layout_marginBottom="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/radio_boots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text4"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="20dp"
+                >
+                <RadioButton
+                    android:id="@+id/button_boots_yes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="Yes"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+                <RadioButton
+                    android:id="@+id/button_boots_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="No"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you have a hardhat?"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text5"
+                android:textColor="@color/teal"
+                android:layout_below="@id/radio_boots"
+                android:layout_marginBottom="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/radio_hat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text5"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="20dp"
+                >
+                <RadioButton
+                    android:id="@+id/button_hat_yes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="Yes"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+                <RadioButton
+                    android:id="@+id/button_hat_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="No"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you have a safety vest?"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text6"
+                android:textColor="@color/teal"
+                android:layout_below="@id/radio_hat"
+                android:layout_marginBottom="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/radio_vest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text6"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="20dp"
+                >
+                <RadioButton
+                    android:id="@+id/button_vest_yes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="Yes"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+                <RadioButton
+                    android:id="@+id/button_vest_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawablePadding="30dp"
+                    android:drawableEnd="@drawable/radio_selector"
+                    android:text="No"
+                    android:textColor="@color/darkTeal"
+                    android:textSize="18sp"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="15dp"
+                    />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you have first aid qualifications?"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text7"
+                android:textColor="@color/teal"
+                android:layout_below="@id/radio_vest"
+                android:layout_marginBottom="10dp"/>
+
+            <CheckBox
+                android:id="@+id/chkSFA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teal"
+                android:textSize="18sp"
+                android:layout_below="@id/text7"
+                android:layout_marginBottom="5dp"
+                android:text="Standard first aid" />
+            <CheckBox
+                android:id="@+id/chkSWFA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teal"
+                android:textSize="18sp"
+                android:layout_below="@id/chkSFA"
+                android:layout_marginBottom="5dp"
+                android:text="Standard workplace first aid" />
+            <CheckBox
+                android:id="@+id/chkCPRC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teal"
+                android:textSize="18sp"
+                android:layout_below="@id/chkSWFA"
+                android:layout_marginBottom="10dp"
+                android:text="CPR C &amp; AED" />
+
+        </RelativeLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="NEXT STEP"
+            android:textColor="@color/md_white_1000"
+            android:background="@drawable/outline_rectangle_teal"
+            android:id="@+id/button_next"
+            android:onClick="next"
+            android:textSize="18sp" />
+    </LinearLayout>
+</ScrollView>

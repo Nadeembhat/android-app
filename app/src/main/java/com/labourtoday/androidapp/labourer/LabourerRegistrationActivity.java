@@ -1,6 +1,5 @@
 package com.labourtoday.androidapp.labourer;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,67 +11,54 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
 import com.labourtoday.androidapp.gcm.TokenRegistrationService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class LabourerRegistrationActivity extends AppCompatActivity {
     private BroadcastReceiver tokenBroadcastReceiver; //listens for REGISTRATION_COMPLETE message from IDRegistrationService
 
-    private final String TAG = "LabourRegActivity";
+    private final String TAG = "WorkerRegAct";
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private ProgressDialog progress;
 
     //Input fields for creating new User
     private EditText username;
     private EditText password, passwordConfirm;
-    private EditText first_name, last_name, phoneNumber, address, sin;
+    private EditText first_name, last_name, phone_number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_labourer_registration);
 
-        progress = new ProgressDialog(LabourerRegistrationActivity.this);
-        progress.setMessage("Registering...");
-
         username = (EditText) findViewById(R.id.edit_email);
         password = (EditText) findViewById(R.id.edit_password);
         passwordConfirm = (EditText) findViewById(R.id.confirm_password);
         first_name = (EditText) findViewById(R.id.edit_first_name);
         last_name = (EditText) findViewById(R.id.edit_last_name);
-        phoneNumber = (EditText) findViewById(R.id.edit_phone_number);
-        address = (EditText) findViewById(R.id.edit_address);
-        sin = (EditText) findViewById(R.id.edit_sin);
-        //Assign input fields to instance variables
+        phone_number = (EditText) findViewById(R.id.edit_phone_number);
     }
-    /*
-*Submit the fields filled in by the user to the server to create a new user
-*/
+
     public void registerUser(View view) {
-        /*User-entered inputs for username and password fields. Needed for login after registration*/
-        final String username_input = username.getText().toString();
         final String password_input = password.getText().toString();
         final String password_confirm = passwordConfirm.getText().toString();
+/*
+        if (isEmpty(username) || isEmpty(password) || isEmpty(first_name) || isEmpty(last_name) || isEmpty(phone_number)) {
+            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         if (!password_input.equals(password_confirm)) {
             Toast.makeText(this, "Passwords do not match. Please try again.", Toast.LENGTH_LONG).show();
             return;
         }
-        progress.show();
+*/
         tokenBroadcastReceiver = new BroadcastReceiver() { // Wait for TokenRegistrationService to send you the RegistrationId from GCM
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -85,69 +71,9 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
                 editor.putString(Constants.REGISTRATION_ID, registrationId);
                 editor.apply();
 
-                /* Create the user-list POST request*/
-                String url = Constants.URLS.LABOURER_LIST.string;
-
-                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                // Automatic login after registration using registered username and password
-                                Intent loginIntent = new Intent(LabourerRegistrationActivity.this, LabourerLoginActivity.class);
-                                loginIntent.setAction(Constants.ACTION_LOGIN);
-                                loginIntent.putExtra(Constants.USERNAME, username.getText().toString());
-                                loginIntent.putExtra(Constants.PASSWORD, password.getText().toString());
-                                Intent prev = getIntent();
-                                loginIntent.putExtra(Constants.AVAILABILITY, prev.getStringExtra(Constants.AVAILABILITY));
-                                loginIntent.putExtra("general_labour", prev.getStringExtra("general_labour"));
-                                loginIntent.putExtra("carpentry", prev.getStringExtra("carpentry"));
-                                loginIntent.putExtra("concrete", prev.getStringExtra("concrete"));
-                                loginIntent.putExtra("landscaping", prev.getStringExtra("landscaping"));
-                                loginIntent.putExtra("painting", prev.getStringExtra("painting"));
-                                loginIntent.putExtra("drywalling", prev.getStringExtra("drywalling"));
-                                loginIntent.putExtra("roofing", prev.getStringExtra("roofing"));
-                                loginIntent.putExtra("machine_operation", prev.getStringExtra("machine_operation"));
-                                loginIntent.putExtra("plumbing", prev.getStringExtra("plumbing"));
-                                loginIntent.putExtra("electrical", prev.getStringExtra("electrical"));
-                                loginIntent.putExtra("hat", prev.getStringExtra("hat"));
-                                loginIntent.putExtra("vest", prev.getStringExtra("vest"));
-                                loginIntent.putExtra("tool", prev.getStringExtra("tool"));
-                                progress.dismiss();
-                                startActivity(loginIntent);
-                                finish();
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "Error registering. Please try again.",
-                                        Toast.LENGTH_LONG).show();
-                                progress.dismiss();
-                            }
-                        }
-                )
-                {
-                    @Override
-                    //Create the body of the request
-                    protected Map<String, String> getParams()
-                    {
-                        Map<String, String>  params = new HashMap<>();
-
-                        // Get the registration info from input fields and add them to the body of the request
-                        params.put(Constants.USERNAME, username_input);
-                        params.put(Constants.PASSWORD, password_input);
-                        params.put(Constants.REGISTRATION_ID, registrationId);
-                        params.put(Constants.FIRST_NAME, first_name.getText().toString());
-                        params.put(Constants.LAST_NAME, last_name.getText().toString());
-                        params.put(Constants.PHONE_NUMBER, formatPhoneNumber(phoneNumber.getText().toString()));
-                        params.put(Constants.ADDRESS, address.getText().toString());
-                        params.put(Constants.SIN, sin.getText().toString());
-                        params.put(Constants.RATING, "0.000");
-                        params.put("Content-Type","application/json");
-                        return params;
-                    }
-                };
-                Volley.newRequestQueue(getApplicationContext()).add(postRequest);
+                Intent gridIntent = new Intent(LabourerRegistrationActivity.this, LabourerGridActivity.class);
+                gridIntent.putStringArrayListExtra("data", getActivityData());
+                startActivity(gridIntent);
             }
 
         };
@@ -210,6 +136,21 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
         }
         String formatted = new String(array);
         return "+1" + formatted.replaceAll("\\s+", "");
+    }
+
+    public ArrayList<String> getActivityData() {
+        ArrayList<String> data = new ArrayList<>();
+        data.add("Your Personal Details:");
+        data.add("Email: " + username.getText().toString());
+        data.add("Name: " + first_name.getText().toString() + " " + last_name.getText().toString());
+        // data.add("Password: " + password.getText().toString());
+        data.add("Phone Number: " + formatPhoneNumber(phone_number.getText().toString()));
+        data.add("Your Work Experience:");
+        return data;
+    }
+
+    private boolean isEmpty(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
     }
 
 }

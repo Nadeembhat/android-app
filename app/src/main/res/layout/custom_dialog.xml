@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:background="@color/md_white_1000"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Worker start date and time"
+            android:textSize="18sp"
+            android:textColor="@color/darkTeal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            />
+
+        <com.labourtoday.androidapp.CustomDatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false" >
+        </com.labourtoday.androidapp.CustomDatePicker>
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner" >
+        </TimePicker>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="CONTINUE"
+            android:textColor="@color/md_white_1000"
+            android:background="@drawable/outline_rectangle_teal"
+            android:id="@+id/button_dialog"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</ScrollView>

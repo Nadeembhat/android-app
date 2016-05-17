@@ -4,251 +4,153 @@
     android:background="@color/md_white_1000"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/top_level_layout"
-        android:orientation="vertical">
+        android:layout_height="fill_parent"
+        android:background="@color/md_white_1000"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        >
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/darkTeal"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            />
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:id="@+id/linearLayout"
+            android:orientation="horizontal"/>
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Step 1 of 3"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text_step"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Let's set up your profile\n&amp; connect you to some workers!"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text1"
+            android:textColor="@color/teal"
+            android:layout_below="@id/text_step"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            >
+            android:inputType="textCapSentences"
+            android:hint="First Name"
+            android:textAlignment="center"
+            android:ems="10"
+            android:id="@+id/edit_first_name"
+            android:textColor="@color/teal"
+            android:layout_below="@id/text1"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentStart="true" />
 
-            <TextView
-                android:id="@+id/intro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="We just need some quick details to complete the hiring process"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:layout_marginBottom="10dp"
-                />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:hint="Last Name"
+            android:textColor="@color/teal"
+            android:textAlignment="center"
+            android:ems="10"
+            android:id="@+id/edit_last_name"
+            android:layout_below="@id/edit_first_name"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentStart="true" />
 
-            <TextView
-                android:id="@+id/intro2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Payment for the worker is completed at the end of the work day"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:layout_below="@id/intro"
-                android:layout_marginBottom="10dp"
-                />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:hint="Company name"
+            android:textColor="@color/teal"
+            android:textAlignment="center"
+            android:ems="10"
+            android:id="@+id/edit_company_name"
+            android:layout_below="@id/edit_last_name"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentStart="true" />
 
-            <LinearLayout
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_width="0px"
-                android:layout_height="0px"
-                android:id="@+id/linearLayout"
-                android:orientation="horizontal" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
+            android:textColor="@color/teal"
+            android:hint="Email"
+            android:ems="10"
+            android:id="@+id/edit_email"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/edit_company_name" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
-                android:hint="First Name"
-                android:textColorHint="@color/lightTeal"
-                android:ems="10"
-                android:textSize="18sp"
-                android:id="@+id/edit_first_name"
-                android:layout_below="@id/intro2"
-                android:layout_toEndOf="@id/linearLayout" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:hint="Mobile Number"
+            android:textAlignment="center"
+            android:textColor="@color/teal"
+            android:ems="10"
+            android:id="@+id/edit_phone_number"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/edit_email"
+            android:layout_alignParentStart="true" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
-                android:hint="Last Name"
-                android:ems="10"
-                android:textSize="18sp"
-                android:textColorHint="@color/lightTeal"
-                android:id="@+id/edit_last_name"
-                android:layout_below="@id/edit_first_name"
-                android:layout_marginTop="20dp"
-                android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textColor="@color/teal"
+            android:hint="Password"
+            android:ems="10"
+            android:id="@+id/edit_password"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/edit_phone_number"
+            android:layout_alignParentStart="true" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
-                android:hint="Company Name"
-                android:textColorHint="@color/lightTeal"
-                android:ems="10"
-                android:textSize="18sp"
-                android:id="@+id/edit_company_name"
-                android:layout_below="@id/edit_last_name"
-                android:layout_marginTop="20dp"
-                android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Confirm Password"
+            android:textAlignment="center"
+            android:textColor="@color/teal"
+            android:ems="10"
+            android:id="@+id/confirm_password"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/edit_password"
+            android:layout_alignParentStart="true" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email"
-                android:textColorHint="@color/lightTeal"
-                android:ems="10"
-                android:textSize="18sp"
-                android:id="@+id/edit_email"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/edit_company_name"
-                android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:text="NEXT STEP"
+            android:textColor="@color/md_white_1000"
+            android:background="@drawable/outline_rectangle_teal"
+            android:id="@+id/button_pay"
+            android:textSize="20sp"
+            android:layout_below="@id/confirm_password"
+            android:onClick="registerUser"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="Password"
-                android:textColorHint="@color/lightTeal"
-                android:ems="10"
-                android:textSize="18sp"
-                android:id="@+id/edit_password"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/edit_email"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="Confirm Password"
-                android:ems="10"
-                android:textSize="18sp"
-                android:id="@+id/confirm_password"
-                android:textColorHint="@color/lightTeal"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/edit_password"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:hint="Mobile Number"
-                android:ems="10"
-                android:textSize="18sp"
-                android:id="@+id/edit_phone_number"
-                android:textColorHint="@color/lightTeal"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/confirm_password"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:id="@+id/text_card_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Credit card information is required beforehand to ensure payment."
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:layout_below="@id/edit_phone_number"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                />
-
-            <TextView
-                android:id="@+id/text_card_info2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Information and processing is securely handled by"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:layout_below="@id/text_card_info"
-                android:layout_marginBottom="10dp"
-                />
-
-            <ImageView
-                android:layout_width="90dp"
-                android:layout_height="20dp"
-                android:contentDescription="poweredByStripe"
-                android:src="@drawable/stripe"
-                android:id="@+id/stripe_image"
-                android:layout_below="@+id/text_card_info2"
-                android:layout_centerHorizontal="true" />
-
-            <EditText
-                android:id="@+id/number"
-                android:layout_height="44dp"
-                android:layout_width="319dp"
-                android:nextFocusDown="@+id/expMonth"
-                android:nextFocusRight="@+id/expMonth"
-                android:nextFocusForward="@+id/expMonth"
-                android:layout_marginTop="20dp"
-                android:textSize="20sp"
-                android:inputType="number"
-                android:textColorHint="@color/lightTeal"
-                android:drawableStart="@drawable/cc"
-                android:drawablePadding="10dp"
-                android:hint="Card Number"
-                android:background="@drawable/outline_rectangle_light"
-                android:layout_below="@id/stripe_image"
-                />
-
-            <EditText
-                android:layout_height="44dp"
-                android:layout_width="89dp"
-                android:hint="CVC"
-                android:background="@drawable/outline_rectangle_light"
-                android:textColorHint="@color/lightTeal"
-                android:textSize="20sp"
-                android:id="@+id/cvc"
-                android:inputType="number"
-                android:textAlignment="center"
-                android:layout_marginStart="10dp"
-                android:layout_alignTop="@+id/expYear"
-                android:layout_alignEnd="@+id/number" />
-
-            <Spinner
-                android:layout_height="44dp"
-                android:layout_width="110dp"
-                android:id="@+id/expYear"
-                android:nextFocusForward="@+id/cvc"
-                android:layout_below="@+id/number"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/outline_rectangle_light"
-                android:layout_centerHorizontal="true" />
-
-            <Spinner
-                android:layout_height="44dp"
-                android:layout_width="110dp"
-                android:id="@+id/expMonth"
-                android:nextFocusForward="@+id/expYear"
-                android:layout_below="@+id/number"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/outline_rectangle_light"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@+id/expYear" />
-
-            <Button
-                android:id="@+id/button_register"
-                android:layout_width="210dp"
-                android:layout_height="44dp"
-                android:text="Find a worker"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:textColor="@color/md_white_1000"
-                android:background="@drawable/outline_rectangle_teal"
-                android:onClick="registerUser"
-                android:layout_below="@id/expMonth"
-                android:layout_marginTop="16dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </ScrollView>

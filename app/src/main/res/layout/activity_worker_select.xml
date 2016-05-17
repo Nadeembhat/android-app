@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.labourtoday.androidapp.contractor.HiringGridActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step 2 of 3"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:fontFamily="sans-serif-black"
+        android:id="@+id/text_step"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="What type of workers do you need?\nCan be more than 1 trade"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="@color/teal"
+        android:fontFamily="roboto-light"
+        android:id="@+id/text_subtitle"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_step"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-black"
+        android:id="@+id/text_type_worker"
+        android:layout_below="@id/text_subtitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter how many you require for each experience level"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="@color/teal"
+        android:fontFamily="roboto-light"
+        android:id="@+id/text_info"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_type_worker"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:id="@+id/exp_six_months"
+        android:layout_below="@id/text_info"
+        android:text="6 months experience"/>
+
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/spinner_six_months"
+        android:layout_alignTop="@+id/exp_six_months"
+        android:layout_alignParentEnd="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/exp_one_years"
+        android:layout_below="@id/exp_six_months"
+        android:text="1 years experience"/>
+
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/spinner_one_years"
+        android:layout_alignTop="@+id/exp_one_years"
+        android:layout_alignParentEnd="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/exp_two_years"
+        android:layout_below="@id/exp_one_years"
+        android:text="2 years experience"/>
+
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/spinner_two_years"
+        android:layout_alignTop="@+id/exp_two_years"
+        android:layout_alignParentEnd="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/exp_red_seal"
+        android:layout_below="@id/exp_two_years"
+        android:text="Red seal"/>
+
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/spinner_red_seal"
+        android:layout_alignTop="@+id/exp_red_seal"
+        android:layout_alignParentEnd="true"
+        />
+
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="70dp"
+        android:text="DONE"
+        android:textColor="@color/md_white_1000"
+        android:background="@drawable/outline_rectangle_teal"
+        android:id="@+id/button_next"
+        android:onClick="next"
+        android:textSize="22sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
+
+

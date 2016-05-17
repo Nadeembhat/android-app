@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
-import com.labourtoday.androidapp.labourer.LabourerJobsActivity;
+import com.labourtoday.androidapp.labourer.LabourerGridActivity;
 
 public class MessageListenerService extends GcmListenerService {
     @Override
@@ -39,7 +39,7 @@ public class MessageListenerService extends GcmListenerService {
      */
     private void sendLabourerNotification(String message) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent notificationIntent = new Intent(this, LabourerJobsActivity.class);
+        Intent notificationIntent = new Intent(this, LabourerGridActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);

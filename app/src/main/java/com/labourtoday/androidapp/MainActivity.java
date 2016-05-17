@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.labourtoday.androidapp.contractor.ContractorMainActivity;
-import com.labourtoday.androidapp.labourer.LabourerJobsActivity;
-import com.labourtoday.androidapp.labourer.LabourerMainActivity;
+import com.labourtoday.androidapp.contractor.ContractorRegistrationActivity;
+import com.labourtoday.androidapp.contractor.HiringGridActivity;
+import com.labourtoday.androidapp.labourer.LabourerRegistrationActivity;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private int backButtonCount;
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (settings.getString(Constants.LAST_LOGIN, null) == null) {
+        if (settings.getString("Identity", null) == null) {
             settings.edit().putString(Constants.LAST_LOGIN, "").apply();
         }
     }
@@ -38,7 +40,14 @@ public class MainActivity extends AppCompatActivity {
      *          Reference to the button
      */
     public void launchContractorMain(View view) {
-        startActivity(new Intent(this, ContractorMainActivity.class));
+        if (settings.getString("Identity", "").equals("Contractor")
+                && settings.getString("Email", null) != null) {
+            Intent i = new Intent(this, HiringGridActivity.class);
+            i.putStringArrayListExtra("data", new ArrayList<String>());
+            startActivity(i);
+        } else {
+            startActivity(new Intent(this, ContractorRegistrationActivity.class));
+        }
     }
 
     /**
@@ -47,11 +56,7 @@ public class MainActivity extends AppCompatActivity {
      *          Reference to the button
      */
     public void launchLabourerMain(View view) {
-        if (settings.getString(Constants.LAST_LOGIN, "").equals(Constants.LABOURER)) {
-            startActivity(new Intent(this, LabourerJobsActivity.class));
-        } else {
-            startActivity(new Intent(this, LabourerMainActivity.class));
-        }
+        startActivity(new Intent(this, LabourerRegistrationActivity.class));
     }
 
 

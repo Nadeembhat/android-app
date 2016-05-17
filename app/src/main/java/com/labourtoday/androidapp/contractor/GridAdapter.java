@@ -1,6 +1,7 @@
 package com.labourtoday.androidapp.contractor;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,17 @@ import android.widget.TextView;
 
 import com.labourtoday.androidapp.R;
 
+import java.util.ArrayList;
+
 public class GridAdapter extends BaseAdapter {
     private Context context;
     private final String[] typeWorkers;
+    private final ArrayList<String> selectedTypes;
 
-    public GridAdapter(Context context, String[] values) {
+    public GridAdapter(Context context, String[] values, ArrayList<String> selectedTypes) {
         this.context = context;
         this.typeWorkers = values;
+        this.selectedTypes = selectedTypes;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -24,7 +29,7 @@ public class GridAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View gridView;
-
+        String worker = typeWorkers[position];
         if (convertView == null) {
             gridView = inflater.inflate(R.layout.grid_layout, null);
 
@@ -35,34 +40,45 @@ public class GridAdapter extends BaseAdapter {
             // set image based on selected text
             ImageView imageView = (ImageView) gridView.findViewById(R.id.grid_item_image);
 
-            String worker = typeWorkers[position];
-
-            if (worker.equals("General Labour")) {
-                imageView.setImageResource(R.drawable.gen_labour);
-            } else if (worker.equals("Carpenter")) {
-                imageView.setImageResource(R.drawable.carpenter);
-            } else if (worker.equals("Concrete")) {
-                imageView.setImageResource(R.drawable.concrete);
-            } else if (worker.equals("Landscaper")) {
-                imageView.setImageResource(R.drawable.landscape);
-            } else if (worker.equals("Painter")) {
-                imageView.setImageResource(R.drawable.paint);
-            } else if (worker.equals("Drywaller")) {
-                imageView.setImageResource(R.drawable.drywall);
-            } else if (worker.equals("Roofer")) {
-                imageView.setImageResource(R.drawable.roof);
-            } else if (worker.equals("Machine Operator")) {
-                imageView.setImageResource(R.drawable.machine);
-            } else if (worker.equals("Plumber")) {
-                imageView.setImageResource(R.drawable.plumbing);
-            } else if (worker.equals("Electrician")) {
-                imageView.setImageResource(R.drawable.electrician);
-            } else {
-                imageView.setImageResource(R.drawable.concrete);
+            switch (worker) {
+                case "General Labour":
+                    imageView.setImageResource(R.drawable.gen_labour);
+                    break;
+                case "Carpenter":
+                    imageView.setImageResource(R.drawable.carpenter);
+                    break;
+                case "Concrete":
+                    imageView.setImageResource(R.drawable.concrete);
+                    break;
+                case "Landscaper":
+                    imageView.setImageResource(R.drawable.landscape);
+                    break;
+                case "Painter":
+                    imageView.setImageResource(R.drawable.paint);
+                    break;
+                case "Drywaller":
+                    imageView.setImageResource(R.drawable.drywall);
+                    break;
+                case "Roofer":
+                    imageView.setImageResource(R.drawable.roof);
+                    break;
+                case "Machine Operator":
+                    imageView.setImageResource(R.drawable.machine);
+                    break;
+                case "Plumber":
+                    imageView.setImageResource(R.drawable.plumbing);
+                    break;
+                case "Electrician":
+                    imageView.setImageResource(R.drawable.electrician);
+                    break;
             }
 
         } else {
             gridView = convertView;
+        }
+
+        if (selectedTypes.contains(worker)) {
+            gridView.setBackgroundColor(Color.parseColor("#B2DFDB"));
         }
 
         return gridView;
@@ -82,5 +98,4 @@ public class GridAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
-
 }

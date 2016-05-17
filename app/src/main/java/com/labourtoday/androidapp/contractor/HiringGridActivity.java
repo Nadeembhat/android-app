@@ -5,27 +5,23 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.labourtoday.androidapp.Constants;
+import com.labourtoday.androidapp.ExpandableHeightGridView;
 import com.labourtoday.androidapp.R;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import java.util.ArrayList;
 
 public class HiringGridActivity extends AppCompatActivity {
-    private final int groupPosition = 0;
-    private final int LOG_OUT = 1;
-
-    private GridView gridView;
+    private ExpandableHeightGridView gridView;
+    private GridAdapter adapter;
+    private ArrayList<String> selectedTypes = new ArrayList<>();
+    private ArrayList<String> data;
+    private Button button;
     private SharedPreferences settings;
-    private Drawer result;
 
     static final String[] typeWorkers = new String[] {
             "General Labour",
@@ -44,57 +40,53 @@ public class HiringGridActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hiring_grid);
-
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle("Labour Today");
+        button = (Button) findViewById(R.id.button_next);
+        button.setVisibility(View.GONE);
+        data = getIntent().getStringArrayListExtra("data");
+        adapter = new GridAdapter(this, typeWorkers, selectedTypes);
+        gridView = (ExpandableHeightGridView) findViewById(R.id.grid_worker);
+        gridView.setExpanded(true);
+        gridView.setAdapter(adapter);
 
-        if (!settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
-            result = new DrawerBuilder()
-                    .withActivity(this)
-                    .withToolbar(toolbar)
-                    .withSavedInstance(savedInstanceState)
-                    .addDrawerItems(
-                            new PrimaryDrawerItem().withName("Profile"),
-                            new SecondaryDrawerItem().withName("Log out")
-                    )
-                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                        @Override
-                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                            switch (position) {
-                                case groupPosition:
-                                    Intent hireIntent = new Intent(HiringGridActivity.this, ContractorProfileActivity.class);
-                                    startActivity(hireIntent);
-                                    return true;
-                                case LOG_OUT:
-                                    settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                    settings.edit().remove(Constants.AUTH_TOKEN).apply();
-                                    settings.edit().remove(Constants.LAST_LOGIN).apply();
-                                    // Return to the welcome page
-                                    Intent welcomeIntent = new Intent(HiringGridActivity.this, ContractorLoginActivity.class);
-                                    startActivity(welcomeIntent);
-                                    finish();
-                                    return true;
-                                default:
-                                    return false;
-                            }
-                        }
-                    }).build();
-        }
-
-
-        gridView = (GridView) findViewById(R.id.grid_worker);
-
-        gridView.setAdapter(new GridAdapter(this, typeWorkers));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // Toast.makeText(getApplicationContext(), ((TextView) v.findViewById(R.id.grid_item_label)).getText(), Toast.LENGTH_SHORT).show();
-                Intent radioGrpIntent = new Intent(HiringGridActivity.this, RadioGroupActivity.class);
-                radioGrpIntent.putExtra("workerType", ((TextView) v.findViewById(R.id.grid_item_label)).getText());
-                startActivity(radioGrpIntent);
+                Intent workerSelectIntent = new Intent(HiringGridActivity.this, WorkerSelectActivity.class);
+                workerSelectIntent.putExtra("workerType", ((TextView) v.findViewById(R.id.grid_item_label)).getText());
+                startActivityForResult(workerSelectIntent, 0);
             }
         });
+        addUserDetails();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == 0) {
+            selectedTypes.add(data.getStringExtra("workerType"));
+            adapter.notifyDataSetChanged();
+            this.data.add(data.getStringExtra("workerType") + ":");
+            this.data.addAll(data.getStringArrayListExtra("workerRequest"));
+            button.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void next(View view) {
+        Intent next = new Intent(HiringGridActivity.this, JobDetailActivity.class);
+        next.putStringArrayListExtra("data", this.data);
+        startActivity(next);
+    }
+
+    public void addUserDetails() {
+        //Set<String> data = new HashSet<>();
+        data.add("Your Details:");
+        data.add("Email: " + settings.getString("Email", ""));
+        data.add("Name: " + settings.getString("Name", ""));
+        data.add("Company: " + settings.getString("Company", ""));
+        // data.add("Password: " + password.getText().toString());
+        data.add("Phone Number: " + settings.getString("Phone Number", ""));
+        data.add("Requested Worker Details:");
+        //settings.edit().putStringSet("contractorDetail", data).apply();
+    }
+
 }

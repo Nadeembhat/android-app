@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.labourtoday.androidapp.contractor.HireAgainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Worker request pending"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif-black"
+        android:id="@+id/text1"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/lightTeal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you for requesting a worker with Labour Today!\n\nWe have sent you a confirmation email of your job details.\n\nWe will notify you when we have found workers that meets your criteria\nThank you!"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-black"
+        android:id="@+id/text_step"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:text="HIRE AGAIN"
+        android:textColor="@color/md_white_1000"
+        android:background="@drawable/outline_rectangle_teal"
+        android:id="@+id/button_next"
+        android:onClick="next"
+        android:layout_alignParentBottom="true"
+        android:textSize="18sp" />
+</RelativeLayout>

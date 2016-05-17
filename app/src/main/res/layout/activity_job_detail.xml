@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:background="@color/md_white_1000"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="match_parent" >
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_white_1000"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        >
+
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:id="@+id/linearLayout"
+            android:orientation="horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Step 3 of 3"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text_step"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="When do you need the workers?"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text1"
+            android:layout_below="@id/text_step"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"/>
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/imageButton"
+            android:layout_alignTop="@+id/text1"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/calendar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text_date"
+            android:layout_below="@id/text1"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/darkTeal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text_time"
+            android:layout_below="@id/text1"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/darkTeal"
+            android:layout_toEndOf="@id/text_date"
+            android:layout_marginStart="10dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What is the location of the job?"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text2"
+            android:layout_below="@id/imageButton"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/edit_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address"
+            android:singleLine="true"
+            android:background="@null"
+            android:textColorHint="@color/lightTeal"
+            android:layout_marginBottom="16dp"
+            android:layout_below="@id/text2"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            />
+        <EditText
+            android:id="@+id/edit_city"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="City"
+            android:singleLine="true"
+            android:nextFocusRight="@+id/edit_province"
+            android:textColorHint="@color/lightTeal"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/edit_address"
+            android:background="@null"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:nextFocusDown="@+id/edit_province"
+            android:nextFocusForward="@+id/edit_province"
+            />
+        <EditText
+            android:id="@+id/edit_province"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="Province"
+            android:singleLine="true"
+            android:background="@null"
+            android:textColorHint="@color/lightTeal"
+            android:layout_alignTop="@+id/edit_city"
+            android:layout_alignEnd="@+id/edit_address" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="How long do you need the workers for?"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text_duration"
+            android:layout_below="@id/edit_city"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"/>
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:id="@+id/spinner_days"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/text_duration"
+            android:layout_alignParentStart="true"
+            />
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:id="@+id/spinner_weeks"
+            android:layout_below="@id/text_duration"
+            android:layout_centerHorizontal="true"
+            />
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:id="@+id/spinner_months"
+            android:layout_below="@+id/text_duration"
+            android:layout_alignParentEnd="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What do you require the worker to have?"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text3"
+            android:layout_below="@id/spinner_days"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/radio_experience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text3"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            >
+
+            <Switch
+                android:id="@+id/switch_hat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hard hat"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                />
+
+            <Switch
+                android:id="@+id/switch_vest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Safety vest"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                />
+
+            <Switch
+                android:id="@+id/switch_belt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tool belt and basic tools"
+                android:textColor="@color/darkTeal"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="REQUEST WORKER"
+            android:textSize="20sp"
+            android:textColor="@color/md_white_1000"
+            android:background="@drawable/outline_rectangle_teal"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/next" />
+
+    </RelativeLayout>
+</ScrollView>
+

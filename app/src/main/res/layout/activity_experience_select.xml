@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="50dp"
-    android:background="@color/md_white_1000"
-    tools:context="com.labourtoday.androidapp.contractor.HiringGridActivity">
+    tools:context="com.labourtoday.androidapp.labourer.ExperienceSelectActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step 2 of 5"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:fontFamily="sans-serif-black"
+        android:id="@+id/text_step"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose any areas you have experience in (can be more than 1)"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="@color/teal"
+        android:fontFamily="roboto-light"
+        android:id="@+id/text_subtitle"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_step"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,7 +41,7 @@
         android:textSize="22sp"
         android:fontFamily="sans-serif-black"
         android:id="@+id/text_type_worker"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/text_subtitle"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"/>
 
@@ -80,14 +103,24 @@
             android:button="@null"
             android:drawablePadding="30dp"
             android:drawableEnd="@drawable/radio_selector"
-            android:text="Red Seal"
+            android:text="Red seal"
             android:textColor="@color/darkTeal"
             android:textSize="18sp"
             android:gravity="start|center_vertical"
             android:layout_marginTop="15dp" />
     </RadioGroup>
 
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="70dp"
+        android:text="DONE"
+        android:textColor="@color/md_white_1000"
+        android:background="@drawable/outline_rectangle_teal"
+        android:id="@+id/button_next"
+        android:onClick="next"
+        android:textSize="22sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
-
-
-
