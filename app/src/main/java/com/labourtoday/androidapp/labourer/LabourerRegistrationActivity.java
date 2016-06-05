@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -18,7 +20,8 @@ import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
 import com.labourtoday.androidapp.gcm.TokenRegistrationService;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class LabourerRegistrationActivity extends AppCompatActivity {
     private BroadcastReceiver tokenBroadcastReceiver; //listens for REGISTRATION_COMPLETE message from IDRegistrationService
@@ -29,8 +32,9 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
 
     //Input fields for creating new User
     private EditText username;
-    private EditText password, passwordConfirm;
+    // private EditText password, passwordConfirm;
     private EditText first_name, last_name, phone_number;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,41 +42,45 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_labourer_registration);
 
         username = (EditText) findViewById(R.id.edit_email);
-        password = (EditText) findViewById(R.id.edit_password);
-        passwordConfirm = (EditText) findViewById(R.id.confirm_password);
+        // password = (EditText) findViewById(R.id.edit_password);
+        // passwordConfirm = (EditText) findViewById(R.id.confirm_password);
         first_name = (EditText) findViewById(R.id.edit_first_name);
         last_name = (EditText) findViewById(R.id.edit_last_name);
         phone_number = (EditText) findViewById(R.id.edit_phone_number);
+
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     public void registerUser(View view) {
+        /*
         final String password_input = password.getText().toString();
         final String password_confirm = passwordConfirm.getText().toString();
-/*
-        if (isEmpty(username) || isEmpty(password) || isEmpty(first_name) || isEmpty(last_name) || isEmpty(phone_number)) {
-            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_LONG).show();
-            return;
-        }
 
         if (!password_input.equals(password_confirm)) {
             Toast.makeText(this, "Passwords do not match. Please try again.", Toast.LENGTH_LONG).show();
             return;
         }
-*/
+        */
+        if (isEmpty(username) || isEmpty(first_name) || isEmpty(last_name) || isEmpty(phone_number)) {
+            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!isValidEmail(username.getText().toString())) {
+            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
         tokenBroadcastReceiver = new BroadcastReceiver() { // Wait for TokenRegistrationService to send you the RegistrationId from GCM
             @Override
             public void onReceive(Context context, Intent intent) {
                 LocalBroadcastManager.getInstance(context).unregisterReceiver(this);
-
                 final String registrationId = intent.getExtras().getString(Constants.REGISTRATION_ID); // Device id obtained from GCM
+                settings.edit().putString(Constants.REGISTRATION_ID, registrationId).apply();
 
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString(Constants.REGISTRATION_ID, registrationId);
-                editor.apply();
-
+                setActivityData();
                 Intent gridIntent = new Intent(LabourerRegistrationActivity.this, LabourerGridActivity.class);
-                gridIntent.putStringArrayListExtra("data", getActivityData());
                 startActivity(gridIntent);
             }
 
@@ -138,19 +146,25 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
         return "+1" + formatted.replaceAll("\\s+", "");
     }
 
-    public ArrayList<String> getActivityData() {
-        ArrayList<String> data = new ArrayList<>();
-        data.add("Your Personal Details:");
-        data.add("Email: " + username.getText().toString());
+    public void setActivityData() {
+        Set<String> data = new HashSet<>();
         data.add("Name: " + first_name.getText().toString() + " " + last_name.getText().toString());
         // data.add("Password: " + password.getText().toString());
         data.add("Phone Number: " + formatPhoneNumber(phone_number.getText().toString()));
-        data.add("Your Work Experience:");
-        return data;
+        settings.edit().putStringSet("labourerDetail", data).apply();
+        settings.edit().putString("labourerEmail", username.getText().toString()).apply();
     }
 
     private boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;
+    }
+
+    public boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 
 }

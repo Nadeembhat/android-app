@@ -17,8 +17,7 @@ import java.util.ArrayList;
 public class LabourerGridActivity extends AppCompatActivity {
     private ExpandableHeightGridView gridView;
     private GridAdapter adapter;
-    private ArrayList<String> selectedTypes = new ArrayList<>();
-    private ArrayList<String> data;
+    private ArrayList<String> data, selectedTypes;
     private Button button;
 
     static final String[] typeWorkers = new String[] {
@@ -38,7 +37,8 @@ public class LabourerGridActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_labourer_grid);
-        data = getIntent().getStringArrayListExtra("data");
+        data = new ArrayList<>();
+        selectedTypes = new ArrayList<>();
         adapter = new GridAdapter(this, typeWorkers, selectedTypes);
         button = (Button) findViewById(R.id.button_next);
         button.setVisibility(View.GONE);
@@ -60,7 +60,7 @@ public class LabourerGridActivity extends AppCompatActivity {
         if (resultCode == 0) {
             selectedTypes.add(data.getStringExtra("workerType"));
             adapter.notifyDataSetChanged();
-            this.data.add(data.getStringExtra("workerType") + ":");
+            this.data.add(data.getStringExtra("workerType"));
             this.data.add(data.getStringExtra("workerExp"));
             button.setVisibility(View.VISIBLE);
         }
@@ -68,7 +68,7 @@ public class LabourerGridActivity extends AppCompatActivity {
 
     public void next(View view) {
         Intent next = new Intent(LabourerGridActivity.this, LabourerInfoActivity.class);
-        next.putStringArrayListExtra("data", this.data);
+        next.putStringArrayListExtra("data", data);
         startActivity(next);
     }
 

@@ -2,13 +2,14 @@ package com.labourtoday.androidapp.contractor;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -21,7 +22,8 @@ import com.labourtoday.androidapp.CustomDatePicker;
 import com.labourtoday.androidapp.R;
 
 import java.text.DateFormatSymbols;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class JobDetailActivity extends AppCompatActivity {
     private ImageButton image;
@@ -29,15 +31,18 @@ public class JobDetailActivity extends AppCompatActivity {
     private Switch hat, vest, belt;
     private TextView date, time;
     private Spinner days, weeks, months;
-    private ArrayList<String> data;
+    private SharedPreferences settings;
 
     private String[] experienceList = new String[]{"No", "> 3 months experience (20/hr)", "> 6 months experience (22/hr)", "> 1 year experience (26/hr)", "Red seal (30/hr)"};
-
+    // contractorDetail
+    // jobDetail
+    // data
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_detail);
-        data = getIntent().getStringArrayListExtra("data");
+        settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         Button next = (Button) findViewById(R.id.next);
         jobAddress = (EditText) findViewById(R.id.edit_address);
         city = (EditText) findViewById(R.id.edit_city);
@@ -57,7 +62,7 @@ public class JobDetailActivity extends AppCompatActivity {
                 "29","30"};
         String[] weeksItems = new String[]{"weeks","1","2","3"};
         String[] monthsItems = new String[]{"months","1","2","3","4","5","6","7","8","9","10","11","12"};
-        ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(this, R.layout.spinner_custom, daysItems);
+        ArrayAdapter<String> daysAdapter = new ArrayAdapter<>(this, R.layout.spinner_custom, daysItems);
         ArrayAdapter<String> weeksAdapter = new ArrayAdapter<>(this, R.layout.spinner_custom, weeksItems);
         ArrayAdapter<String> monthsAdapter = new ArrayAdapter<>(this, R.layout.spinner_custom, monthsItems);
         days.setAdapter(daysAdapter);
@@ -67,10 +72,11 @@ public class JobDetailActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(JobDetailActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog);
-        TimePicker timePicker = (TimePicker) dialog.findViewById(R.id.timePicker);
-        CustomDatePicker datePicker = (CustomDatePicker) dialog.findViewById(R.id.datePicker);
+        final TimePicker timePicker = (TimePicker) dialog.findViewById(R.id.timePicker);
+        final CustomDatePicker datePicker = (CustomDatePicker) dialog.findViewById(R.id.datePicker);
         Button dialogButton = (Button) dialog.findViewById(R.id.button_dialog);
 
+        /*
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
@@ -84,11 +90,14 @@ public class JobDetailActivity extends AppCompatActivity {
                 date.setText(Integer.toString(dayOfMonth) + " " + getMonth(monthOfYear) +
                         ", " + Integer.toString(year));
             }
-        });
+        });*/
 
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                time.setText("at " + Integer.toString(timePicker.getCurrentHour()) + ":" + Integer.toString(timePicker.getCurrentMinute()));
+                date.setText(Integer.toString(datePicker.getDayOfMonth()) + " " + getMonth(datePicker.getMonth()) +
+                        ", " + Integer.toString(datePicker.getYear()));
                 dialog.dismiss();
             }
         });
@@ -125,19 +134,17 @@ public class JobDetailActivity extends AppCompatActivity {
                     return;
                 }
 
-                data.addAll(getActivityData());
-                Intent requestIntent = new Intent(JobDetailActivity.this, HireAgainActivity.class);
-                requestIntent.putStringArrayListExtra("data", data);
-                startActivity(requestIntent);
+                storeActivityData();
+                Intent i = new Intent(JobDetailActivity.this, HireAgainActivity.class);
+                i.putStringArrayListExtra("data", getIntent().getStringArrayListExtra("data"));
+                startActivity(i);
                 /*
                 String url = Constants.URLS.TOKEN_AUTH.string;
                 StringRequest workerRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Intent requestIntent = new Intent(JobDetailActivity.this, HireAgainActivity.class);
-                                requestIntent.putStringArrayListExtra("data", data);
-                                startActivity(requestIntent);
+                                startActivity(new Intent(JobDetailActivity.this, HireAgainActivity.class));
                             }
                         },
                         new Response.ErrorListener() {
@@ -170,12 +177,11 @@ public class JobDetailActivity extends AppCompatActivity {
     }
 
     public String getMonth(int month) {
-        return new DateFormatSymbols().getMonths()[month-1];
+        return new DateFormatSymbols().getMonths()[month];
     }
 
-    public ArrayList<String> getActivityData() {
-        ArrayList<String> data = new ArrayList<>();
-        data.add("Job Details:");
+    public void storeActivityData() {
+        Set<String> data = new HashSet<>();
         data.add("Date: " + date.getText().toString());
         data.add("Time: " + time.getText().toString());
         data.add("Address: " + jobAddress.getText().toString());
@@ -187,7 +193,7 @@ public class JobDetailActivity extends AppCompatActivity {
         data.add("Hard hat required: " + Boolean.toString(hat.isChecked()));
         data.add("Safety vest required: " + Boolean.toString(vest.isChecked()));
         data.add("Tool belt and basic tools required: " + Boolean.toString(belt.isChecked()));
-        return data;
+        settings.edit().putStringSet("jobDetail", data).apply();
     }
 
 }

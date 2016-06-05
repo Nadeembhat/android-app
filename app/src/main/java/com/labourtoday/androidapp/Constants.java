@@ -5,7 +5,7 @@ public class Constants {
     public enum URLS {
         // Names of server endpoints
         //ROOT("https://labour-today.herokuapp.com/"),
-        ROOT("http://192.168.1.67:8000/"),
+        ROOT("http://10.0.2.2:8000/"),
         PAYMENT(ROOT.string + "payment/"),
         USER_LIST(ROOT.string + "user-list/"),
         LABOURER_LIST(ROOT.string + "labourer-list/" ),
@@ -16,6 +16,7 @@ public class Constants {
         LABOURER_SEARCH(ROOT.string + "labourer-search/" ),
         JOB_LIST(ROOT.string + "job-list/"),
         LABOURER_RESPONSE(ROOT.string + "labourer-response/"),
+        EMAIL_LABOURER(ROOT.string + "email-labourer/"),
         ;
         public final String string;
         URLS(final String text ){

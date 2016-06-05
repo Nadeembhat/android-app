@@ -169,20 +169,6 @@
                     android:layout_marginTop="15dp"
                     />
 
-                <RadioButton
-                    android:id="@+id/button_car_some"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:drawablePadding="30dp"
-                    android:drawableEnd="@drawable/radio_selector"
-                    android:text="L"
-                    android:textColor="@color/darkTeal"
-                    android:textSize="18sp"
-                    android:gravity="start|center_vertical"
-                    android:layout_marginTop="15dp"
-                    />
-
             </RadioGroup>
 
             <TextView

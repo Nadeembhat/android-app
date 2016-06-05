@@ -62,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
+            android:text="Tap calendar to set date &amp; time"
             android:fontFamily="sans-serif-black"
             android:id="@+id/text_date"
             android:layout_below="@id/text1"
@@ -182,7 +183,7 @@
             android:layout_marginTop="10dp"/>
 
         <LinearLayout
-            android:id="@+id/radio_experience"
+            android:id="@+id/switches"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text3"

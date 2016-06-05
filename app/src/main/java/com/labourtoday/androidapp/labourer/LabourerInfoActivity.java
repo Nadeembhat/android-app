@@ -1,7 +1,9 @@
 package com.labourtoday.androidapp.labourer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
@@ -10,17 +12,19 @@ import android.widget.Toast;
 
 import com.labourtoday.androidapp.R;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class LabourerInfoActivity extends AppCompatActivity {
-    private ArrayList<String> data;
     private CheckBox mon,tues,wed,thurs,fri,sat,sun,var,email,text,call;
     private EditText city;
+    private SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_labourer_info);
-        data = getIntent().getStringArrayListExtra("data");
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+
         mon = (CheckBox) findViewById(R.id.chkMon);
         tues = (CheckBox) findViewById(R.id.chkTues);
         wed = (CheckBox) findViewById(R.id.chkWed);
@@ -41,7 +45,7 @@ public class LabourerInfoActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please enter your city", Toast.LENGTH_SHORT).show();
             return;
         }
-        data.add("Availability Information:");
+        Set<String> data = new HashSet<>();
         data.add("City: " + city.getText().toString());
         data.add("Monday: " + Boolean.toString(mon.isChecked()));
         data.add("Tuesday: " + Boolean.toString(tues.isChecked()));
@@ -51,12 +55,16 @@ public class LabourerInfoActivity extends AppCompatActivity {
         data.add("Saturday: " + Boolean.toString(sat.isChecked()));
         data.add("Sunday: " + Boolean.toString(sun.isChecked()));
         data.add("Varies: " + Boolean.toString(var.isChecked()));
-        data.add("Notification Preference:");
+        settings.edit().putStringSet("availability", data).apply();
+
+        data = new HashSet<>();
         data.add("Email: " + Boolean.toString(email.isChecked()));
         data.add("Text: " + Boolean.toString(text.isChecked()));
         data.add("Phone Call: " + Boolean.toString(call.isChecked()));
+        settings.edit().putStringSet("notificationPreference", data).apply();
+
         Intent equipmentIntent = new Intent(this, LabourerEquipActivity.class);
-        equipmentIntent.putStringArrayListExtra("data", data);
+        equipmentIntent.putStringArrayListExtra("data", getIntent().getStringArrayListExtra("data"));
         startActivity(equipmentIntent);
     }
 }
