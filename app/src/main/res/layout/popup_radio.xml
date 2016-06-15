@@ -23,7 +23,7 @@
         android:layout_marginBottom="10dp"/>
 
     <RadioGroup
-        android:id="@+id/radio_experience"
+        android:id="@+id/checkbox_availability"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_type_worker"

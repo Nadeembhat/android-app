@@ -13,25 +13,26 @@ import com.labourtoday.androidapp.MainActivity;
 import com.labourtoday.androidapp.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HiringGridActivity extends AppCompatActivity {
     private ExpandableHeightGridView gridView;
     private GridAdapter adapter;
-    private ArrayList<String> selectedTypes;
+    private HashMap<String, String> selectedTypes;
     private Button button;
     ArrayList<String> data;
 
     static final String[] typeWorkers = new String[] {
             "General Labour",
-            "Carpenter",
+            "Carpentry",
             "Concrete",
-            "Landscaper",
-            "Painter",
-            "Drywaller",
-            "Roofer",
-            "Machine Operator",
-            "Plumber",
-            "Electrician"
+            "Landscaping",
+            "Painting",
+            "Dry Walling",
+            "Roofing",
+            "Machine Operation",
+            "Plumbing",
+            "Electrical"
     };
 
     @Override
@@ -39,7 +40,7 @@ public class HiringGridActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hiring_grid);
         data = new ArrayList<>();
-        selectedTypes = new ArrayList<>();
+        selectedTypes = new HashMap<>();
         button = (Button) findViewById(R.id.button_next);
         button.setVisibility(View.GONE);
         adapter = new GridAdapter(this, typeWorkers, selectedTypes);
@@ -60,7 +61,7 @@ public class HiringGridActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 0) {
-            selectedTypes.add(data.getStringExtra("workerType"));
+            selectedTypes.put(data.getStringExtra("workerType"), data.getStringArrayListExtra("workerRequest").get(0));
             adapter.notifyDataSetChanged();
             this.data.add(data.getStringExtra("workerType"));
             this.data.addAll(data.getStringArrayListExtra("workerRequest"));

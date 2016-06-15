@@ -21,7 +21,7 @@ public class ExperienceSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_experience_select);
         workerType = (TextView) findViewById(R.id.text_type_worker);
         workerType.setText(getIntent().getStringExtra("workerType"));
-        radioGroup = (RadioGroup) findViewById(R.id.radio_experience);
+        radioGroup = (RadioGroup) findViewById(R.id.checkbox_availability);
     }
 
     @Override

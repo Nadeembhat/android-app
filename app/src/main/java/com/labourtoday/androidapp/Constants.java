@@ -4,25 +4,22 @@ public class Constants {
 
     public enum URLS {
         // Names of server endpoints
-        //ROOT("https://labour-today.herokuapp.com/"),
-        ROOT("http://10.0.2.2:8000/"),
+        // ROOT("https://labour-today.herokuapp.com/"),
+        ROOT("http://192.168.1.67:8000/"),
         PAYMENT(ROOT.string + "payment/"),
-        USER_LIST(ROOT.string + "user-list/"),
-        LABOURER_LIST(ROOT.string + "labourer-list/" ),
-        LABOURER_DETAIL(ROOT.string + "labourer-detail/"),
-        CONTRACTOR_LIST(ROOT.string + "contractor-list/" ),
-        CONTRACTOR_DETAIL(ROOT.string + "contractor-detail/"),
-        TOKEN_AUTH(ROOT.string + "api-token-auth/"),
-        LABOURER_SEARCH(ROOT.string + "labourer-search/" ),
-        JOB_LIST(ROOT.string + "job-list/"),
-        LABOURER_RESPONSE(ROOT.string + "labourer-response/"),
-        EMAIL_LABOURER(ROOT.string + "email-labourer/"),
+        WORKERS(ROOT.string + "api/workers/" ),
+        WORKER_DETAIL(ROOT.string + "api/worker-detail/"),
+        CONTRACTORS(ROOT.string + "api/contractors/" ),
+        CONTRACTOR_DETAIL(ROOT.string + "api/contractor-detail/"),
+        TOKEN_AUTH(ROOT.string + "api/token-auth/"),
+        JOBS(ROOT.string + "api/jobs/"),
         ;
         public final String string;
         URLS(final String text ){
             this.string=text;
         }
     }
+
 
     public static String STRIPE_TOKEN = "stripe_token";
     public static String NO_DEVICE = "no_device";
@@ -42,24 +39,20 @@ public class Constants {
 
 
     // Intent extra string keys
-    public static String COMPANY_NAME = "company_name";
+    public static String COMPANY_NAME = "company";
     public static String PASSWORD = "password";
     public static String USERNAME = "username";
     public static String FIRST_NAME = "first_name";
     public static String LAST_NAME = "last_name";
     public static String PHONE_NUMBER = "phone_number";
     public static String ADDRESS = "address";
-    public static String SIN = "sin";
-    public static String RATING = "rating";
-    public static String AVAILABILITY = "available";
+    public static String AVAILABILITY = "availability";
 
-    public static String JOB_ADDRESS = "job_address";
-    public static String START_DATE = "start_date";
-    public static String START_TIME = "start_time";
-    public static String JOB_CODE = "job_code";
-    public static String WAGE = "wage";
+    public static String JOB_ADDRESS = "address";
+    public static String DATE = "date";
+    public static String TIME = "time";
     public static String CONTRACTOR = "contractor";
-    public static String LABOURER = "labourer";
+    public static String WORKER = "labourer";
 
     // Days of the week labourer is available
     public static String MON = "mon";
@@ -76,4 +69,5 @@ public class Constants {
     public static String GENERAL_LABOUR = "generalLabour";
 
     public static String UPDATE_LABOURER_JOBS = "updateLabourerJobs";
+    public static String ACTION_UPDATE_IMMEDIATE = "updateWorkerImmediate";
 }

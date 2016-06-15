@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Step 1 of 5"
+            android:text="Step 2 of 9"
             android:textAlignment="center"
             android:textSize="12sp"
             android:fontFamily="sans-serif-black"
@@ -34,7 +34,6 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"/>
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,6 +48,29 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text_sign_in"
+            android:textColor="@color/teal"
+            android:layout_below="@+id/text1"
+            android:layout_alignStart="@+id/button_pay" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Sign in here"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/txt_sign_in"
+            android:textColor="@color/md_blue_600"
+            android:onClick="signin"
+            android:layout_above="@+id/edit_first_name"
+            android:layout_toEndOf="@id/text_sign_in" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,7 +80,7 @@
             android:ems="10"
             android:id="@+id/edit_first_name"
             android:textColor="@color/teal"
-            android:layout_below="@id/text1"
+            android:layout_below="@id/text_sign_in"
             android:layout_marginTop="20dp"
             android:layout_alignParentStart="true" />
 
@@ -100,7 +122,7 @@
             android:layout_marginTop="20dp"
             android:layout_below="@+id/edit_email"
             android:layout_alignParentStart="true" />
-        <!--
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,7 +148,7 @@
             android:layout_marginTop="20dp"
             android:layout_below="@+id/edit_password"
             android:layout_alignParentStart="true" />
-        -->
+
         <Button
             android:layout_width="320dp"
             android:layout_height="70dp"
@@ -135,7 +157,7 @@
             android:background="@drawable/outline_rectangle_teal"
             android:id="@+id/button_pay"
             android:textSize="20sp"
-            android:layout_below="@id/edit_phone_number"
+            android:layout_below="@id/confirm_password"
             android:onClick="registerUser"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"

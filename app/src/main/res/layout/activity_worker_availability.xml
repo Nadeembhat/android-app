@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/top_level_layout"
+    android:background="@color/md_white_1000"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/md_white_1000"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Worker details"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="@color/teal"
+            android:id="@+id/title_toolbar"
+            />
+
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.labourtoday.androidapp.labourer.WorkerAvailabilityActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Step 3 of 9"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text_step"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What days are you available?"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:id="@+id/text2"
+            android:textColor="@color/md_black_1000"
+            android:layout_below="@id/text_step"
+            android:layout_marginBottom="24dp"/>
+
+        <LinearLayout
+            android:id="@+id/checkbox_availability"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text2"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <CheckBox
+                android:id="@+id/chkMon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                android:text="Monday" />
+            <CheckBox
+                android:id="@+id/chkTues"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                android:text="Tuesday" />
+            <CheckBox
+                android:id="@+id/chkWed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                android:text="Wednesday" />
+            <CheckBox
+                android:id="@+id/chkThurs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                android:text="Thursday" />
+            <CheckBox
+                android:id="@+id/chkFri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                android:text="Friday" />
+            <CheckBox
+                android:id="@+id/chkSat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                android:text="Saturday" />
+            <CheckBox
+                android:id="@+id/chkSun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                android:text="Sunday" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:text="NEXT"
+            android:textColor="@color/md_white_1000"
+            android:background="@drawable/outline_rectangle_teal"
+            android:id="@+id/button_pay"
+            android:textSize="20sp"
+            android:layout_below="@id/checkbox_availability"
+            android:onClick="next"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+</LinearLayout>

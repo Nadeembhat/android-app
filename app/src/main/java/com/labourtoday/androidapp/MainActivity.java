@@ -5,13 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.labourtoday.androidapp.contractor.ContractorRegistrationActivity;
 import com.labourtoday.androidapp.contractor.HiringGridActivity;
 import com.labourtoday.androidapp.labourer.LabourerRegistrationActivity;
+import com.labourtoday.androidapp.labourer.WorkerProfileActivity;
 
 import java.util.HashSet;
 
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String action = "";
+        /*
         try {
             action = getIntent().getAction();
         } catch(NullPointerException e) {
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (action.equals("Exit")) {
             finish();
-        }
+        }*/
     }
 
     @Override
@@ -61,7 +62,13 @@ public class MainActivity extends AppCompatActivity {
      *          Reference to the button
      */
     public void launchLabourerMain(View view) {
-        startActivity(new Intent(this, LabourerRegistrationActivity.class));
+        if (settings.getString(Constants.LAST_LOGIN, "").equals(Constants.WORKER)
+                && !settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
+            startActivity(new Intent(this, WorkerProfileActivity.class));
+        } else {
+            startActivity(new Intent(this, LabourerRegistrationActivity.class));
+        }
+        //startActivity(new Intent(this, LabourerGridActivity.class));
     }
 
     /**

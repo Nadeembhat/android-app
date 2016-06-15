@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Step 2 of 5"
+        android:text="Step 2 of 9"
         android:textAlignment="center"
         android:textSize="12sp"
         android:fontFamily="sans-serif-black"
@@ -46,7 +46,7 @@
         android:layout_marginBottom="10dp"/>
 
     <RadioGroup
-        android:id="@+id/radio_experience"
+        android:id="@+id/checkbox_availability"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_type_worker"
@@ -61,7 +61,7 @@
             android:button="@null"
             android:drawablePadding="30dp"
             android:drawableEnd="@drawable/radio_selector"
-            android:text="> 6 months experience"
+            android:text="6 months experience"
             android:textColor="@color/darkTeal"
             android:textSize="18sp"
             android:gravity="start|center_vertical"
@@ -75,7 +75,7 @@
             android:button="@null"
             android:drawablePadding="30dp"
             android:drawableEnd="@drawable/radio_selector"
-            android:text="> 1 year experience"
+            android:text="1 year experience"
             android:textColor="@color/darkTeal"
             android:textSize="18sp"
             android:gravity="start|center_vertical"
@@ -89,7 +89,7 @@
             android:button="@null"
             android:drawablePadding="30dp"
             android:drawableEnd="@drawable/radio_selector"
-            android:text="> 2 years experience"
+            android:text="2 years experience"
             android:textColor="@color/darkTeal"
             android:textSize="18sp"
             android:gravity="start|center_vertical"

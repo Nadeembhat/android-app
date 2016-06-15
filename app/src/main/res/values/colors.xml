@@ -7,4 +7,5 @@
     <color name="dark">#00695C</color>
     <color name="lightTeal">#80CBC4</color>
     <color name="buttonTeal">#1FBEB5</color>
+    <color name="lightGrey">#80000000</color>
 </resources>

@@ -31,9 +31,19 @@
         android:textSize="15sp" >
     </TextView>
 
-    <View android:id="@+id/empty"
+    <TextView
+        android:id="@+id/text_worker_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:textSize="12sp" >
+    </TextView>
+
+    <View
+        android:id="@+id/empty"
         android:layout_width = "match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_height="32dp"/>
+        android:layout_height="22dp"/>
 
 </LinearLayout>

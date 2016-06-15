@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/md_white_1000"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/md_white_1000">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,6 +12,26 @@
         android:layout_height="match_parent"
         android:id="@+id/top_level_layout"
         android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/md_white_1000"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Worker details"
+                android:layout_gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textColor="@color/teal"
+                android:id="@+id/title_toolbar"
+                />
+
+        </android.support.v7.widget.Toolbar>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -35,7 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Step 4 of 5"
+                android:text="Step 7 of 8"
                 android:textAlignment="center"
                 android:textSize="12sp"
                 android:fontFamily="sans-serif-black"
@@ -48,10 +67,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Do you have a valid drivers license?"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text1"
-                android:textColor="@color/teal"
+                android:textColor="@color/md_black_1000"
                 android:layout_below="@id/text_step"
                 android:layout_marginBottom="10dp"/>
 
@@ -72,7 +91,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="Yes"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -86,38 +105,11 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="No"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
                     />
-
-                <RadioButton
-                    android:id="@+id/button_drivers_l"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:drawablePadding="30dp"
-                    android:drawableEnd="@drawable/radio_selector"
-                    android:text="L"
-                    android:textColor="@color/darkTeal"
-                    android:textSize="18sp"
-                    android:gravity="start|center_vertical"
-                    android:layout_marginTop="15dp"
-                    />
-
-                <RadioButton
-                    android:id="@+id/button_drivers_n"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:drawablePadding="30dp"
-                    android:drawableEnd="@drawable/radio_selector"
-                    android:text="N"
-                    android:textColor="@color/darkTeal"
-                    android:textSize="18sp"
-                    android:gravity="start|center_vertical"
-                    android:layout_marginTop="15dp" />
             </RadioGroup>
 
             <TextView
@@ -125,10 +117,10 @@
                 android:layout_height="wrap_content"
                 android:text="Do you have a vehicle?"
                 android:textAlignment="center"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text2"
-                android:textColor="@color/teal"
+                android:textColor="@color/md_black_1000"
                 android:layout_below="@id/radio_drivers"
                 android:layout_marginBottom="10dp"/>
 
@@ -149,7 +141,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="Yes"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -163,7 +155,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="No"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -175,10 +167,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Do you have a tool belt with basic tools?"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text3"
-                android:textColor="@color/teal"
+                android:textColor="@color/md_black_1000"
                 android:layout_below="@id/radio_car"
                 android:layout_marginBottom="10dp"/>
 
@@ -198,7 +190,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="Yes"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -211,7 +203,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="No"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -222,10 +214,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Do you have steel toe boots?"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text4"
-                android:textColor="@color/teal"
+                android:textColor="@color/md_black_1000"
                 android:layout_below="@id/radio_belt"
                 android:layout_marginBottom="10dp"/>
 
@@ -245,7 +237,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="Yes"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -258,7 +250,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="No"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -268,11 +260,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Do you have a hardhat?"
-                android:textSize="24sp"
+                android:text="Do you have a hard hat?"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text5"
-                android:textColor="@color/teal"
+                android:textColor="@color/md_black_1000"
                 android:layout_below="@id/radio_boots"
                 android:layout_marginBottom="10dp"/>
 
@@ -292,7 +284,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="Yes"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -305,7 +297,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="No"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -316,10 +308,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Do you have a safety vest?"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text6"
-                android:textColor="@color/teal"
+                android:textColor="@color/md_black_1000"
                 android:layout_below="@id/radio_hat"
                 android:layout_marginBottom="10dp"/>
 
@@ -339,7 +331,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="Yes"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -352,7 +344,7 @@
                     android:drawablePadding="30dp"
                     android:drawableEnd="@drawable/radio_selector"
                     android:text="No"
-                    android:textColor="@color/darkTeal"
+                    android:textColor="@color/lightGrey"
                     android:textSize="18sp"
                     android:gravity="start|center_vertical"
                     android:layout_marginTop="15dp"
@@ -363,10 +355,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Do you have first aid qualifications?"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text7"
-                android:textColor="@color/teal"
+                android:textColor="@color/md_black_1000"
                 android:layout_below="@id/radio_vest"
                 android:layout_marginBottom="10dp"/>
 
@@ -374,7 +366,7 @@
                 android:id="@+id/chkSFA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/teal"
+                android:textColor="@color/lightGrey"
                 android:textSize="18sp"
                 android:layout_below="@id/text7"
                 android:layout_marginBottom="5dp"
@@ -383,7 +375,7 @@
                 android:id="@+id/chkSWFA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/teal"
+                android:textColor="@color/lightGrey"
                 android:textSize="18sp"
                 android:layout_below="@id/chkSFA"
                 android:layout_marginBottom="5dp"
@@ -392,7 +384,7 @@
                 android:id="@+id/chkCPRC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/teal"
+                android:textColor="@color/lightGrey"
                 android:textSize="18sp"
                 android:layout_below="@id/chkSWFA"
                 android:layout_marginBottom="10dp"

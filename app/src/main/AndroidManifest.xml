@@ -89,7 +89,12 @@
         <activity android:name=".labourer.ExperienceSelectActivity" />
         <activity android:name=".labourer.LabourerEquipActivity" />
         <activity android:name=".labourer.ReferenceActivity" />
-        <activity android:name=".labourer.LabourerMessageActivity"></activity>
+        <activity android:name=".labourer.LabourerMessageActivity" />
+        <activity android:name=".labourer.LabourerLoginActivity" />
+        <activity android:name=".labourer.WorkerProfileActivity" />
+        <activity android:name=".labourer.WorkerAvailabilityActivity" />
+        <activity android:name=".labourer.WorkerCitiesActivity" />
+        <activity android:name=".labourer.WorkerNotificationActivity"></activity>
     </application>
 
 </manifest>

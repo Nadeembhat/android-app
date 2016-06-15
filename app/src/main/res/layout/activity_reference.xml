@@ -1,180 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/md_white_1000"
-    >
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.labourtoday.androidapp.labourer.ReferenceActivity">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/md_white_1000">
     <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_width="0px"
-        android:layout_height="0px"
-        android:id="@+id/linearLayout"
-        android:orientation="horizontal"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please provide 2 references. For any areas of specific work experience provide a reference that can verify your experience."
-        android:textAlignment="center"
-        android:textSize="22sp"
-        android:fontFamily="sans-serif-black"
-        android:id="@+id/text_step"
-        android:textColor="@color/teal"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="20dp"/>
-    
-    <TextView
-        android:id="@+id/text_ref_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reference # 1"
-        android:textColor="@color/teal"
-        android:textSize="22sp"
-        android:layout_below="@id/text_step"
-        />
-
-    <EditText
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapSentences"
-        android:hint="Company name"
-        android:textColor="@color/teal"
-        android:textAlignment="center"
-        android:ems="10"
-        android:id="@+id/edit_company_name"
-        android:layout_below="@id/text_ref_1"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentStart="true" />
+        android:layout_height="match_parent"
+        android:id="@+id/top_level_layout"
+        android:orientation="vertical">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapSentences"
-        android:hint="Name"
-        android:textAlignment="center"
-        android:textColor="@color/teal"
-        android:ems="10"
-        android:id="@+id/edit_name"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_company_name"
-        android:layout_alignParentStart="true" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/md_white_1000"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapSentences"
-        android:hint="Title"
-        android:textAlignment="center"
-        android:textColor="@color/teal"
-        android:ems="10"
-        android:id="@+id/edit_title"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_name"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Worker details"
+                android:layout_gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textColor="@color/teal"
+                android:id="@+id/title_toolbar"
+                />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:hint="Phone number"
-        android:textAlignment="center"
-        android:textColor="@color/teal"
-        android:ems="10"
-        android:id="@+id/edit_phone_number"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_title"
-        android:layout_alignParentStart="true" />
+        </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/text_ref_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reference # 2"
-        android:textColor="@color/teal"
-        android:textSize="22sp"
-        android:layout_below="@id/edit_phone_number"
-        android:layout_marginTop="10dp"
-        />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapSentences"
-        android:hint="Company name"
-        android:textColor="@color/teal"
-        android:textAlignment="center"
-        android:ems="10"
-        android:id="@+id/edit_company_name2"
-        android:layout_below="@id/text_ref_2"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentStart="true" />
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="com.labourtoday.androidapp.labourer.ReferenceActivity">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapSentences"
-        android:hint="Name"
-        android:textAlignment="center"
-        android:textColor="@color/teal"
-        android:ems="10"
-        android:id="@+id/edit_name2"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_company_name2"
-        android:layout_alignParentStart="true" />
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:id="@+id/linearLayout"
+                android:orientation="horizontal"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapSentences"
-        android:hint="Title"
-        android:textAlignment="center"
-        android:textColor="@color/teal"
-        android:ems="10"
-        android:id="@+id/edit_title2"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_name2"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Step 8 of 8"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text_step"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:hint="Phone number"
-        android:textAlignment="center"
-        android:textColor="@color/teal"
-        android:ems="10"
-        android:id="@+id/edit_phone_number2"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_title2"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please provide 2 references. For any areas of specific work experience provide a reference that can verify your experience."
+                android:textAlignment="center"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/text_ref"
+                android:textColor="@color/darkTeal"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/text_step"
+                android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:layout_width="320dp"
-        android:layout_height="70dp"
-        android:text="COMPLETE PROFILE SETUP"
-        android:textColor="@color/md_white_1000"
-        android:background="@drawable/outline_rectangle_teal"
-        android:id="@+id/button_pay"
-        android:textSize="20sp"
-        android:layout_below="@id/edit_phone_number2"
-        android:onClick="next"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
+            <TextView
+                android:id="@+id/text_ref_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reference # 1"
+                android:textColor="@color/lightGrey"
+                android:textSize="22sp"
+                android:layout_below="@id/text_ref"
+                />
 
-</RelativeLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="Company name"
+                android:textColor="@color/teal"
+                android:textAlignment="center"
+                android:ems="10"
+                android:id="@+id/edit_company_name"
+                android:layout_below="@id/text_ref_1"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="Name"
+                android:textAlignment="center"
+                android:textColor="@color/teal"
+                android:ems="10"
+                android:id="@+id/edit_name"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/edit_company_name"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="Title"
+                android:textAlignment="center"
+                android:textColor="@color/teal"
+                android:ems="10"
+                android:id="@+id/edit_title"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/edit_name"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="Phone number"
+                android:textAlignment="center"
+                android:textColor="@color/teal"
+                android:ems="10"
+                android:id="@+id/edit_phone_number"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/edit_title"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/text_ref_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reference # 2"
+                android:textColor="@color/lightGrey"
+                android:textSize="22sp"
+                android:layout_below="@id/edit_phone_number"
+                android:layout_marginTop="10dp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="Company name"
+                android:textColor="@color/teal"
+                android:textAlignment="center"
+                android:ems="10"
+                android:id="@+id/edit_company_name2"
+                android:layout_below="@id/text_ref_2"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="Name"
+                android:textAlignment="center"
+                android:textColor="@color/teal"
+                android:ems="10"
+                android:id="@+id/edit_name2"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/edit_company_name2"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:hint="Title"
+                android:textAlignment="center"
+                android:textColor="@color/teal"
+                android:ems="10"
+                android:id="@+id/edit_title2"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/edit_name2"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="Phone number"
+                android:textAlignment="center"
+                android:textColor="@color/teal"
+                android:ems="10"
+                android:id="@+id/edit_phone_number2"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/edit_title2"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="320dp"
+                android:layout_height="70dp"
+                android:text="COMPLETE PROFILE SETUP"
+                android:textColor="@color/md_white_1000"
+                android:background="@drawable/outline_rectangle_teal"
+                android:id="@+id/button_pay"
+                android:textSize="20sp"
+                android:layout_below="@id/edit_phone_number2"
+                android:onClick="next"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapSentences"
-                android:hint="City e.g. Burnaby, Vancouver..."
+                android:hint="e.g. Burnaby, Vancouver..."
                 android:ems="10"
                 android:id="@+id/edit_city"
                 android:textColor="@color/teal"
@@ -70,17 +70,93 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="In what cities do you want to work?"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:id="@+id/textCities"
+                android:textColor="@color/teal"
+                android:layout_below="@id/edit_city"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/checkbox_cities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textCities"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+                <CheckBox
+                    android:id="@+id/chkVan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teal"
+                    android:textSize="18sp"
+                    android:text="Vancouver" />
+                <CheckBox
+                    android:id="@+id/chkBurn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teal"
+                    android:textSize="18sp"
+                    android:text="Burnaby" />
+                <CheckBox
+                    android:id="@+id/chkSur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teal"
+                    android:textSize="18sp"
+                    android:text="Surrey" />
+                <CheckBox
+                    android:id="@+id/chkNewWest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teal"
+                    android:textSize="18sp"
+                    android:text="New Westminster" />
+                <CheckBox
+                    android:id="@+id/chkCoq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teal"
+                    android:textSize="18sp"
+                    android:text="Coquitlam" />
+                <CheckBox
+                    android:id="@+id/chkNorthShore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teal"
+                    android:textSize="18sp"
+                    android:text="North Shore" />
+                <CheckBox
+                    android:id="@+id/chkRich"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teal"
+                    android:textSize="18sp"
+                    android:text="Richmond" />
+                <CheckBox
+                    android:id="@+id/chkDelta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teal"
+                    android:textSize="18sp"
+                    android:text="Delta" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="What days are you available?"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text2"
                 android:textColor="@color/teal"
-                android:layout_below="@id/edit_city"
+                android:layout_below="@id/checkbox_cities"
                 android:layout_marginBottom="10dp"/>
 
             <LinearLayout
-                android:id="@+id/radio_experience"
+                android:id="@+id/checkbox_availability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text2"
@@ -135,14 +211,7 @@
                     android:textColor="@color/teal"
                     android:textSize="18sp"
                     android:text="Sunday" />
-                <CheckBox
-                    android:id="@+id/chkVary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/teal"
-                    android:textSize="18sp"
-                    android:checked="true"
-                    android:text="Varies" />
+
             </LinearLayout>
 
             <TextView
@@ -153,11 +222,11 @@
                 android:fontFamily="sans-serif-black"
                 android:id="@+id/text3"
                 android:textColor="@color/teal"
-                android:layout_below="@id/radio_experience"
+                android:layout_below="@id/checkbox_availability"
                 android:layout_marginBottom="10dp"/>
 
             <LinearLayout
-                android:id="@+id/checkboxes2"
+                android:id="@+id/checkbox_notification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text3"

@@ -11,14 +11,15 @@ import android.widget.TextView;
 
 import com.labourtoday.androidapp.R;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GridAdapter extends BaseAdapter {
     private Context context;
     private final String[] typeWorkers;
-    private final ArrayList<String> selectedTypes;
+    private final Map<String, String> selectedTypes;
 
-    public GridAdapter(Context context, String[] values, ArrayList<String> selectedTypes) {
+    public GridAdapter(Context context, String[] values, HashMap<String, String> selectedTypes) {
         this.context = context;
         this.typeWorkers = values;
         this.selectedTypes = selectedTypes;
@@ -27,7 +28,6 @@ public class GridAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         View gridView;
         String worker = typeWorkers[position];
         if (convertView == null) {
@@ -44,31 +44,31 @@ public class GridAdapter extends BaseAdapter {
                 case "General Labour":
                     imageView.setImageResource(R.drawable.gen_labour);
                     break;
-                case "Carpenter":
+                case "Carpentry":
                     imageView.setImageResource(R.drawable.carpenter);
                     break;
                 case "Concrete":
                     imageView.setImageResource(R.drawable.concrete);
                     break;
-                case "Landscaper":
+                case "Landscaping":
                     imageView.setImageResource(R.drawable.landscape);
                     break;
-                case "Painter":
+                case "Painting":
                     imageView.setImageResource(R.drawable.paint);
                     break;
-                case "Drywaller":
+                case "Dry Walling":
                     imageView.setImageResource(R.drawable.drywall);
                     break;
-                case "Roofer":
+                case "Roofing":
                     imageView.setImageResource(R.drawable.roof);
                     break;
-                case "Machine Operator":
+                case "Machine Operation":
                     imageView.setImageResource(R.drawable.machine);
                     break;
-                case "Plumber":
+                case "Plumbing":
                     imageView.setImageResource(R.drawable.plumbing);
                     break;
-                case "Electrician":
+                case "Electrical":
                     imageView.setImageResource(R.drawable.electrician);
                     break;
             }
@@ -77,8 +77,10 @@ public class GridAdapter extends BaseAdapter {
             gridView = convertView;
         }
 
-        if (selectedTypes.contains(worker)) {
+        if (selectedTypes.containsKey(worker)) {
             gridView.setBackgroundColor(Color.parseColor("#B2DFDB"));
+            TextView exp = (TextView) gridView.findViewById(R.id.text_worker_exp);
+            exp.setText(selectedTypes.get(worker));
         }
 
         return gridView;
