@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -66,7 +65,7 @@ public class WorkerProfileActivity extends AppCompatActivity {
                         i0.setAction(Constants.ACTION_UPDATE_IMMEDIATE);
                         try {
                             i0.putExtra("skills", worker.get("skills").toString());
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         startActivity(i0);
@@ -74,27 +73,54 @@ public class WorkerProfileActivity extends AppCompatActivity {
                     case 1:
                         Intent i1 = new Intent(getApplicationContext(), LabourerEquipActivity.class);
                         i1.setAction(Constants.ACTION_UPDATE_IMMEDIATE);
+                        try {
+                            i1.putExtra("equipment", worker.get("equipment").toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         startActivity(i1);
                         break;
                     case 2:
                         Intent i2 = new Intent(getApplicationContext(), WorkerAvailabilityActivity.class);
                         i2.setAction(Constants.ACTION_UPDATE_IMMEDIATE);
+                        try {
+                            i2.putExtra("availability", worker.get("availability").toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         startActivity(i2);
                         break;
                     case 3:
                         Intent i3 = new Intent(getApplicationContext(), WorkerCitiesActivity.class);
                         i3.setAction(Constants.ACTION_UPDATE_IMMEDIATE);
+                        try {
+                            i3.putExtra("cities", worker.get("cities").toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         startActivity(i3);
                         break;
 
                     case 4:
                         Intent i4 = new Intent(getApplicationContext(), WorkerNotificationActivity.class);
                         i4.setAction(Constants.ACTION_UPDATE_IMMEDIATE);
+                        try {
+                            i4.putExtra("phone", worker.get("phone_preference").toString());
+                            i4.putExtra("sms", worker.get("sms_preference").toString());
+                            i4.putExtra("email", worker.get("email_preference").toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         startActivity(i4);
                         break;
                     case 5:
                         Intent i5 = new Intent(getApplicationContext(), ReferenceActivity.class);
                         i5.setAction(Constants.ACTION_UPDATE_IMMEDIATE);
+                        try {
+                            i5.putExtra("worker_id", worker.get("id").toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         startActivity(i5);
                         break;
                 }
@@ -137,7 +163,11 @@ public class WorkerProfileActivity extends AppCompatActivity {
                     })
                     .build();
         }
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
         String url = Constants.URLS.WORKERS.string;
         JsonObjectRequest workerRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
@@ -145,7 +175,7 @@ public class WorkerProfileActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         progress.dismiss();
                         worker = response;
-                        Log.i("Worker", worker.toString());
+                        // Log.i("Worker", worker.toString());
                         try {
                             nameWorker.setText(worker.getString("first_name") + " "
                                     + worker.getString("last_name"));
@@ -169,7 +199,7 @@ public class WorkerProfileActivity extends AppCompatActivity {
                 return headers;
             }
         };
-
         Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
     }
+
 }

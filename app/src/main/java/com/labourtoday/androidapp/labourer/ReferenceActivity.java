@@ -16,6 +16,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.labourtoday.androidapp.Constants;
@@ -23,6 +24,7 @@ import com.labourtoday.androidapp.R;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +38,7 @@ public class ReferenceActivity extends AppCompatActivity {
     private SharedPreferences settings;
     private ProgressDialog progress;
     private ArrayList<String> data;
-    private String references;
+    private String references, action;
     private Drawer result;
 
     private JSONObject requestObj;
@@ -45,7 +47,7 @@ public class ReferenceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reference);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         result = new DrawerBuilder().withActivity(this).withToolbar(toolbar)
@@ -58,7 +60,7 @@ public class ReferenceActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        progress = new ProgressDialog(ReferenceActivity.this);
         data = getIntent().getStringArrayListExtra("data");
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         company_one = (EditText) findViewById(R.id.edit_company_name);
@@ -71,8 +73,58 @@ public class ReferenceActivity extends AppCompatActivity {
         phone_two = (EditText) findViewById(R.id.edit_phone_number2);
 
         references = "\"references\":[";
+        try {
+            action = getIntent().getAction();
+        } catch (Exception e) {
+            action = "";
+        }
 
-        progress = new ProgressDialog(ReferenceActivity.this);
+        if (action == null) {
+            action = "";
+        }
+
+        if (action.equals(Constants.ACTION_UPDATE_IMMEDIATE)) {
+            progress.setMessage("Fetching references");
+            progress.show();
+            String url = Constants.URLS.REFERENCES.string;
+            JsonArrayRequest workerRequest = new JsonArrayRequest(Request.Method.GET, url,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            try {
+                                JSONObject one = (JSONObject) response.get(0);
+                                company_one.setText((String) one.get("company"));
+                                name_one.setText((String) one.get("name"));
+                                title_one.setText((String) one.get("title"));
+                                phone_one.setText((String) one.get("phone_number"));
+                                JSONObject two = (JSONObject) response.get(1);
+                                company_two.setText((String) two.get("company"));
+                                name_two.setText((String) two.get("name"));
+                                title_two.setText((String) two.get("title"));
+                                phone_two.setText((String) two.get("phone_number"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            progress.dismiss();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progress.dismiss();
+                        }
+                    }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<>();
+                    headers.put("Authorization","Token " + settings.getString(Constants.AUTH_TOKEN, ""));
+                    return headers;
+                }
+            };
+            Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
+        }
+
         progress.setMessage("Updating your profile...");
     }
 
@@ -90,9 +142,9 @@ public class ReferenceActivity extends AppCompatActivity {
         references = references.substring(0, 14);
         references += "{\"company\":\"";
         references += company_one.getText().toString();
-        references += "\",\"title\":";
+        references += "\",\"title\":\"";
         references += title_one.getText().toString();
-        references += "\",\"name\":";
+        references += "\",\"name\":\"";
         references += name_one.getText().toString();
         references += "\",\"phone_number\":";
         references += phone_one.getText().toString();
@@ -100,106 +152,98 @@ public class ReferenceActivity extends AppCompatActivity {
 
         references += "{\"company\":\"";
         references += company_two.getText().toString();
-        references += "\",\"title\":";
+        references += "\",\"title\":\"";
         references += title_two.getText().toString();
-        references += "\",\"name\":";
+        references += "\",\"name\":\"";
         references += name_two.getText().toString();
         references += "\",\"phone_number\":";
         references += phone_two.getText().toString();
         references += "}]";
-        data.add(7, references);
 
-        String jsonString = "{";
+        if (action.equals("")) {
+            data.add(7, references);
+            String jsonString = "{";
+            for (int i = 0; i < data.size(); i++) {
+                jsonString += data.get(i) + ",";
+                Log.i("FINAL " + Integer.toString(i), data.get(i));
+            }
+            jsonString = jsonString.substring(0, jsonString.length() - 1);
+            jsonString += "}";
 
-        for (int i = 0; i < data.size(); i++) {
-            jsonString += data.get(i) + ",";
-            Log.i("FINAL " + Integer.toString(i), data.get(i));
+
+            try {
+                requestObj = new JSONObject(jsonString);
+            } catch (JSONException e) {
+                Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
+                progress.dismiss();
+                return;
+            }
+
+            String url = Constants.URLS.WORKER_DETAIL.string;
+            JsonObjectRequest workerRequest = new JsonObjectRequest(Request.Method.PUT, url, requestObj,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Intent i = new Intent(getApplicationContext(), WorkerProfileActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            progress.dismiss();
+                            startActivity(i);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progress.dismiss();
+                        }
+                    }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + settings.getString(Constants.AUTH_TOKEN, ""));
+                    return headers;
+                }
+            };
+
+            Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
+        } else {
+            progress.show();
+            String url = Constants.URLS.WORKER_DETAIL.string;
+            JsonObjectRequest workerRequest;
+            references = "{" + references;
+            references += "}";
+            try {
+                workerRequest = new JsonObjectRequest(Request.Method.PUT, url, new JSONObject(references),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                progress.dismiss();
+                                finish();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(), "Request error. Please try again", Toast.LENGTH_SHORT).show();
+                                progress.dismiss();
+                            }
+                        }
+                ) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<>();
+                        headers.put("Authorization","Token " + settings.getString(Constants.AUTH_TOKEN, ""));
+                        return headers;
+                    }
+                };
+            } catch (JSONException e) {
+                Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
+                progress.dismiss();
+                return;
+            }
+
+            Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
         }
-        jsonString = jsonString.substring(0, jsonString.length() - 1);
-        jsonString += "}";
-
-
-        try {
-            requestObj = new JSONObject(jsonString);
-        } catch (JSONException e) {
-            Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
-            progress.dismiss();
-            return;
-        }
-
-        String url = Constants.URLS.WORKER_DETAIL.string;
-        JsonObjectRequest workerRequest = new JsonObjectRequest(Request.Method.PUT, url, requestObj,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Intent i = new Intent(getApplicationContext(), WorkerProfileActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        progress.dismiss();
-                        startActivity(i);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progress.dismiss();
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Authorization","Token " + settings.getString(Constants.AUTH_TOKEN, ""));
-                return headers;
-            }
-        };
-
-        Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
-        /*
-        String url = Constants.URLS.EMAIL_LABOURER.string;
-        StringRequest workerRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        startActivity(new Intent(getApplicationContext(), LabourerMessageActivity.class));
-                        progress.dismiss();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progress.dismiss();
-                        Toast.makeText(getApplicationContext(), "Unable to send request",
-                                Toast.LENGTH_LONG).show();
-                        Log.i("WHTATEFE", error.toString());
-                    }
-                }
-        ) {
-            @Override
-            //Create the body of the request
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                // Get the registration info from input fields and add them to the body of the request
-                String param = "";
-                for (int i = 0; i < finalData.size(); i++) {
-                    param += finalData.get(i);
-                    param += ",";
-                }
-                param += "\n";
-                params.put("data", param);
-                params.put("email", settings.getString("labourerEmail", ""));
-                params.put("Content-Type", "application/json");
-                return params;
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type","application/x-www-form-urlencoded");
-                return headers;
-            }
-        };
-
-        Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
-        */
     }
 
     private boolean isEmpty(EditText etText) {

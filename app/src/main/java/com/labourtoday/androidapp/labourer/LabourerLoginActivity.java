@@ -108,6 +108,7 @@ public class LabourerLoginActivity extends AppCompatActivity {
 
                                 if (getIntent().getAction() != null && getIntent().getAction().equals(Constants.ACTION_LOGIN)) {
                                     startActivity(new Intent(getApplicationContext(), LabourerGridActivity.class));
+                                    finish();
                                 } else {
                                     startActivity(new Intent(getApplicationContext(), WorkerProfileActivity.class));
                                 }

@@ -13,6 +13,7 @@ public class Constants {
         CONTRACTOR_DETAIL(ROOT.string + "api/contractor-detail/"),
         TOKEN_AUTH(ROOT.string + "api/token-auth/"),
         JOBS(ROOT.string + "api/jobs/"),
+        REFERENCES(ROOT.string + "api/references/"),
         ;
         public final String string;
         URLS(final String text ){

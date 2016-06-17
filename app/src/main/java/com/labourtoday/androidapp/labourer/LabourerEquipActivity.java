@@ -1,23 +1,36 @@
 package com.labourtoday.androidapp.labourer;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LabourerEquipActivity extends AppCompatActivity {
     private RadioGroup license, car, belt, boots, hat, vest;
@@ -27,10 +40,17 @@ public class LabourerEquipActivity extends AppCompatActivity {
     private final int EMPTY = -1;
     private String equipment;
     private Drawer result;
+
+    private String action, profileData;
+    private ProgressDialog progress;
+    private Map<String, RadioGroup> equipRadioMap;
+    private Map<String, CheckBox> equipCheckBoxMap;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_labourer_equip);
+        JSONArray jsonArray;
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +80,31 @@ public class LabourerEquipActivity extends AppCompatActivity {
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         equipment = "\"equipment\":[";
+        try {
+            action = getIntent().getAction();
+            profileData = getIntent().getStringExtra("equipment");
+            jsonArray = new JSONArray(profileData);
+            equipRadioMap = new HashMap<>();
+            equipCheckBoxMap = new HashMap<>();
+            initMaps();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                if (equipRadioMap.get(obj.get("name")) != null) {
+                    RadioGroup radioGroup = equipRadioMap.get(obj.get("name"));
+                    ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
+                    continue;
+                }
+                if (equipCheckBoxMap.get(obj.get("name")) != null) {
+                    equipCheckBoxMap.get(obj.get("name")).setChecked(true);
+                }
+            }
+        } catch (Exception e) {
+            action = "";
+            profileData = "";
+        }
+
+        progress = new ProgressDialog(this);
+        progress.setMessage("Updating profile");
     }
 
     public void next(View v) {
@@ -97,11 +142,51 @@ public class LabourerEquipActivity extends AppCompatActivity {
         equipment = equipment.substring(0, equipment.length() - 1);
         equipment += "]";
 
-        Log.i("EQUIPMENT", equipment);
-        data.add(6, equipment);
-        Intent i = new Intent(this, ReferenceActivity.class);
-        i.putStringArrayListExtra("data", data);
-        startActivity(i);
+        // Log.i("EQUIPMENT", equipment);
+        
+        if (action.equals("")) {
+            data.add(6, equipment);
+            Intent i = new Intent(this, ReferenceActivity.class);
+            i.putStringArrayListExtra("data", data);
+            startActivity(i);
+        } else {
+            progress.show();
+            String url = Constants.URLS.WORKER_DETAIL.string;
+            JsonObjectRequest workerRequest;
+            equipment = "{" + equipment;
+            equipment += "}";
+            try {
+                workerRequest = new JsonObjectRequest(Request.Method.PUT, url, new JSONObject(equipment),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                progress.dismiss();
+                                finish();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(), "Request error. Please try again", Toast.LENGTH_SHORT).show();
+                                progress.dismiss();
+                            }
+                        }
+                ) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<>();
+                        headers.put("Authorization","Token " + settings.getString(Constants.AUTH_TOKEN, ""));
+                        return headers;
+                    }
+                };
+            } catch (JSONException e) {
+                Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
+                progress.dismiss();
+                return;
+            }
+
+            Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
+        }
     }
 
     private boolean checkEmpty() {
@@ -120,5 +205,25 @@ public class LabourerEquipActivity extends AppCompatActivity {
         if (btn.getText().toString().equals("Yes")) {
             equipment += "\"" + equip + "\",";
         }
+    }
+
+    private void initMaps() {
+        equipRadioMap.put("Driver's Licence", license);
+        equipRadioMap.put("Vehicle", car);
+        equipRadioMap.put("Tool Belt with Basic Tools", belt);
+        equipRadioMap.put("Steel Toe Boots", boots);
+        equipRadioMap.put("Hard Hat", hat);
+        equipRadioMap.put("Safety Vest", vest);
+
+        ((RadioButton) license.getChildAt(1)).setChecked(true);
+        ((RadioButton) car.getChildAt(1)).setChecked(true);
+        ((RadioButton) belt.getChildAt(1)).setChecked(true);
+        ((RadioButton) boots.getChildAt(1)).setChecked(true);
+        ((RadioButton) hat.getChildAt(1)).setChecked(true);
+        ((RadioButton) vest.getChildAt(1)).setChecked(true);
+
+        equipCheckBoxMap.put("Standard First Aid", sfa);
+        equipCheckBoxMap.put("Standard Workplace First Aid", swfa);
+        equipCheckBoxMap.put("CPR C & AED", cprc);
     }
 }
