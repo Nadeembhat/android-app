@@ -1,5 +1,6 @@
 package com.labourtoday.androidapp.contractor;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,14 +16,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.R;
 import com.labourtoday.androidapp.gcm.TokenRegistrationService;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ContractorRegistrationActivity extends AppCompatActivity {
     private static final String TAG = "ConRegActivity";
@@ -30,9 +36,9 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     //Input fields for creating new User
     private EditText company, username, phone_number;
-    // private EditText password, passwordConfirm;
+    private EditText password, passwordConfirm;
     private EditText first_name, last_name;
-
+    private ProgressDialog progress;
     private SharedPreferences settings;
 
     @Override
@@ -41,23 +47,22 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contractor_registration);
 
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        //Assign input fields to instance variables
         company = (EditText) findViewById(R.id.edit_company_name);
         username = (EditText) findViewById(R.id.edit_email);
-        // password = (EditText) findViewById(R.id.edit_password);
-        // passwordConfirm = (EditText) findViewById(R.id.confirm_password);
+        password = (EditText) findViewById(R.id.edit_password);
+        passwordConfirm = (EditText) findViewById(R.id.confirm_password);
         first_name = (EditText) findViewById(R.id.edit_first_name);
         last_name = (EditText) findViewById(R.id.edit_last_name);
         phone_number = (EditText) findViewById(R.id.edit_phone_number);
+
+        progress = new ProgressDialog(this);
+        progress.setMessage("Registering...");
     }
 
     /*
      *Submit the fields filled in by the user to the server to create a new user
      */
-    public void registerUser(View view){
-        /*User-entered inputs for username and password fields. Needed for login after registration*/
-        final String username_input = username.getText().toString();
-        /*
+    public void registerUser(View view) {
         final String password_input = password.getText().toString();
         final String password_confirm = passwordConfirm.getText().toString();
 
@@ -65,8 +70,9 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
             Toast.makeText(this, "Passwords do not match. Please try again.", Toast.LENGTH_LONG).show();
             return;
         }
-        */
-        if (isEmpty(username) || isEmpty(first_name) || isEmpty(last_name) || isEmpty(phone_number)) {
+
+        if (isEmpty(username) || isEmpty(first_name) || isEmpty(last_name) || isEmpty(phone_number)
+                || isEmpty(company)) {
             Toast.makeText(this, "Please enter all fields", Toast.LENGTH_LONG).show();
             return;
         }
@@ -82,18 +88,59 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
                 if (!intent.getAction().equals(Constants.REGISTRATION_COMPLETE)) {
                     return;
                 }
+
                 LocalBroadcastManager.getInstance(context).unregisterReceiver(this);
                 final String registrationId = intent.getExtras().getString(Constants.REGISTRATION_ID); // Device id obtained from GCM
 
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putString(Constants.REGISTRATION_ID, registrationId).apply();
+                editor.putString(Constants.REGISTRATION_ID, registrationId);
+                editor.putString(Constants.LAST_LOGIN, "contractor");
+                editor.apply();
 
-                Intent gridIntent = new Intent(ContractorRegistrationActivity.this, HiringGridActivity.class);
-                gridIntent.setAction("Hire");
-                gridIntent.setAction("contractorRegister");
-                addUserDetails();
-                startActivity(gridIntent);
+                String url = Constants.URLS.CONTRACTORS.string;
+
+                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                // Automatic login after registration using registered username and password
+                                Intent loginIntent = new Intent(ContractorRegistrationActivity.this, ContractorLoginActivity.class);
+                                loginIntent.setAction(Constants.ACTION_LOGIN);
+                                loginIntent.putExtra(Constants.USERNAME, username.getText().toString());
+                                loginIntent.putExtra(Constants.PASSWORD, password.getText().toString());
+                                progress.dismiss();
+                                startActivity(loginIntent);
+                                finish();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                progress.dismiss();
+                                Toast.makeText(getApplicationContext(), "Error registering. Please try again.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                )
+                {
+                    @Override
+                    //Create the body of the request
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<>();
+                        params.put(Constants.USERNAME, username.getText().toString());
+                        params.put(Constants.PASSWORD, password_input);
+                        // params.put(Constants.REGISTRATION_ID, registrationId);
+                        params.put(Constants.FIRST_NAME, first_name.getText().toString());
+                        params.put(Constants.LAST_NAME, last_name.getText().toString());
+                        params.put(Constants.PHONE_NUMBER, formatPhoneNumber(phone_number.getText().toString()));
+                        params.put(Constants.COMPANY_NAME, company.getText().toString());
+                        params.put("Content-Type", "application/json");
+                        return params;
+                    }
+                };
+                Volley.newRequestQueue(getApplicationContext()).add(postRequest);
             }
         };
 
@@ -155,22 +202,17 @@ public class ContractorRegistrationActivity extends AppCompatActivity {
         return etText.getText().toString().trim().length() == 0;
     }
 
-    public void addUserDetails() {
-        Set<String> data = new HashSet<>();
-        data.add("Email: " + username.getText().toString());
-        data.add("Name: " + first_name.getText().toString() + " " + last_name.getText().toString());
-        data.add("Company: " + company.getText().toString());
-        // data.add("Password: " + password.getText().toString());
-        data.add("Phone Number: " + formatPhoneNumber(phone_number.getText().toString()));
-        settings.edit().putStringSet("contractorDetail", data).apply();
-    }
-
     public boolean isValidEmail(CharSequence target) {
         if (TextUtils.isEmpty(target)) {
             return false;
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
+    }
+
+    public void signin(View view) {
+        startActivity(new Intent(this, ContractorLoginActivity.class));
+        finish();
     }
 
 }

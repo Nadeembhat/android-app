@@ -46,7 +46,6 @@ public class Constants {
     public static String FIRST_NAME = "first_name";
     public static String LAST_NAME = "last_name";
     public static String PHONE_NUMBER = "phone_number";
-    public static String ADDRESS = "address";
     public static String AVAILABILITY = "availability";
 
     public static String JOB_ADDRESS = "address";

@@ -36,7 +36,7 @@ public class WorkerCitiesActivity extends AppCompatActivity {
     private SharedPreferences settings;
 
     private String cities;
-    private ArrayList<String> data;
+    private HashMap<Integer, String> data;
     private CheckBox van,burn,sur,newWest,coq,northShore,rich,delta;
     private ArrayList<CheckBox> listCities;
 
@@ -63,7 +63,7 @@ public class WorkerCitiesActivity extends AppCompatActivity {
                 finish();
             }
         });
-        data = getIntent().getStringArrayListExtra("data");
+        data = (HashMap<Integer, String>) getIntent().getSerializableExtra("data");
         listCities = new ArrayList<>();
 
         van = (CheckBox) findViewById(R.id.chkVan);
@@ -121,8 +121,8 @@ public class WorkerCitiesActivity extends AppCompatActivity {
         Log.i("WorkerCities", cities);
         if (action.equals("")) {
             Intent notificationIntent = new Intent(this, WorkerNotificationActivity.class);
-            data.add(2, cities);
-            notificationIntent.putStringArrayListExtra("data", data);
+            data.put(2, cities);
+            notificationIntent.putExtra("data", data);
             startActivity(notificationIntent);
         } else {
             progress.show();

@@ -28,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public class LabourerEquipActivity extends AppCompatActivity {
     private RadioGroup license, car, belt, boots, hat, vest;
     private CheckBox sfa, swfa, cprc;
     private SharedPreferences settings;
-    private ArrayList<String> data;
+    private HashMap<Integer, String> data;
     private final int EMPTY = -1;
     private String equipment;
     private Drawer result;
@@ -66,7 +65,7 @@ public class LabourerEquipActivity extends AppCompatActivity {
             }
         });
 
-        data = getIntent().getStringArrayListExtra("data");
+        data = (HashMap<Integer, String>) getIntent().getSerializableExtra("data");
         license = (RadioGroup) findViewById(R.id.radio_drivers);
         car = (RadioGroup) findViewById(R.id.radio_car);
         belt = (RadioGroup) findViewById(R.id.radio_belt);
@@ -145,9 +144,9 @@ public class LabourerEquipActivity extends AppCompatActivity {
         // Log.i("EQUIPMENT", equipment);
         
         if (action.equals("")) {
-            data.add(6, equipment);
+            data.put(6, equipment);
             Intent i = new Intent(this, ReferenceActivity.class);
-            i.putStringArrayListExtra("data", data);
+            i.putExtra("data", data);
             startActivity(i);
         } else {
             progress.show();

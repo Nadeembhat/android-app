@@ -1,11 +1,13 @@
 package com.labourtoday.androidapp.contractor;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -18,12 +20,21 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.labourtoday.androidapp.Constants;
 import com.labourtoday.androidapp.CustomDatePicker;
 import com.labourtoday.androidapp.R;
 
-import java.text.DateFormatSymbols;
-import java.util.HashSet;
-import java.util.Set;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class JobDetailActivity extends AppCompatActivity {
     private ImageButton image;
@@ -32,18 +43,17 @@ public class JobDetailActivity extends AppCompatActivity {
     private TextView date, time;
     private Spinner days, weeks, months;
     private SharedPreferences settings;
+    private ProgressDialog progress;
+    private String jsonData;
+    private HashMap<Integer, String> data;
 
-    private String[] experienceList = new String[]{"No", "> 3 months experience (20/hr)", "> 6 months experience (22/hr)", "> 1 year experience (26/hr)", "Red seal (30/hr)"};
-    // contractorDetail
-    // jobDetail
-    // data
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_detail);
         settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        Button next = (Button) findViewById(R.id.next);
+        progress = new ProgressDialog(this);
+        progress.setMessage("Requesting workers");
         jobAddress = (EditText) findViewById(R.id.edit_address);
         city = (EditText) findViewById(R.id.edit_city);
         prov = (EditText) findViewById(R.id.edit_province);
@@ -56,7 +66,7 @@ public class JobDetailActivity extends AppCompatActivity {
         days = (Spinner) findViewById(R.id.spinner_days);
         weeks = (Spinner) findViewById(R.id.spinner_weeks);
         months = (Spinner) findViewById(R.id.spinner_months);
-
+        data = (HashMap<Integer, String>) getIntent().getSerializableExtra("data");
         String[] daysItems = new String[]{"days","1","2","3","4","5","6","7","8","9","10","11","12",
                 "13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28",
                 "29","30"};
@@ -76,28 +86,11 @@ public class JobDetailActivity extends AppCompatActivity {
         final CustomDatePicker datePicker = (CustomDatePicker) dialog.findViewById(R.id.datePicker);
         Button dialogButton = (Button) dialog.findViewById(R.id.button_dialog);
 
-        /*
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                time.setText("at " + Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
-            }
-        });
-
-        datePicker.init(2016, 5, 1, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                date.setText(Integer.toString(dayOfMonth) + " " + getMonth(monthOfYear) +
-                        ", " + Integer.toString(year));
-            }
-        });*/
-
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 time.setText("at " + Integer.toString(timePicker.getCurrentHour()) + ":" + Integer.toString(timePicker.getCurrentMinute()));
-                date.setText(Integer.toString(datePicker.getDayOfMonth()) + " " + getMonth(datePicker.getMonth()) +
-                        ", " + Integer.toString(datePicker.getYear()));
+                date.setText(Integer.toString(datePicker.getYear()) + "-" + datePicker.getMonth() + "-" + Integer.toString(datePicker.getDayOfMonth()));
                 dialog.dismiss();
             }
         });
@@ -108,94 +101,157 @@ public class JobDetailActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+    }
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (date.getText().toString().equals("") ||
-                        time.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please enter the starting date for your workers",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
+    //public String getMonth(int month) {return new DateFormatSymbols().getMonths()[month];}
 
-                if (days.getSelectedItem().equals("days") && weeks.getSelectedItem().equals("weeks")
-                        && months.getSelectedItem().equals("months")) {
-                    Toast.makeText(getApplicationContext(), "Please enter how long you need the workers",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
+    public void requestWorkers(View view) {
+        if (date.getText().toString().equals("") ||
+                time.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter the starting date for your workers",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
-                if (jobAddress.getText().toString().equals("")
-                        || city.getText().toString().equals("")
-                        || prov.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please enter address/city/province",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
+        if (days.getSelectedItem().equals("days") && weeks.getSelectedItem().equals("weeks")
+                && months.getSelectedItem().equals("months")) {
+            Toast.makeText(getApplicationContext(), "Please enter how long you need the workers",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
-                storeActivityData();
-                Intent i = new Intent(JobDetailActivity.this, HireAgainActivity.class);
-                i.putStringArrayListExtra("data", getIntent().getStringArrayListExtra("data"));
-                startActivity(i);
-                /*
-                String url = Constants.URLS.TOKEN_AUTH.string;
-                StringRequest workerRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                startActivity(new Intent(JobDetailActivity.this, HireAgainActivity.class));
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "Unable to send request",
-                                        Toast.LENGTH_LONG).show();
-                            }
+        if (jobAddress.getText().toString().equals("")
+                || city.getText().toString().equals("")
+                || prov.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter address/city/province",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        progress.show();
+
+        StringBuilder sb = new StringBuilder(date.getText().toString());
+        sb.insert(0, "\"date\":\"");
+        sb.append("\"");
+        data.put(1, sb.toString());
+
+        sb = new StringBuilder(time.getText().toString().substring(3));
+        sb.insert(0, "\"time\":\"");
+        sb.append("\"");
+        data.put(2, sb.toString());
+
+        sb = new StringBuilder(jobAddress.getText().toString());
+        sb.insert(0, "\"address\":\"");
+        sb.append("\"");
+        data.put(3, sb.toString());
+
+        sb = new StringBuilder(city.getText().toString());
+        sb.insert(0, "\"city\":\"");
+        sb.append("\"");
+        data.put(4, sb.toString());
+
+        sb = new StringBuilder(prov.getText().toString());
+        sb.insert(0, "\"province\":\"");
+        sb.append("\"");
+        data.put(5, sb.toString());
+
+        String daysStr = days.getSelectedItem().toString();
+        if (daysStr.equals("days")) {
+            daysStr = "0";
+        }
+        sb = new StringBuilder(daysStr);
+        sb.insert(0, "\"days\":");
+        data.put(6, sb.toString());
+
+        String weeksStr = weeks.getSelectedItem().toString();
+        if (weeksStr.equals("weeks")) {
+            weeksStr = "0";
+        }
+        sb = new StringBuilder(weeksStr);
+        sb.insert(0, "\"weeks\":");
+        data.put(7, sb.toString());
+
+        String monthsStr = months.getSelectedItem().toString();
+        if (monthsStr.equals("months")) {
+            monthsStr = "0";
+        }
+        sb = new StringBuilder(monthsStr);
+        sb.insert(0, "\"months\":");
+        data.put(8, sb.toString());
+
+        sb = new StringBuilder("\"equipment\":[");
+
+        if (hat.isChecked()) {
+            sb.append("\"");
+            sb.append(hat.getText().toString());
+            sb.append("\",");
+        }
+
+        if (vest.isChecked()) {
+            sb.append("\"");
+            sb.append(vest.getText().toString());
+            sb.append("\",");
+        }
+
+        if (belt.isChecked()) {
+            sb.append("\"");
+            sb.append(belt.getText().toString());
+            sb.append("\",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append("]");
+        data.put(9, sb.toString());
+
+        sb = new StringBuilder();
+        sb.append("{\"job_skills\":");
+        for (int i = 0; i < data.size(); i++) {
+            sb.append(data.get(i));
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append("}");
+
+        jsonData = sb.toString();
+
+        Log.i("FFINAL", jsonData);
+
+        String url = Constants.URLS.JOBS.string;
+        JsonObjectRequest jobRequest;
+        try {
+            jobRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(jsonData),
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            progress.dismiss();
+                            startActivity(new Intent(JobDetailActivity.this, HireAgainActivity.class));
+                            finish();
                         }
-                ) {
-                    @Override
-                    //Create the body of the request
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
-                        // Get the registration info from input fields and add them to the body of the request
-                        String param = "";
-                        for (int i = 0; i < data.size(); i++) {
-                            param += data.get(i);
-                            param += "\n";
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Request error. Please try again", Toast.LENGTH_SHORT).show();
+                            progress.dismiss();
                         }
-                        params.put("data", param);
-                        return params;
                     }
-                };
-
-                Volley.newRequestQueue(getApplicationContext()).add(workerRequest);
-                */
-            }
-        });
-    }
-
-    public String getMonth(int month) {
-        return new DateFormatSymbols().getMonths()[month];
-    }
-
-    public void storeActivityData() {
-        Set<String> data = new HashSet<>();
-        data.add("Date: " + date.getText().toString());
-        data.add("Time: " + time.getText().toString());
-        data.add("Address: " + jobAddress.getText().toString());
-        data.add("City: " + city.getText().toString());
-        data.add("Province: " + prov.getText().toString());
-        data.add("Days: " + days.getSelectedItem());
-        data.add("Weeks: " + weeks.getSelectedItem());
-        data.add("Months: " + months.getSelectedItem());
-        data.add("Hard hat required: " + Boolean.toString(hat.isChecked()));
-        data.add("Safety vest required: " + Boolean.toString(vest.isChecked()));
-        data.add("Tool belt and basic tools required: " + Boolean.toString(belt.isChecked()));
-        settings.edit().putStringSet("jobDetail", data).apply();
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<>();
+                    headers.put("Authorization","Token " + settings.getString(Constants.AUTH_TOKEN, ""));
+                    return headers;
+                }
+            };
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Request error. Please try again", Toast.LENGTH_SHORT).show();
+            progress.dismiss();
+            return;
+        }
+        Volley.newRequestQueue(getApplicationContext()).add(jobRequest);
     }
 
 }
+
 
 

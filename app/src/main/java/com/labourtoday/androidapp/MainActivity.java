@@ -13,8 +13,6 @@ import com.labourtoday.androidapp.contractor.HiringGridActivity;
 import com.labourtoday.androidapp.labourer.LabourerRegistrationActivity;
 import com.labourtoday.androidapp.labourer.WorkerProfileActivity;
 
-import java.util.HashSet;
-
 public class MainActivity extends AppCompatActivity {
     private int backButtonCount;
     private SharedPreferences settings;
@@ -47,10 +45,9 @@ public class MainActivity extends AppCompatActivity {
      *          Reference to the button
      */
     public void launchContractorMain(View view) {
-        if (settings.getStringSet("contractorDetail", new HashSet<String>()).size() >= 4) {
-            Intent i = new Intent(this, HiringGridActivity.class);
-            i.setAction("Rehire");
-            startActivity(i);
+        if (settings.getString(Constants.LAST_LOGIN, "").equals(Constants.CONTRACTOR)
+                && !settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
+            startActivity(new Intent(this, HiringGridActivity.class));
         } else {
             startActivity(new Intent(this, ContractorRegistrationActivity.class));
         }

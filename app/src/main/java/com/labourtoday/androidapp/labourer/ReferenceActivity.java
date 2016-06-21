@@ -28,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +36,7 @@ public class ReferenceActivity extends AppCompatActivity {
                         company_two, name_two, title_two, phone_two;
     private SharedPreferences settings;
     private ProgressDialog progress;
-    private ArrayList<String> data;
+    private HashMap<Integer, String> data;
     private String references, action;
     private Drawer result;
 
@@ -61,7 +60,7 @@ public class ReferenceActivity extends AppCompatActivity {
             }
         });
         progress = new ProgressDialog(ReferenceActivity.this);
-        data = getIntent().getStringArrayListExtra("data");
+        data = (HashMap<Integer, String>) getIntent().getSerializableExtra("data");
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         company_one = (EditText) findViewById(R.id.edit_company_name);
         name_one = (EditText) findViewById(R.id.edit_name);
@@ -161,7 +160,7 @@ public class ReferenceActivity extends AppCompatActivity {
         references += "}]";
 
         if (action.equals("")) {
-            data.add(7, references);
+            data.put(7, references);
             String jsonString = "{";
             for (int i = 0; i < data.size(); i++) {
                 jsonString += data.get(i) + ",";
@@ -169,7 +168,6 @@ public class ReferenceActivity extends AppCompatActivity {
             }
             jsonString = jsonString.substring(0, jsonString.length() - 1);
             jsonString += "}";
-
 
             try {
                 requestObj = new JSONObject(jsonString);

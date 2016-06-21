@@ -28,14 +28,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LabourerGridActivity extends AppCompatActivity {
     private ExpandableHeightGridView gridView;
     private GridAdapter adapter;
-    private ArrayList<String> data;
+    private HashMap<Integer, String> data;
     private HashMap<String, String> selectedTypes;
     private Button button;
     private SharedPreferences settings;
@@ -64,7 +63,7 @@ public class LabourerGridActivity extends AppCompatActivity {
         JSONArray jsonArray;
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
-        data = new ArrayList<>();
+        data = new HashMap<>();
         jsonData = "\"skills\":[";
         selectedTypes = new HashMap<>();
         adapter = new GridAdapter(this, typeWorkers, selectedTypes);
@@ -117,7 +116,9 @@ public class LabourerGridActivity extends AppCompatActivity {
         if (resultCode == 0) {
             selectedTypes.put(data.getStringExtra("workerType"), data.getStringExtra("workerExp"));
             adapter.notifyDataSetChanged();
-            if (jsonData.contains("]")) {
+            if (jsonData.contains("]}")) {
+                jsonData = jsonData.replace("]}", ",");
+            } else if (jsonData.contains("]")) {
                 jsonData = jsonData.replace("]", ",");
             }
             jsonData += "{\"skill\":\"";
@@ -125,52 +126,69 @@ public class LabourerGridActivity extends AppCompatActivity {
             jsonData += "\",\"experience\":";
             jsonData += expMap.get(data.getStringExtra("workerExp"));
             jsonData += "},";
-            Log.i("Grid", jsonData);
             button.setVisibility(View.VISIBLE);
         }
     }
 
     public void next(View view) {
         jsonData = jsonData.substring(0, jsonData.length() - 1);
-        jsonData += "]";
+        Log.i("LabourGrid", jsonData);
+        /*
+        if (!jsonData.substring(0, 9).contains("skills")) {
+            jsonData = "\"skills\":" + jsonData;
+        }*/
+        jsonData = "{" + jsonData;
+        jsonData += "]}";
+
+        JSONObject finalObj;
+        try {
+            finalObj = new JSONObject(jsonData);
+        } catch (JSONException e) {
+            Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
+            progress.dismiss();
+            return;
+        }
+
+        JSONArray tempArray = new JSONArray();
+        try {
+            tempArray = finalObj.getJSONArray("skills");
+            int initLength = tempArray.length();
+            for (int i = 0; i < initLength; i++) {
+                JSONObject obj = tempArray.getJSONObject(i);
+                for (int j = i + 1; j < initLength; j++) {
+                    JSONObject obj2 = tempArray.getJSONObject(j);
+                    if (obj.getString("skill").equals(obj2.getString("skill"))) {
+                        tempArray.remove(i);
+                        initLength--;
+                        i--;
+                        break;
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            //Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
+            //progress.dismiss();
+            //return;
+        }
+
         if (action.equals("")) {
-            data.add(0, jsonData);
+            jsonData = tempArray.toString();
+            jsonData = "{\"skills\":" + jsonData;
+            jsonData += "}";
+            data.put(0, jsonData);
+            Log.i("LabourerGrid", "If action is empty: " + jsonData);
             Intent next = new Intent(LabourerGridActivity.this, WorkerAvailabilityActivity.class);
-            next.putStringArrayListExtra("data", data);
+            next.putExtra("data", data);
             startActivity(next);
         } else {
             progress.show();
             String url = Constants.URLS.WORKER_DETAIL.string;
-            JSONObject finalObj;
-            jsonData = "{" + jsonData;
+
+            jsonData = tempArray.toString();
+            jsonData = "{\"skills\":" + jsonData;
             jsonData += "}";
-            try {
-                finalObj = new JSONObject(jsonData);
-            } catch (JSONException e) {
-                Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
-                progress.dismiss();
-                return;
-            }
-
-            JSONArray tempArray;
-            try {
-                tempArray = finalObj.getJSONArray("skills");
-                for (int i = 0; i < tempArray.length(); i++) {
-                    JSONObject obj = tempArray.getJSONObject(i);
-                    for (int j = i + 1; j < tempArray.length(); j++) {
-                        JSONObject obj2 = tempArray.getJSONObject(j);
-                        if (obj.getString("skill").equals(obj2.getString("skill"))) {
-                            tempArray.remove(i);
-                        }
-                    }
-                }
-            } catch (JSONException e) {
-                Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
-                progress.dismiss();
-                return;
-            }
-
-
+            Log.i("GridActivity", "If action is not empty: " + jsonData);
             JsonObjectRequest workerRequest;
 
             try {
@@ -214,5 +232,4 @@ public class LabourerGridActivity extends AppCompatActivity {
         expMap.put("More than 2 years", 3);
         expMap.put("Red seal", 4);
     }
-
 }

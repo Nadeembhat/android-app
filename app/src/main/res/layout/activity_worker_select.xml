@@ -65,7 +65,7 @@
         android:textSize="18sp"
         android:id="@+id/exp_six_months"
         android:layout_below="@id/text_info"
-        android:text="6 months experience"/>
+        android:text="More than 6 months"/>
 
     <Spinner
         android:layout_width="100dp"
@@ -82,7 +82,7 @@
         android:layout_marginTop="20dp"
         android:id="@+id/exp_one_years"
         android:layout_below="@id/exp_six_months"
-        android:text="1 years experience"/>
+        android:text="More than 1 year"/>
 
     <Spinner
         android:layout_width="100dp"
@@ -99,7 +99,7 @@
         android:layout_marginTop="20dp"
         android:id="@+id/exp_two_years"
         android:layout_below="@id/exp_one_years"
-        android:text="2 years experience"/>
+        android:text="More than 2 years"/>
 
     <Spinner
         android:layout_width="100dp"

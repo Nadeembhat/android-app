@@ -36,7 +36,7 @@ public class WorkerAvailabilityActivity extends AppCompatActivity {
     private CheckBox mon,tues,wed,thurs,fri,sat,sun;
 
     private String availability;
-    private ArrayList<String> data;
+    private HashMap<Integer, String> data;
     private ArrayList<CheckBox> days;
 
     private ProgressDialog progress;
@@ -62,7 +62,7 @@ public class WorkerAvailabilityActivity extends AppCompatActivity {
                 finish();
             }
         });
-        data = getIntent().getStringArrayListExtra("data");
+        data = (HashMap<Integer, String>) getIntent().getSerializableExtra("data");
         days = new ArrayList<>();
         mon = (CheckBox) findViewById(R.id.chkMon);
         tues = (CheckBox) findViewById(R.id.chkTues);
@@ -117,8 +117,8 @@ public class WorkerAvailabilityActivity extends AppCompatActivity {
         // Log.i("WorkerDays", availability);
         if (action.equals("")) {
             Intent citiesIntent = new Intent(this, WorkerCitiesActivity.class);
-            data.add(1, availability);
-            citiesIntent.putStringArrayListExtra("data", data);
+            data.put(1, availability);
+            citiesIntent.putExtra("data", data);
             startActivity(citiesIntent);
         } else {
             progress.show();

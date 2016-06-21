@@ -197,7 +197,7 @@
                 android:id="@+id/switch_hat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hard hat"
+                android:text="Hard Hat"
                 android:textColor="@color/darkTeal"
                 android:textSize="18sp"
                 android:layout_marginTop="15dp"
@@ -207,7 +207,7 @@
                 android:id="@+id/switch_vest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Safety vest"
+                android:text="Safety Vest"
                 android:textColor="@color/darkTeal"
                 android:textSize="18sp"
                 android:layout_marginTop="15dp"
@@ -217,7 +217,7 @@
                 android:id="@+id/switch_belt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tool belt and basic tools"
+                android:text="Tool Belt with Basic Tools"
                 android:textColor="@color/darkTeal"
                 android:textSize="18sp"
                 android:layout_marginTop="15dp"
@@ -233,6 +233,7 @@
             android:textColor="@color/md_white_1000"
             android:background="@drawable/outline_rectangle_teal"
             android:layout_alignParentBottom="true"
+            android:onClick="requestWorkers"
             android:id="@+id/next" />
 
     </RelativeLayout>

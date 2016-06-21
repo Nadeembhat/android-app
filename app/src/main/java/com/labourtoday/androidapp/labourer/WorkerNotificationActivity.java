@@ -27,13 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class WorkerNotificationActivity extends AppCompatActivity {
     private CheckBox email,text,call;
-    private ArrayList<String> data;
+    private HashMap<Integer, String> data;
     private SharedPreferences settings;
     private Drawer result;
 
@@ -64,7 +63,7 @@ public class WorkerNotificationActivity extends AppCompatActivity {
         email = (CheckBox) findViewById(R.id.chkEmail);
         text = (CheckBox) findViewById(R.id.chkText);
         call = (CheckBox) findViewById(R.id.chkCall);
-        data = getIntent().getStringArrayListExtra("data");
+        data = (HashMap<Integer, String>) getIntent().getSerializableExtra("data");
 
         try {
             action = getIntent().getAction();
@@ -93,10 +92,10 @@ public class WorkerNotificationActivity extends AppCompatActivity {
 
         if (action.equals("")) {
             Intent equipmentIntent = new Intent(this, LabourerEquipActivity.class);
-            data.add(3, pref_email);
-            data.add(4, pref_phone);
-            data.add(5, pref_sms);
-            equipmentIntent.putStringArrayListExtra("data", data);
+            data.put(3, pref_email);
+            data.put(4, pref_phone);
+            data.put(5, pref_sms);
+            equipmentIntent.putExtra("data", data);
             startActivity(equipmentIntent);
         } else {
             progress.show();
