@@ -67,9 +67,7 @@ public class JobDetailActivity extends AppCompatActivity {
         weeks = (Spinner) findViewById(R.id.spinner_weeks);
         months = (Spinner) findViewById(R.id.spinner_months);
         data = (HashMap<Integer, String>) getIntent().getSerializableExtra("data");
-        String[] daysItems = new String[]{"days","1","2","3","4","5","6","7","8","9","10","11","12",
-                "13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28",
-                "29","30"};
+        String[] daysItems = new String[]{"days","1","2","3","4","5","6"};
         String[] weeksItems = new String[]{"weeks","1","2","3"};
         String[] monthsItems = new String[]{"months","1","2","3","4","5","6","7","8","9","10","11","12"};
         ArrayAdapter<String> daysAdapter = new ArrayAdapter<>(this, R.layout.spinner_custom, daysItems);
@@ -124,6 +122,12 @@ public class JobDetailActivity extends AppCompatActivity {
                 || city.getText().toString().equals("")
                 || prov.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter address/city/province",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (prov.getText().toString().length() > 2) {
+            Toast.makeText(getApplicationContext(), "Enter a valid province (eg. BC)",
                     Toast.LENGTH_LONG).show();
             return;
         }
