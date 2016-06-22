@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.labourtoday.androidapp.contractor.ContractorProfileActivity;
 import com.labourtoday.androidapp.contractor.ContractorRegistrationActivity;
-import com.labourtoday.androidapp.contractor.HiringGridActivity;
 import com.labourtoday.androidapp.labourer.LabourerRegistrationActivity;
 import com.labourtoday.androidapp.labourer.WorkerProfileActivity;
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public void launchContractorMain(View view) {
         if (settings.getString(Constants.LAST_LOGIN, "").equals(Constants.CONTRACTOR)
                 && !settings.getString(Constants.AUTH_TOKEN, "").equals("")) {
-            startActivity(new Intent(this, HiringGridActivity.class));
+            startActivity(new Intent(this, ContractorProfileActivity.class));
         } else {
             startActivity(new Intent(this, ContractorRegistrationActivity.class));
         }

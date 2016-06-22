@@ -95,7 +95,8 @@
         <activity android:name=".labourer.WorkerAvailabilityActivity" />
         <activity android:name=".labourer.WorkerCitiesActivity" />
         <activity android:name=".labourer.WorkerNotificationActivity" />
-        <activity android:name=".contractor.ContractorLoginActivity"></activity>
+        <activity android:name=".contractor.ContractorLoginActivity" />
+        <activity android:name=".contractor.ContractorProfileActivity"></activity>
     </application>
 
 </manifest>

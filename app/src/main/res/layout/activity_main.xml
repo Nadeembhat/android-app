@@ -9,43 +9,53 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_large_vertical_margin"
     tools:context=".MainActivity"
-    android:background="@drawable/activity_main_wallpaper" >
+    android:background="@drawable/teal_gradient" >
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/logo"
+        android:layout_above="@+id/title"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="LABOUR\nTODAY"
+        android:text="Where contractors connect\nwith construction workers"
         android:textAlignment="center"
-        android:textSize="44sp"
+        android:textSize="26sp"
         android:fontFamily="sans-serif-black"
         android:textColor="@color/md_white_1000"
         android:id="@+id/title"
+        android:layout_marginTop="50dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
 
     <Button
-        android:layout_width="146dp"
-        android:layout_height="45dp"
-        android:text="HIRE"
+        android:layout_width="267dp"
+        android:layout_height="54dp"
+        android:text="I want to work"
+        android:textAllCaps="false"
         android:textColor="@color/md_white_1000"
-        android:background="@drawable/outline_rectangle_teal"
-        android:id="@+id/button_hire"
-        android:textSize="20sp"
-        android:onClick="launchContractorMain"
-        android:layout_alignTop="@+id/button_job"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="146dp"
-        android:layout_height="45dp"
-        android:text="WORK"
-        android:textColor="@color/md_white_1000"
-        android:background="@drawable/outline_rectangle_teal"
+        android:background="@drawable/outline_rectangle_light"
         android:id="@+id/button_job"
         android:textSize="20sp"
         android:onClick="launchLabourerMain"
+        android:layout_above="@+id/button_hire"
+        android:layout_alignStart="@+id/button_hire" />
+
+    <Button
+        android:layout_width="267dp"
+        android:layout_height="54dp"
+        android:text="Request workers"
+        android:textAllCaps="false"
+        android:textColor="@color/md_white_1000"
+        android:background="@drawable/outline_rectangle_light"
+        android:id="@+id/button_hire"
+        android:textSize="20sp"
+        android:onClick="launchContractorMain"
+        android:layout_marginTop="25dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

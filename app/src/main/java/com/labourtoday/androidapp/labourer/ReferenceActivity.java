@@ -161,8 +161,10 @@ public class ReferenceActivity extends AppCompatActivity {
 
         if (action.equals("")) {
             data.put(7, references);
-            String jsonString = "{";
-            for (int i = 0; i < data.size(); i++) {
+            // String jsonString = "{";
+            String jsonString = data.get(0).substring(0, data.get(0).length() - 1) + ",";
+            Log.i("FINAL " + "0", jsonString);
+            for (int i = 1; i < data.size(); i++) {
                 jsonString += data.get(i) + ",";
                 Log.i("FINAL " + Integer.toString(i), data.get(i));
             }

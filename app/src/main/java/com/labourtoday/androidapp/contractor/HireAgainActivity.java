@@ -19,7 +19,7 @@ public class HireAgainActivity extends AppCompatActivity {
     }
 
     public void next(View v) {
-        Intent i = new Intent(HireAgainActivity.this, HiringGridActivity.class);
+        Intent i = new Intent(HireAgainActivity.this, ContractorProfileActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();

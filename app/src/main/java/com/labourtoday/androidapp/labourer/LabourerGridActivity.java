@@ -64,7 +64,7 @@ public class LabourerGridActivity extends AppCompatActivity {
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         data = new HashMap<>();
-        jsonData = "\"skills\":[";
+        jsonData = "{\"skills\":[";
         selectedTypes = new HashMap<>();
         adapter = new GridAdapter(this, typeWorkers, selectedTypes);
         button = (Button) findViewById(R.id.button_next);
@@ -137,7 +137,7 @@ public class LabourerGridActivity extends AppCompatActivity {
         if (!jsonData.substring(0, 9).contains("skills")) {
             jsonData = "\"skills\":" + jsonData;
         }*/
-        jsonData = "{" + jsonData;
+        // jsonData = "{" + jsonData;
         jsonData += "]}";
 
         JSONObject finalObj;
