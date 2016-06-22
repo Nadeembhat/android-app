@@ -52,7 +52,6 @@ public class LabourerRegistrationActivity extends AppCompatActivity {
 
         progress = new ProgressDialog(LabourerRegistrationActivity.this);
         progress.setMessage("Registering...");
-
     }
 
     public void registerUser(View view) {

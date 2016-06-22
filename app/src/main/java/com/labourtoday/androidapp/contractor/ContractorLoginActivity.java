@@ -47,14 +47,12 @@ public class ContractorLoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.edit_password);
 
         Intent intent = getIntent();
-        // If LoginActivity was started from RegistrationActivity, retrieve passed username/password to login automatically
         if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_LOGIN)) {
             String username_input = intent.getExtras().getString(Constants.USERNAME);
             String password_input = intent.getExtras().getString(Constants.PASSWORD);
             registrationId = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.REGISTRATION_ID, Constants.NO_DEVICE); //Assign old ID to pass the check for different device, since this code occurs right after RegistrationActivity
             authenticate(username_input, password_input, false);
         }
-        // Manual login. Must retrieve new device ID from GCM in case user has switched devices.
         else {
             // Obtain device ID from GCM so we can check it against the stored ID in preferences and see if user is on a different device.
             tokenBroadCastReceiver = new BroadcastReceiver() {

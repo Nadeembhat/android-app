@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -118,7 +117,6 @@ public class WorkerCitiesActivity extends AppCompatActivity {
         cities = cities.substring(0, cities.length() - 1);
         cities += "]";
 
-        Log.i("WorkerCities", cities);
         if (action.equals("")) {
             Intent notificationIntent = new Intent(this, WorkerNotificationActivity.class);
             data.put(2, cities);

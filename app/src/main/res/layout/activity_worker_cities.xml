@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Step 4 of 8"
+                android:text="Step 4 of 7"
                 android:textAlignment="center"
                 android:textSize="12sp"
                 android:fontFamily="sans-serif-black"

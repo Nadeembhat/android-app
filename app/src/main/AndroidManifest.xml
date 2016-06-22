@@ -85,11 +85,9 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".contractor.HireAgainActivity" />
-        <activity android:name=".labourer.LabourerInfoActivity" />
         <activity android:name=".labourer.ExperienceSelectActivity" />
         <activity android:name=".labourer.LabourerEquipActivity" />
         <activity android:name=".labourer.ReferenceActivity" />
-        <activity android:name=".labourer.LabourerMessageActivity" />
         <activity android:name=".labourer.LabourerLoginActivity" />
         <activity android:name=".labourer.WorkerProfileActivity" />
         <activity android:name=".labourer.WorkerAvailabilityActivity" />

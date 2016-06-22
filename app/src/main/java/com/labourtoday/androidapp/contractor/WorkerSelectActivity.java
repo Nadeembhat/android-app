@@ -3,7 +3,6 @@ package com.labourtoday.androidapp.contractor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -27,7 +26,7 @@ public class WorkerSelectActivity extends AppCompatActivity {
         try {
             prevData = getIntent().getIntegerArrayListExtra("previousRequest");
         } catch (Exception e) {
-            Log.i("WorkerSelect", e.toString());
+            e.printStackTrace();
         }
 
         TextView workerType = (TextView) findViewById(R.id.text_type_worker);

@@ -132,12 +132,6 @@ public class LabourerGridActivity extends AppCompatActivity {
 
     public void next(View view) {
         jsonData = jsonData.substring(0, jsonData.length() - 1);
-        Log.i("LabourGrid", jsonData);
-        /*
-        if (!jsonData.substring(0, 9).contains("skills")) {
-            jsonData = "\"skills\":" + jsonData;
-        }*/
-        // jsonData = "{" + jsonData;
         jsonData += "]}";
 
         JSONObject finalObj;
@@ -167,9 +161,9 @@ public class LabourerGridActivity extends AppCompatActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            //Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
-            //progress.dismiss();
-            //return;
+            Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
+            progress.dismiss();
+            return;
         }
 
         if (action.equals("")) {

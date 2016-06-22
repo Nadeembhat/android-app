@@ -140,8 +140,6 @@ public class LabourerEquipActivity extends AppCompatActivity {
 
         equipment = equipment.substring(0, equipment.length() - 1);
         equipment += "]";
-
-        // Log.i("EQUIPMENT", equipment);
         
         if (action.equals("")) {
             data.put(6, equipment);

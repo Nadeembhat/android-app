@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ import com.labourtoday.androidapp.R;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,7 +36,6 @@ public class WorkerNotificationActivity extends AppCompatActivity {
 
     private ProgressDialog progress;
     private String action;
-    private JSONArray jsonArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +82,6 @@ public class WorkerNotificationActivity extends AppCompatActivity {
         String pref_phone = "\"phone_preference\":" + call.isChecked();
         String pref_email = "\"email_preference\":" + email.isChecked();
         String pref_sms = "\"sms_preference\":" + text.isChecked();
-
-        Log.i("WorkerPhone", pref_phone);
-        Log.i("WorkerEmail", pref_email);
-        Log.i("WorkerSms", pref_sms);
 
         if (action.equals("")) {
             Intent equipmentIntent = new Intent(this, LabourerEquipActivity.class);

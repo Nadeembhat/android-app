@@ -91,7 +91,6 @@ public class ContractorProfileActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         progress.dismiss();
                         contractor = response;
-                        // Log.i("Worker", worker.toString());
                         try {
                             nameContractor.setText(contractor.getString("first_name") + " "
                                     + contractor.getString("last_name"));

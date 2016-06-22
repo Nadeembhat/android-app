@@ -47,7 +47,6 @@ public class LabourerLoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.edit_password);
 
         Intent intent = getIntent();
-        // If LoginActivity was started from RegistrationActivity, retrieve passed username/password to login automatically
         if (intent.getAction() != null && intent.getAction().equals(Constants.ACTION_LOGIN)) {
             String username_input = intent.getExtras().getString(Constants.USERNAME);
             String password_input = intent.getExtras().getString(Constants.PASSWORD);
@@ -84,7 +83,6 @@ public class LabourerLoginActivity extends AppCompatActivity {
      *          indication of whether the device registration ID must be updated
      */
     public void authenticate(final String username, final String password, final boolean update) {
-        /*In the case that obtaining device id somehow failed, do not attempt to login*/
         if (registrationId.equals(Constants.NO_DEVICE)){
             Toast.makeText(getApplicationContext(), "Error: Failed to obtain device id. Please check your connection", Toast.LENGTH_LONG).show();
             recreate(); //Restart the activity so we can try to get device id again.
@@ -124,8 +122,6 @@ public class LabourerLoginActivity extends AppCompatActivity {
                                     finish();
                                 }
                                 */
-
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

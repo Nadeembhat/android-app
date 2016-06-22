@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -161,12 +160,9 @@ public class ReferenceActivity extends AppCompatActivity {
 
         if (action.equals("")) {
             data.put(7, references);
-            // String jsonString = "{";
             String jsonString = data.get(0).substring(0, data.get(0).length() - 1) + ",";
-            Log.i("FINAL " + "0", jsonString);
             for (int i = 1; i < data.size(); i++) {
                 jsonString += data.get(i) + ",";
-                Log.i("FINAL " + Integer.toString(i), data.get(i));
             }
             jsonString = jsonString.substring(0, jsonString.length() - 1);
             jsonString += "}";

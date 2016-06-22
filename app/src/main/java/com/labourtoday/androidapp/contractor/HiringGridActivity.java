@@ -70,11 +70,8 @@ public class HiringGridActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent workerSelectIntent = new Intent(HiringGridActivity.this, WorkerSelectActivity.class);
                 String item = ((TextView) v.findViewById(R.id.grid_item_label)).getText().toString();
-                //Log.i("HiringGrid", "On Item Click: " + item);
                 workerSelectIntent.putExtra("workerType", ((TextView) v.findViewById(R.id.grid_item_label)).getText());
                 if (prevMap.containsKey(item)) {
-                    //Log.i("HiringGrid", "Contains Key: " + item);
-                    //Log.i("HiringGrid", "With Value: " + prevMap.get(item));
                     workerSelectIntent.putIntegerArrayListExtra("previousRequest",
                             prevMap.get(item));
                 }
@@ -134,7 +131,7 @@ public class HiringGridActivity extends AppCompatActivity {
             return;
         }
 
-        JSONArray tempArray = new JSONArray();
+        JSONArray tempArray;
         try {
             tempArray = finalObj.getJSONArray("job_skills");
             int initLength = tempArray.length();
@@ -153,16 +150,14 @@ public class HiringGridActivity extends AppCompatActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            //Toast.makeText(this, "Request error. Please try again", Toast.LENGTH_SHORT).show();
-            //progress.dismiss();
-            //return;
+            Toast.makeText(this, "Client error. Please try again later", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         jsonRequest = tempArray.toString();
         //jsonRequest = "{\"job_skills\":" + jsonRequest;
         //jsonRequest += "}";
         data.put(0, jsonRequest);
-        Log.i("HiringGridActivity", jsonRequest);
         Intent jobDetailIntent = new Intent(HiringGridActivity.this, JobDetailActivity.class);
         jobDetailIntent.putExtra("data", data);
         startActivity(jobDetailIntent);
